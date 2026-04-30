@@ -1,0 +1,74 @@
+[
+  {
+    "date": "2026-04-26",
+    "symbol": "ZEREBRO",
+    "side": "Sell",
+    "price": 0.0178,
+    "qty": 1500,
+    "pnl": 5.33,
+    "account": "WILD"
+  },
+  {
+    "date": "2026-04-26",
+    "symbol": "ZEREBRO",
+    "side": "Sell",
+    "price": 0.01246,
+    "qty": 2500,
+    "pnl": 2.31,
+    "account": "JOAKO"
+  },
+  {
+    "date": "2026-04-25",
+    "symbol": "BLEND",
+    "side": "Sell",
+    "price": 0.13619,
+    "qty": 400,
+    "pnl": 2.88,
+    "account": "WILD"
+  },
+  {
+    "date": "2026-04-25",
+    "symbol": "BLEND",
+    "side": "Sell",
+    "price": 0.13768,
+    "qty": 360,
+    "pnl": 1.73,
+    "account": "JOAKO"
+  },
+  {
+    "date": "2026-04-25",
+    "symbol": "BIO",
+    "side": "Sell",
+    "price": 1.25,
+    "qty": 8,
+    "pnl": 1.95,
+    "account": "WILD"
+  },
+  {
+    "date": "2026-04-24",
+    "symbol": "DYDX",
+    "side": "Sell",
+    "price": 1.82,
+    "qty": 5,
+    "pnl": 0.7,
+    "account": "WILD"
+  },
+  {
+    "date": "2026-04-24",
+    "symbol": "BB",
+    "side": "Sell",
+    "price": 0.42,
+    "qty": 20,
+    "pnl": -1.5,
+    "account": "WILD"
+  },
+  {
+    "date": "2026-04-24",
+    "symbol": "TAC",
+    "side": "Sell",
+    "price": 0.00914,
+    "qty": 800,
+    "pnl": -3.36,
+    "account": "WILD"
+  }
+]

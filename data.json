@@ -1,0 +1,548 @@
+{
+  "timestamp": "2026-04-30T19:27:21Z",
+  "totalCapital": 111.8,
+  "startCapital": 105,
+  "startDate": "2026-04-24",
+  "pnlCycle": 6.8,
+  "pnlPercent": "6.48%",
+  "accounts": {
+    "WILD": {
+      "capital": 58.32,
+      "startCapital": 55,
+      "startDate": "2026-04-24",
+      "pnl": 3.32
+    },
+    "JOAKO": {
+      "capital": 53.49,
+      "startCapital": 50,
+      "startDate": "2026-04-24",
+      "pnl": 3.49
+    }
+  },
+  "wallets": [
+    {
+      "account": "WILD",
+      "coin": "BLEND",
+      "amount": 73.2612,
+      "valueUSDT": 9.54
+    },
+    {
+      "account": "WILD",
+      "coin": "A8",
+      "amount": 1263.735,
+      "valueUSDT": 13.0
+    },
+    {
+      "account": "WILD",
+      "coin": "USDT",
+      "amount": 0.0884,
+      "valueUSDT": 0.09
+    },
+    {
+      "account": "WILD",
+      "coin": "MEGA",
+      "amount": 84.915,
+      "valueUSDT": 12.76
+    },
+    {
+      "account": "WILD",
+      "coin": "DOGE",
+      "amount": 0.5317,
+      "valueUSDT": 0.06
+    },
+    {
+      "account": "WILD",
+      "coin": "ZBT",
+      "amount": 40.7592,
+      "valueUSDT": 7.12
+    },
+    {
+      "account": "WILD",
+      "coin": "WIF",
+      "amount": 0.0075,
+      "valueUSDT": 0.0
+    },
+    {
+      "account": "WILD",
+      "coin": "TAC",
+      "amount": 0.103,
+      "valueUSDT": 0.0
+    },
+    {
+      "account": "WILD",
+      "coin": "SHIB",
+      "amount": 0.525,
+      "valueUSDT": 0.0
+    },
+    {
+      "account": "WILD",
+      "coin": "AMI",
+      "amount": 3044.5524,
+      "valueUSDT": 15.78
+    },
+    {
+      "account": "WILD",
+      "coin": "LUNC",
+      "amount": 0.832,
+      "valueUSDT": 0.0
+    },
+    {
+      "account": "JOAKO",
+      "coin": "BLEND",
+      "amount": 80.4603,
+      "valueUSDT": 10.48
+    },
+    {
+      "account": "JOAKO",
+      "coin": "A8",
+      "amount": 1619.379,
+      "valueUSDT": 16.66
+    },
+    {
+      "account": "JOAKO",
+      "coin": "USDT",
+      "amount": 0.1345,
+      "valueUSDT": 0.13
+    },
+    {
+      "account": "JOAKO",
+      "coin": "MEGA",
+      "amount": 173.826,
+      "valueUSDT": 26.13
+    },
+    {
+      "account": "JOAKO",
+      "coin": "DOGE",
+      "amount": 0.451,
+      "valueUSDT": 0.05
+    },
+    {
+      "account": "JOAKO",
+      "coin": "LUNC",
+      "amount": 0.876,
+      "valueUSDT": 0.0
+    },
+    {
+      "account": "JOAKO",
+      "coin": "ZBT",
+      "amount": 0.0481,
+      "valueUSDT": 0.01
+    },
+    {
+      "account": "JOAKO",
+      "coin": "TAC",
+      "amount": 0.146,
+      "valueUSDT": 0.0
+    }
+  ],
+  "strategy": {
+    "name": "Wave Trading - Raven",
+    "rules": [
+      {
+        "at": "+8%",
+        "action": "Vender 33% (partial sell)"
+      },
+      {
+        "at": "+15%",
+        "action": "Vender 30% de lo que queda"
+      },
+      {
+        "at": "+25%",
+        "action": "Vender 20% de lo que queda"
+      },
+      {
+        "at": "trailing",
+        "action": "Stop din\u00e1mico 12% desde pico"
+      },
+      {
+        "at": "stop loss",
+        "action": "Stop duro -8% desde entrada"
+      }
+    ],
+    "notes": "Momentum wave trading. Una ola activa a la vez. Micro-caps."
+  },
+  "openPositions": 11,
+  "positions": [
+    {
+      "symbol": "BLEND",
+      "account": "WILD",
+      "qty": 73.2612,
+      "entry": 0.153,
+      "current": 0.13021,
+      "value": 9.54,
+      "pnl": -14.9,
+      "stop": "partial 8/15/25%",
+      "active": true
+    },
+    {
+      "symbol": "A8",
+      "account": "WILD",
+      "qty": 1263.735,
+      "entry": 0.010896,
+      "current": 0.010285,
+      "value": 13.0,
+      "pnl": -5.6,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "MEGA",
+      "account": "WILD",
+      "qty": 84.915,
+      "entry": 0.1566,
+      "current": 0.15032,
+      "value": 12.76,
+      "pnl": -4.0,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "ZBT",
+      "account": "WILD",
+      "qty": 40.7592,
+      "entry": 0.18068,
+      "current": 0.17467,
+      "value": 7.12,
+      "pnl": -3.3,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "AMI",
+      "account": "WILD",
+      "qty": 3044.5524,
+      "entry": 0.005266,
+      "current": 0.005184,
+      "value": 15.78,
+      "pnl": -1.6,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "LUNC",
+      "account": "WILD",
+      "qty": 0.832,
+      "entry": 6.8e-05,
+      "current": 7.561e-05,
+      "value": 0.0,
+      "pnl": 11.2,
+      "stop": "partial 8/15/25%",
+      "active": true
+    },
+    {
+      "symbol": "BLEND",
+      "account": "JOAKO",
+      "qty": 80.4603,
+      "entry": 0.15545,
+      "current": 0.13021,
+      "value": 10.48,
+      "pnl": -16.2,
+      "stop": "partial 8/15/25%",
+      "active": true
+    },
+    {
+      "symbol": "A8",
+      "account": "JOAKO",
+      "qty": 1619.379,
+      "entry": 0.0109,
+      "current": 0.010285,
+      "value": 16.66,
+      "pnl": -5.6,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "MEGA",
+      "account": "JOAKO",
+      "qty": 173.826,
+      "entry": 0.1566,
+      "current": 0.15032,
+      "value": 26.13,
+      "pnl": -4.0,
+      "stop": "trailing 12%",
+      "active": true
+    },
+    {
+      "symbol": "LUNC",
+      "account": "JOAKO",
+      "qty": 0.876,
+      "entry": 6.77e-05,
+      "current": 7.561e-05,
+      "value": 0.0,
+      "pnl": 11.7,
+      "stop": "partial 8/15/25%",
+      "active": true
+    },
+    {
+      "symbol": "ZBT",
+      "account": "JOAKO",
+      "qty": 0.0481,
+      "entry": 0.18055,
+      "current": 0.17467,
+      "value": 0.01,
+      "pnl": -3.3,
+      "stop": "trailing 12%",
+      "active": true
+    }
+  ],
+  "watchCoins": [
+    {
+      "symbol": "MEGA",
+      "price": 0.15032,
+      "change": 200.6,
+      "signal": "\ud83d\udd25 Pump"
+    },
+    {
+      "symbol": "ZBT",
+      "price": 0.17467,
+      "change": -8.1,
+      "signal": "\u26aa Esperando"
+    },
+    {
+      "symbol": "OPG",
+      "price": 0.215,
+      "change": -20.6,
+      "signal": "\ud83d\udd34 Ca\u00edda"
+    },
+    {
+      "symbol": "BLEND",
+      "price": 0.13021,
+      "change": -23.4,
+      "signal": "\ud83d\udfe1 Correcci\u00f3n"
+    }
+  ],
+  "trades": [
+    {
+      "date": "2026-04-26",
+      "symbol": "ZEREBRO",
+      "side": "Sell",
+      "price": 0.0178,
+      "qty": 1500,
+      "pnl": 5.33,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-26",
+      "symbol": "ZEREBRO",
+      "side": "Sell",
+      "price": 0.01246,
+      "qty": 2500,
+      "pnl": 2.31,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "TAC",
+      "side": "Stop",
+      "price": 0.01534,
+      "qty": 896,
+      "pnl": -1.28,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "TAC",
+      "side": "Stop",
+      "price": 0.01497,
+      "qty": 853,
+      "pnl": -1.4,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "BLEND",
+      "side": "Partial",
+      "price": 0.1749,
+      "qty": 36,
+      "pnl": 1.69,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "BLEND",
+      "side": "Partial",
+      "price": 0.1737,
+      "qty": 40,
+      "pnl": 1.56,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "ZBT",
+      "side": "Trailing",
+      "price": 0.17485,
+      "qty": 51.9,
+      "pnl": -0.29,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "A8",
+      "side": "Buy",
+      "price": 0.0109,
+      "qty": 1264,
+      "pnl": 0,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "A8",
+      "side": "Buy",
+      "price": 0.0109,
+      "qty": 1619,
+      "pnl": 0,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "LUNC",
+      "side": "Sell",
+      "price": 7.5e-05,
+      "qty": 176990,
+      "pnl": 1.24,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "LUNC",
+      "side": "Sell",
+      "price": 7.5e-05,
+      "qty": 74049,
+      "pnl": 0.54,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "MEGA",
+      "side": "Buy",
+      "price": 0.1566,
+      "qty": 85,
+      "pnl": 0,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "MEGA",
+      "side": "Buy",
+      "price": 0.1566,
+      "qty": 174,
+      "pnl": 0,
+      "account": "JOAKO"
+    }
+  ],
+  "lastTrades": [
+    {
+      "date": "2026-04-29",
+      "symbol": "BLEND",
+      "side": "Partial",
+      "price": 0.1737,
+      "qty": 40,
+      "pnl": 1.56,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-29",
+      "symbol": "ZBT",
+      "side": "Trailing",
+      "price": 0.17485,
+      "qty": 51.9,
+      "pnl": -0.29,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "A8",
+      "side": "Buy",
+      "price": 0.0109,
+      "qty": 1264,
+      "pnl": 0,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "A8",
+      "side": "Buy",
+      "price": 0.0109,
+      "qty": 1619,
+      "pnl": 0,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "LUNC",
+      "side": "Sell",
+      "price": 7.5e-05,
+      "qty": 176990,
+      "pnl": 1.24,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "LUNC",
+      "side": "Sell",
+      "price": 7.5e-05,
+      "qty": 74049,
+      "pnl": 0.54,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "MEGA",
+      "side": "Buy",
+      "price": 0.1566,
+      "qty": 85,
+      "pnl": 0,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-30",
+      "symbol": "MEGA",
+      "side": "Buy",
+      "price": 0.1566,
+      "qty": 174,
+      "pnl": 0,
+      "account": "JOAKO"
+    }
+  ],
+  "capitalHistory": [
+    {
+      "date": "2026-04-25",
+      "capital": 108.33,
+      "note": "Inicio ciclo"
+    },
+    {
+      "date": "2026-04-26",
+      "capital": 116.06,
+      "note": "Cierre ZEREBRO"
+    },
+    {
+      "date": "2026-04-27",
+      "capital": 118.18,
+      "note": "Monitoreando"
+    },
+    {
+      "date": "2026-04-28",
+      "capital": 118.18,
+      "wildCapital": 62.46,
+      "joakoCapital": 55.72
+    },
+    {
+      "date": "2026-04-29",
+      "capital": 118.0,
+      "wildCapital": 62.24,
+      "joakoCapital": 55.76,
+      "note": "TAC stop + BLEND partial"
+    },
+    {
+      "date": "2026-04-30",
+      "capital": 111.8,
+      "wildCapital": 58.32,
+      "joakoCapital": 53.49,
+      "note": "LUNC sell + MEGA buy"
+    }
+  ],
+  "btc": {
+    "price": 76475.3,
+    "change": 1.26
+  }
+}

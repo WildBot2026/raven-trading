@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2026-04-25",
+    "capital": 108.33,
+    "note": "Inicio ciclo (post pérdidas TAC/BB)"
+  },
+  {
+    "date": "2026-04-26",
+    "capital": 116.06,
+    "note": "Cierre ZEREBRO + BLEND + BIO + DYDX"
+  },
+  {
+    "date": "2026-04-27",
+    "capital": 118.18,
+    "note": "Sin trades, monitoreando",
+    "wildCapital": 62.46,
+    "joakoCapital": 55.72
+  },
+  {
+    "date": "2026-04-28",
+    "capital": 118.18,
+    "wildCapital": 62.46,
+    "joakoCapital": 55.72
+  },
+  {
+    "date": "2026-04-29",
+    "capital": 118.18,
+    "wildCapital": 62.46,
+    "joakoCapital": 55.72
+  },
+  {
+    "date": "2026-04-30",
+    "capital": 118.18,
+    "wildCapital": 62.46,
+    "joakoCapital": 55.72
+  }
+]

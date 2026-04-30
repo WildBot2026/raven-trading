@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raven Trading Dashboard 🦅</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { font-family: 'Inter', system-ui, sans-serif; }
+  body { background: #08080f; }
+  .card-glow { box-shadow: 0 0 0 1px rgba(255,255,255,0.03); }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #0f0f1a; }
+  ::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3a5a; }
+  .scroll-table { max-height: 380px; overflow-y: auto; }
+  .scroll-table-sm { max-height: 300px; overflow-y: auto; }
+  @media (max-width: 640px) {
+    .scroll-table { max-height: 280px; }
+    .scroll-table-sm { max-height: 220px; }
+  }
+  .badge-pnl { font-variant-numeric: tabular-nums; }
+  .side-buy { background: rgba(74,222,128,0.12); color: #4ade80; }
+  .side-sell { background: rgba(248,113,113,0.12); color: #f87171; }
+  .side-stop { background: rgba(251,191,36,0.12); color: #fbbf24; }
+  .side-partial { background: rgba(96,165,250,0.12); color: #60a5fa; }
+  .side-trailing { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .account-wild { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.2); }
+  .account-joako { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); }
+  .stop-trailing { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .stop-partial { background: rgba(96,165,250,0.12); color: #60a5fa; }
+  .stop-loss { background: rgba(248,113,113,0.12); color: #f87171; }
+</style>
+</head>
+<body class="min-h-screen p-3 sm:p-4 md:p-6">
+
+<div class="max-w-7xl mx-auto space-y-4">
+
+  <!-- HEADER -->
+  <div class="flex items-center justify-between mb-1">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl">🦅</span>
+      <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Raven Dashboard</h1>
+    </div>
+    <div class="flex items-center gap-3 text-xs text-gray-500">
+      <span id="lastUpdate">—</span>
+      <button onclick="refresh()" class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-indigo-500 transition-all text-xs font-medium">⟳ Refrescar</button>
+    </div>
+  </div>
+
+  <!-- TOP BAR: Total Capital | P&L Cycle | BTC -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div class="rounded-xl bg-gradient-to-br from-gray-900/90 to-gray-800/90 border border-gray-800 p-4 card-glow">
+      <div class="text-[10px] tracking-[1px] text-gray-500 uppercase mb-1">Capital Total</div>
+      <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400" id="totalCapital">$—</div>
+      <div class="text-xs text-gray-500 mt-1" id="totalSub">—</div>
+    </div>
+    <div class="rounded-xl bg-gradient-to-br from-gray-900/90 to-gray-800/90 border border-gray-800 p-4 card-glow">
+      <div class="text-[10px] tracking-[1px] text-gray-500 uppercase mb-1">P&L Ciclo</div>
+      <div class="text-2xl sm:text-3xl font-extrabold" id="pnlCycle">—</div>
+      <div class="text-xs mt-1" id="pnlPercent">—</div>
+      <div class="text-[10px] text-gray-600 mt-1" id="startInfo">—</div>
+    </div>
+    <div class="rounded-xl bg-gradient-to-br from-gray-900/90 to-gray-800/90 border border-gray-800 p-4 card-glow">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] tracking-[1px] text-gray-500 uppercase">BTC</span>
+        <span class="text-[9px] px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-400 font-medium">Referencia</span>
+      </div>
+      <div class="text-xl sm:text-2xl font-bold text-yellow-400" id="btcPrice">$—</div>
+      <div class="text-xs mt-1" id="btcChange">—</div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT CARDS -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div class="rounded-xl bg-gradient-to-br from-purple-950/30 to-gray-900/80 border border-purple-900/30 p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-[10px] tracking-[1px] text-purple-400 uppercase font-semibold">Cuenta WILD</span>
+        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+      </div>
+      <div class="text-lg font-bold text-purple-300" id="wildCapital">—</div>
+      <div class="text-sm mt-1" id="wildPnL">—</div>
+      <div class="text-[10px] text-gray-600 mt-1" id="wildStart">—</div>
+    </div>
+    <div class="rounded-xl bg-gradient-to-br from-blue-950/30 to-gray-900/80 border border-blue-900/30 p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-[10px] tracking-[1px] text-blue-400 uppercase font-semibold">Cuenta JOAKO</span>
+        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+      </div>
+      <div class="text-lg font-bold text-blue-300" id="joakoCapital">—</div>
+      <div class="text-sm mt-1" id="joakoPnL">—</div>
+      <div class="text-[10px] text-gray-600 mt-1" id="joakoStart">—</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID: WALLETS | POSITIONS+STRATEGY | TRADES -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+    <!-- COL 1: Wallets -->
+    <div class="lg:col-span-3 rounded-xl bg-gray-900/70 border border-gray-800 p-3 sm:p-4 card-glow">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-sm">💰</span>
+        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Wallets</h3>
+        <span class="text-[10px] text-gray-600 ml-auto" id="walletTotal">—</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="text-[9px] text-gray-500 uppercase tracking-[0.5px]">
+              <th class="text-left pb-2 pr-2">Cuenta</th>
+              <th class="text-left pb-2 pr-2">Coin</th>
+              <th class="text-right pb-2 pr-2">Cantidad</th>
+              <th class="text-right pb-2">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="walletsBody"></tbody>
+        </table>
+        <div id="walletsEmpty" class="text-center py-8 text-gray-600 text-xs hidden">Sin wallets</div>
+      </div>
+    </div>
+
+    <!-- COL 2: Positions + Strategy -->
+    <div class="lg:col-span-5 rounded-xl bg-gray-900/70 border border-gray-800 p-3 sm:p-4 card-glow">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-sm">📌</span>
+        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Posiciones Abiertas</h3>
+        <span class="text-[10px] text-gray-600 ml-auto" id="posCount">0</span>
+      </div>
+      <div id="positionsList"></div>
+
+      <div class="mt-4 pt-4 border-t border-gray-800">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-sm">📋</span>
+          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Estrategia</h3>
+        </div>
+        <div id="strategyContent"></div>
+      </div>
+    </div>
+
+    <!-- COL 3: Trades History -->
+    <div class="lg:col-span-4 rounded-xl bg-gray-900/70 border border-gray-800 p-3 sm:p-4 card-glow">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-sm">📊</span>
+        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Historial de Trades</h3>
+      </div>
+      <div class="overflow-x-auto scroll-table-sm">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="text-[9px] text-gray-500 uppercase tracking-[0.5px]">
+              <th class="text-left pb-2 pr-1">Fecha</th>
+              <th class="text-left pb-2 pr-1">Simbolo</th>
+              <th class="text-left pb-2 pr-1">Side</th>
+              <th class="text-right pb-2 pr-1">Precio</th>
+              <th class="text-right pb-2 pr-1">Qty</th>
+              <th class="text-right pb-2 pr-1">PnL</th>
+              <th class="text-left pb-2">Cuenta</th>
+            </tr>
+          </thead>
+          <tbody id="tradesBody"></tbody>
+        </table>
+        <div id="tradesEmpty" class="text-center py-8 text-gray-600 text-xs hidden">Sin trades registrados</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPITAL HISTORY CHART -->
+  <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-3 sm:p-4 card-glow">
+    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+      <div class="flex items-center gap-2">
+        <span class="text-sm">📈</span>
+        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Capital en el Tiempo</h3>
+      </div>
+      <div class="flex gap-1">
+        <button class="range-btn text-[10px] px-2 py-1 rounded bg-gray-800 text-gray-500 border border-gray-700 hover:border-indigo-500 hover:text-gray-200 transition-all" data-days="7">7d</button>
+        <button class="range-btn text-[10px] px-2 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 transition-all active" data-days="15">15d</button>
+        <button class="range-btn text-[10px] px-2 py-1 rounded bg-gray-800 text-gray-500 border border-gray-700 hover:border-indigo-500 hover:text-gray-200 transition-all" data-days="30">30d</button>
+        <button class="range-btn text-[10px] px-2 py-1 rounded bg-gray-800 text-gray-500 border border-gray-700 hover:border-indigo-500 hover:text-gray-200 transition-all" data-days="all">Todo</button>
+      </div>
+    </div>
+    <div class="h-48 sm:h-56"><canvas id="capitalChart"></canvas></div>
+    <div class="flex flex-wrap gap-3 sm:gap-6 mt-3 text-[10px] sm:text-xs text-gray-500" id="chartStats"></div>
+  </div>
+
+  <!-- WATCH COINS -->
+  <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-3 sm:p-4 card-glow">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="text-sm">🔍</span>
+      <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Monitoreo</h3>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2" id="watchCoinsGrid"></div>
+    <div id="watchEmpty" class="text-center py-8 text-gray-600 text-xs hidden">Sin monitoreo</div>
+  </div>
+</div>
+
+<script>
+let capitalChart = null;
+let currentRange = 15;
+
+function fmtDollars(v) {
+  if (v === undefined || v === null) return '—';
+  if (Math.abs(v) < 0.01) return '$' + v.toFixed(6);
+  if (Math.abs(v) < 1) return '$' + v.toFixed(4);
+  return '$' + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtQty(v) {
+  if (v === undefined || v === null) return '—';
+  if (Math.abs(v) >= 1000) return v.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1) return v.toFixed(4);
+  return v.toFixed(6);
+}
+
+function formatDate(s) {
+  if (!s) return '—';
+  const d = new Date(s.includes('T') ? s : s + 'T00:00:00');
+  return d.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit' });
+}
+
+function pnlClass(v) {
+  if (v === undefined || v === null) return 'text-gray-400';
+  return v >= 0 ? 'text-green-400' : 'text-red-400';
+}
+
+function sideClass(side) {
+  const map = {
+    'Buy': 'side-buy', 'buy': 'side-buy',
+    'Sell': 'side-sell', 'sell': 'side-sell',
+    'Stop': 'side-stop', 'stop': 'side-stop',
+    'Partial': 'side-partial', 'partial': 'side-partial',
+    'Trailing': 'side-trailing', 'trailing': 'side-trailing'
+  };
+  return map[side] || 'bg-gray-800 text-gray-400';
+}
+
+function stopClass(stop) {
+  if (!stop) return '';
+  const s = stop.toLowerCase();
+  if (s.includes('trailing')) return 'stop-trailing';
+  if (s.includes('partial')) return 'stop-partial';
+  if (s.includes('stop')) return 'stop-loss';
+  return 'bg-gray-800 text-gray-400';
+}
+
+function accountTag(account) {
+  const cls = account === 'WILD' ? 'account-wild' : 'account-joako';
+  return '<span class="inline-block text-[9px] px-1.5 py-0.5 rounded font-medium ' + cls + '">' + account + '</span>';
+}
+
+async function fetchData() {
+  const r = await fetch('data.json?_=' + Date.now());
+  return r.json();
+}
+
+function updateHeader(d) {
+  document.getElementById('lastUpdate').innerHTML = '🕐 ' + new Date(d.timestamp).toLocaleTimeString('es-MX');
+}
+
+function updateTopBar(d) {
+  document.getElementById('totalCapital').textContent = fmtDollars(d.totalCapital);
+  document.getElementById('totalSub').innerHTML = 'Inicio: <span class="text-gray-400">' + fmtDollars(d.startCapital) + '</span> · <span class="text-gray-400">' + d.startDate + '</span>';
+
+  const pnl = d.pnlCycle;
+  const pnlEl = document.getElementById('pnlCycle');
+  pnlEl.textContent = (pnl >= 0 ? '+' : '') + fmtDollars(pnl);
+  pnlEl.className = 'text-2xl sm:text-3xl font-extrabold ' + (pnl >= 0 ? 'text-green-400' : 'text-red-400');
+
+  const pctEl = document.getElementById('pnlPercent');
+  pctEl.textContent = (pnl >= 0 ? '+' : '') + d.pnlPercent;
+  pctEl.className = 'text-xs mt-1 ' + (pnl >= 0 ? 'text-green-400/70' : 'text-red-400/70');
+
+  document.getElementById('startInfo').textContent = 'Desde ' + d.startDate + ' · Inicio: ' + fmtDollars(d.startCapital);
+
+  if (d.btc) {
+    document.getElementById('btcPrice').textContent = fmtDollars(d.btc.price);
+    const ch = d.btc.change;
+    const chEl = document.getElementById('btcChange');
+    chEl.innerHTML = (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%';
+    chEl.className = 'text-xs mt-1 ' + (ch >= 0 ? 'text-green-400' : 'text-red-400');
+  }
+}
+
+function updateAccountCards(d) {
+  const w = d.accounts.WILD;
+  const j = d.accounts.JOAKO;
+
+  document.getElementById('wildCapital').textContent = fmtDollars(w.capital);
+  const wPnl = w.pnl;
+  const wPct = w.capital && w.startCapital ? ((w.capital - w.startCapital) / w.startCapital * 100).toFixed(2) : '0.00';
+  document.getElementById('wildPnL').innerHTML = '<span class="' + pnlClass(wPnl) + ' font-semibold">' + (wPnl >= 0 ? '+' : '') + fmtDollars(wPnl) + '</span> <span class="text-gray-500">(' + (wPnl >= 0 ? '+' : '') + wPct + '%)</span>';
+  document.getElementById('wildStart').textContent = 'Inicio: ' + fmtDollars(w.startCapital) + ' (' + (w.startDate || d.startDate) + ')';
+
+  document.getElementById('joakoCapital').textContent = fmtDollars(j.capital);
+  const jPnl = j.pnl;
+  const jPct = j.capital && j.startCapital ? ((j.capital - j.startCapital) / j.startCapital * 100).toFixed(2) : '0.00';
+  document.getElementById('joakoPnL').innerHTML = '<span class="' + pnlClass(jPnl) + ' font-semibold">' + (jPnl >= 0 ? '+' : '') + fmtDollars(jPnl) + '</span> <span class="text-gray-500">(' + (jPnl >= 0 ? '+' : '') + jPct + '%)</span>';
+  document.getElementById('joakoStart').textContent = 'Inicio: ' + fmtDollars(j.startCapital) + ' (' + (j.startDate || d.startDate) + ')';
+}
+
+function updateWallets(d) {
+  const tbody = document.getElementById('walletsBody');
+  const empty = document.getElementById('walletsEmpty');
+  const totalEl = document.getElementById('walletTotal');
+
+  if (!d.wallets || d.wallets.length === 0) {
+    tbody.innerHTML = '';
+    empty.classList.remove('hidden');
+    totalEl.textContent = '';
+    return;
+  }
+  empty.classList.add('hidden');
+
+  const wild = d.wallets.filter(function(w) { return w.account === 'WILD'; });
+  const joako = d.wallets.filter(function(w) { return w.account === 'JOAKO'; });
+
+  var rows = '';
+  var totalVal = 0;
+
+  if (wild.length) {
+    rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-purple-400 font-semibold tracking-[0.5px]">═══ WILD ═══</td></tr>';
+    wild.forEach(function(w) {
+      rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
+        '<td class="py-1.5 pr-2">' + accountTag('WILD') + '</td>' +
+        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + w.coin + '</td>' +
+        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(w.amount) + '</td>' +
+        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(w.valueUSDT) + '</td></tr>';
+      totalVal += w.valueUSDT;
+    });
+  }
+
+  if (joako.length) {
+    rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-blue-400 font-semibold tracking-[0.5px]">═══ JOAKO ═══</td></tr>';
+    joako.forEach(function(w) {
+      rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
+        '<td class="py-1.5 pr-2">' + accountTag('JOAKO') + '</td>' +
+        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + w.coin + '</td>' +
+        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(w.amount) + '</td>' +
+        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(w.valueUSDT) + '</td></tr>';
+      totalVal += w.valueUSDT;
+    });
+  }
+
+  rows += '<tr><td colspan="4" class="pt-2 border-t border-gray-800"></td></tr>' +
+    '<tr class="font-semibold">' +
+    '<td colspan="2" class="py-1.5 text-gray-400 text-[9px] tracking-[0.5px]">TOTAL WALLETS</td>' +
+    '<td class="py-1.5 text-right text-indigo-300">' + fmtDollars(totalVal) + '</td></tr>';
+
+  tbody.innerHTML = rows;
+  totalEl.textContent = totalVal.toFixed(2) + ' USDT';
+}
+
+function updatePositions(d) {
+  const list = document.getElementById('positionsList');
+  const count = document.getElementById('posCount');
+
+  if (!d.positions || d.positions.length === 0) {
+    list.innerHTML = '<div class="text-center py-6 text-gray-600 text-xs">Sin posiciones abiertas</div>';
+    count.textContent = '0';
+    return;
+  }
+
+  count.textContent = d.positions.length;
+
+  const sorted = d.positions.slice().sort(function(a, b) { return (a.pnl || 0) - (b.pnl || 0); });
+
+  var html = '<div class="space-y-1.5 scroll-table-sm max-h-[320px]">';
+  sorted.forEach(function(p) {
+    var pnlVal = p.pnl || 0;
+    var stopLabel = p.stop || '—';
+    var stopDisplay = stopLabel;
+    if (stopLabel.toLowerCase().indexOf('trailing') !== -1) stopDisplay = 'Trailing 12%';
+    else if (stopLabel.toLowerCase().indexOf('partial') !== -1) stopDisplay = 'Partial 8/15/25%';
+    var stopCls = stopClass(stopLabel);
+
+    html += '<div class="flex items-center justify-between py-2 px-2.5 rounded-lg bg-gray-800/40 border border-gray-800 hover:border-gray-700 transition-all">' +
+      '<div class="min-w-0 flex-1">' +
+      '<div class="flex items-center gap-1.5">' +
+      '<span class="text-sm font-semibold text-gray-100">' + p.symbol + '</span>' +
+      accountTag(p.account) +
+      '</div>' +
+      '<div class="text-[10px] text-gray-500 mt-0.5">' + fmtQty(p.qty) + ' @ ' + fmtDollars(p.entry) + ' -> ' + fmtDollars(p.current) + '</div>' +
+      '<div class="text-[10px] text-gray-600 mt-0.5">Value: ' + fmtDollars(p.value) + '</div>' +
+      '</div>' +
+      '<div class="text-right flex-shrink-0 ml-2">' +
+      '<div class="text-sm font-bold ' + pnlClass(pnlVal) + ' badge-pnl">' + (pnlVal >= 0 ? '+' : '') + pnlVal.toFixed(2) + '%</div>' +
+      '<div class="text-[9px] px-1.5 py-0.5 rounded inline-block mt-1 ' + stopCls + '">' + stopDisplay + '</div>' +
+      '</div></div>';
+  });
+  html += '</div>';
+  list.innerHTML = html;
+}
+
+function updateStrategy(d) {
+  const el = document.getElementById('strategyContent');
+  if (!d.strategy) {
+    el.innerHTML = '<div class="text-center py-4 text-gray-600 text-xs">Sin estrategia definida</div>';
+    return;
+  }
+  var s = d.strategy;
+  var html = '<div class="text-sm font-semibold text-yellow-400 mb-2">' + s.name + '</div>';
+  html += '<ul class="space-y-1">';
+  if (s.rules && s.rules.length) {
+    s.rules.forEach(function(r) {
+      html += '<li class="flex items-start gap-2 text-[11px] py-1 border-b border-gray-800/50 last:border-0">' +
+        '<span class="text-yellow-400/80 font-medium whitespace-nowrap">' + r.at + '</span>' +
+        '<span class="text-gray-500">-></span>' +
+        '<span class="text-gray-300">' + r.action + '</span></li>';
+    });
+  }
+  html += '</ul>';
+  if (s.notes) {
+    html += '<div class="mt-2 text-[10px] text-gray-600 italic border-t border-gray-800 pt-2">' + s.notes + '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function updateTrades(d) {
+  const tbody = document.getElementById('tradesBody');
+  const empty = document.getElementById('tradesEmpty');
+
+  if (!d.trades || d.trades.length === 0) {
+    tbody.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  const sorted = d.trades.slice().reverse();
+  var html = '';
+
+  sorted.forEach(function(t) {
+    var sideCls = sideClass(t.side);
+    html += '<tr class="hover:bg-white/[0.02] transition-colors">' +
+      '<td class="py-1.5 pr-1 text-gray-500 whitespace-nowrap">' + formatDate(t.date) + '</td>' +
+      '<td class="py-1.5 pr-1 font-medium text-gray-200">' + t.symbol + '</td>' +
+      '<td class="py-1.5 pr-1"><span class="inline-block text-[9px] px-1.5 py-0.5 rounded font-medium ' + sideCls + '">' + t.side + '</span></td>' +
+      '<td class="py-1.5 pr-1 text-right text-gray-400 whitespace-nowrap">' + fmtDollars(t.price) + '</td>' +
+      '<td class="py-1.5 pr-1 text-right text-gray-400">' + fmtQty(t.qty) + '</td>' +
+      '<td class="py-1.5 pr-1 text-right font-medium ' + pnlClass(t.pnl) + ' badge-pnl whitespace-nowrap">' + (t.pnl === 0 ? '—' : (t.pnl >= 0 ? '+' : '') + fmtDollars(t.pnl)) + '</td>' +
+      '<td class="py-1.5 whitespace-nowrap">' + accountTag(t.account) + '</td></tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function updateWatch(d) {
+  const grid = document.getElementById('watchCoinsGrid');
+  const empty = document.getElementById('watchEmpty');
+
+  if (!d.watchCoins || d.watchCoins.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  var html = '';
+  d.watchCoins.forEach(function(c) {
+    var chCls = c.change >= 0 ? 'text-green-400' : 'text-red-400';
+    html += '<div class="rounded-lg bg-gray-800/40 border border-gray-800 p-2.5 text-center hover:border-gray-700 transition-all">' +
+      '<div class="text-sm font-bold text-gray-100">' + c.symbol + '</div>' +
+      '<div class="text-sm font-semibold text-indigo-300 my-1">' + fmtDollars(c.price) + '</div>' +
+      '<div class="text-xs font-medium ' + chCls + '">' + (c.change >= 0 ? '+' : '') + c.change.toFixed(2) + '%</div>' +
+      (c.signal ? '<div class="text-[10px] text-gray-600 mt-1">' + c.signal + '</div>' : '') +
+      '</div>';
+  });
+  grid.innerHTML = html;
+}
+
+function updateChart(d) {
+  const history = d.capitalHistory || [];
+  if (history.length < 2) {
+    document.getElementById('chartStats').innerHTML = '<span class="text-gray-600">Datos insuficientes</span>';
+    return;
+  }
+
+  var rangeDays = currentRange >= 9999 ? 9999 : currentRange;
+  var filtered = history;
+  if (rangeDays < 9999) {
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - rangeDays);
+    filtered = history.filter(function(h) {
+      return new Date(h.date + 'T00:00:00') >= cutoff;
+    });
+  }
+  if (filtered.length < 2) filtered = history;
+
+  var labels = filtered.map(function(h) { return formatDate(h.date); });
+  var values = filtered.map(function(h) { return h.capital; });
+  var startVal = values[0];
+  var currentVal = values[values.length - 1];
+  var maxVal = Math.max.apply(null, values);
+  var minVal = Math.min.apply(null, values);
+  var change = currentVal - startVal;
+  var changePct = (change / startVal * 100);
+
+  document.getElementById('chartStats').innerHTML =
+    '<span>Inicio: <strong class="text-gray-300">' + fmtDollars(startVal) + '</strong></span>' +
+    '<span>Actual: <strong class="text-gray-300">' + fmtDollars(currentVal) + '</strong></span>' +
+    '<span>Max: <strong class="text-green-400">' + fmtDollars(maxVal) + '</strong></span>' +
+    '<span>Min: <strong class="text-red-400">' + fmtDollars(minVal) + '</strong></span>' +
+    '<span>Cambio: <strong class="' + pnlClass(change) + '">' + (change >= 0 ? '+' : '') + fmtDollars(change) + ' (' + (change >= 0 ? '+' : '') + changePct.toFixed(2) + '%)</strong></span>';
+
+  var ctx = document.getElementById('capitalChart').getContext('2d');
+  if (capitalChart) capitalChart.destroy();
+
+  var gradient = ctx.createLinearGradient(0, 0, 0, 220);
+  gradient.addColorStop(0, 'rgba(102,126,234,0.18)');
+  gradient.addColorStop(1, 'rgba(102,126,234,0.01)');
+
+  var lineColor = change >= 0 ? '#4ade80' : '#f87171';
+
+  capitalChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Capital (USDT)',
+        data: values,
+        borderColor: lineColor,
+        backgroundColor: gradient,
+        fill: true,
+        tension: 0.3,
+        pointRadius: labels.length < 30 ? 3 : 1.5,
+        pointBackgroundColor: lineColor,
+        pointBorderColor: '#0f0f1a',
+        pointBorderWidth: 1.5,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a2e',
+          titleColor: '#8888aa',
+          bodyColor: '#e0e0e0',
+          borderColor: '#3a3a5a',
+          borderWidth:
+          1,
+          padding: 10,
+          callbacks: {
+            label: function(ctx) { return '$' + ctx.raw.toFixed(2); }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#555', maxTicksLimit: 8, font: { size: 10 } },
+          grid: { color: '#1a1a2e', drawBorder: false }
+        },
+        y: {
+          ticks: { color: '#555', callback: function(v) { return '$' + v.toFixed(0); }, font: { size: 10 } },
+          grid: { color: '#1a1a2e', drawBorder: false }
+        }
+      }
+    }
+  });
+}
+
+function setRange(days) {
+  currentRange = days;
+  document.querySelectorAll('.range-btn').forEach(function(b) {
+    b.classList.toggle('active', parseInt(b.dataset.days) === days || (days === 9999 && b.dataset.days === 'all'));
+    if (b.classList.contains('active')) {
+      b.className = 'range-btn text-[10px] px-2 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 transition-all active';
+    } else {
+      b.className = 'range-btn text-[10px] px-2 py-1 rounded bg-gray-800 text-gray-500 border border-gray-700 hover:border-indigo-500 hover:text-gray-200 transition-all';
+    }
+  });
+  refresh();
+}
+
+document.querySelectorAll('.range-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    setRange(b.dataset.days === 'all' ? 9999 : parseInt(b.dataset.days));
+  });
+});
+
+async function refresh() {
+  try {
+    const d = await fetchData();
+    updateHeader(d);
+    updateTopBar(d);
+    updateAccountCards(d);
+    updateWallets(d);
+    updatePositions(d);
+    updateStrategy(d);
+    updateTrades(d);
+    updateWatch(d);
+    updateChart(d);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('lastUpdate').innerHTML = '&#x274C; Error';
+  }
+}
+
+setInterval(refresh, 60000);
+refresh();
+</script>
+</body>
+</html>
