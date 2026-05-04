@@ -1,0 +1,132 @@
+name: Update Dashboard Data
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Fetch balances and update data.json
+        env:
+          BYBIT_KEY_WILD: ${{ secrets.BYBIT_KEY_WILD }}
+          BYBIT_SECRET_WILD: ${{ secrets.BYBIT_SECRET_WILD }}
+          BYBIT_KEY_JOAKO: ${{ secrets.BYBIT_KEY_JOAKO }}
+          BYBIT_SECRET_JOAKO: ${{ secrets.BYBIT_SECRET_JOAKO }}
+        run: |
+          node << 'EOF'
+          const https = require('https');
+          const crypto = require('crypto');
+          const fs = require('fs');
+
+          function bybitGet(key, secret, endpoint, params) {
+            return new Promise((resolve, reject) => {
+              const timestamp = Date.now().toString();
+              const query = Object.entries(params).sort(([a],[b]) => a.localeCompare(b))
+                .map(([k,v]) => k+'='+v).join('&');
+              const sign = crypto.createHmac('sha256', secret)
+                .update(timestamp + key + '5000' + query).digest('hex');
+              
+              https.get(`https://api.bybit.com${endpoint}?${query}`, {
+                headers: {
+                  'X-BAPI-API-KEY': key,
+                  'X-BAPI-TIMESTAMP': timestamp,
+                  'X-BAPI-RECV-WINDOW': '5000',
+                  'X-BAPI-SIGN': sign
+                }
+              }, res => {
+                let data = '';
+                res.on('data', c => data += c);
+                res.on('end', () => resolve(JSON.parse(data)));
+              }).on('error', reject);
+            });
+          }
+
+          function fetchTicker(symbol) {
+            return new Promise((resolve) => {
+              https.get(`https://api.bybit.com/v5/market/tickers?category=spot&symbol=${symbol}`, res => {
+                let data = '';
+                res.on('data', c => data += c);
+                res.on('end', () => {
+                  try {
+                    const j = JSON.parse(data);
+                    const t = j.result?.list?.[0];
+                    resolve(t ? { price: parseFloat(t.lastPrice), change24h: parseFloat(t.price24hPcnt || 0)*100 } : null);
+                  } catch(e) { resolve(null); }
+                });
+              }).on('error', () => resolve(null));
+            });
+          }
+
+          async function main() {
+            // Load existing data.json
+            let data;
+            try { data = JSON.parse(fs.readFileSync('data.json','utf8')); }
+            catch(e) { console.log('No existing data.json'); return; }
+
+            // Get prices
+            const [mega, ondo, btc] = await Promise.all([
+              fetchTicker('MEGAUSDT'),
+              fetchTicker('ONDOUSDT'),
+              fetchTicker('BTCUSDT')
+            ]);
+
+            if (btc && data.btc) {
+              data.btc.price = btc.price;
+              data.btc.change = btc.change24h;
+            }
+
+            // Update wallet prices and values
+            if (data.wallets) {
+              for (const w of data.wallets) {
+                if (w.symbol === 'MEGA' && mega) { w.price = mega.price; w.value = w.quantity * mega.price; }
+                if (w.symbol === 'ONDO' && ondo) { w.price = ondo.price; w.value = w.quantity * ondo.price; }
+              }
+            }
+
+            // Update positions
+            if (data.positions) {
+              for (const p of data.positions) {
+                if (p.symbol === 'MEGA' && mega) { p.currentPrice = mega.price; p.pnl = (mega.price - p.entryPrice) * p.qty; p.pnlPct = Math.round((mega.price/p.entryPrice - 1)*10000)/100; }
+                if (p.symbol === 'ONDO' && ondo) { p.currentPrice = ondo.price; p.pnl = (ondo.price - p.entryPrice) * p.qty; p.pnlPct = Math.round((ondo.price/p.entryPrice - 1)*10000)/100; }
+              }
+            }
+
+            // Recalc capital
+            if (data.wallets && data.accounts) {
+              let wildTotal = 0, joakoTotal = 0;
+              for (const w of data.wallets) {
+                if (w.account === 'WILD') wildTotal += w.value;
+                else if (w.account === 'JOAKO') joakoTotal += w.value;
+              }
+              data.accounts.WILD.capital = Math.round(wildTotal * 100) / 100;
+              data.accounts.JOAKO.capital = Math.round(joakoTotal * 100) / 100;
+              data.totalCapital = Math.round((wildTotal + joakoTotal) * 100) / 100;
+              data.accounts.WILD.pnl = Math.round((wildTotal - data.accounts.WILD.startCapital)*100)/100;
+              data.accounts.JOAKO.pnl = Math.round((joakoTotal - data.accounts.JOAKO.startCapital)*100)/100;
+              data.pnlCycle = Math.round((data.totalCapital - data.startCapital)*100)/100;
+              data.pnlPercent = data.startCapital ? ((data.pnlCycle/data.startCapital)*100).toFixed(2) : '0.00';
+            }
+
+            data.timestamp = new Date().toISOString();
+            fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+            console.log(`✅ Updated: BTC=${btc?.price} ONDO=${ondo?.price} MEGA=${mega?.price}`);
+          }
+
+          main().catch(console.error);
+          EOF
+      
+      - name: Commit and push
+        run: |
+          git config user.name "Raven Bot"
+          git config user.email "raven@wildbot.trade"
+          git add data.json
+          git diff --staged --quiet || (git commit -m "Auto-update data.json [$(date -u +'%Y-%m-%d %H:%M UTC')]" && git push)
