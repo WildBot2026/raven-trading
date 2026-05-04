@@ -168,19 +168,27 @@
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase">BTC</span>
-          <span class="text-[10px] font-medium text-indigo-300" id="btcMiniPrice">—</span>
+        <div class="flex items-center gap-1.5">
+          <select id="thirdChartSelect" onchange="switchThirdChart(this.value)" class="text-[10px] font-semibold bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-gray-200 outline-none cursor-pointer">
+            <option value="BTC">BTC</option>
+            <option value="ZEN">ZEN</option>
+            <option value="PENDLE">PENDLE</option>
+            <option value="WLFI">WLFI</option>
+            <option value="CHILLGUY">CHILLGUY</option>
+            <option value="AXL">AXL</option>
+            <option value="ZEREBRO">ZEREBRO</option>
+          </select>
+          <span class="text-[10px] font-medium text-indigo-300" id="thirdMiniPrice">—</span>
         </div>
         <div class="flex gap-1">
-          <button onclick="switchInterval('BTC','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="1">1m</button>
-          <button onclick="switchInterval('BTC','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="BTC" data-int="3">3m</button>
-          <button onclick="switchInterval('BTC','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="15">15m</button>
-          <button onclick="switchInterval('BTC','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="60">1h</button>
-          <button onclick="switchInterval('BTC','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="D">1d</button>
+          <button onclick="switchInterval('THIRD','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="THIRD" data-int="1">1m</button>
+          <button onclick="switchInterval('THIRD','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="THIRD" data-int="3">3m</button>
+          <button onclick="switchInterval('THIRD','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="THIRD" data-int="15">15m</button>
+          <button onclick="switchInterval('THIRD','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="THIRD" data-int="60">1h</button>
+          <button onclick="switchInterval('THIRD','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="THIRD" data-int="D">1d</button>
         </div>
       </div>
-      <div id="btcChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('BTC')"></div>
+      <div id="thirdChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('THIRD')"></div>
     </div>
   </div>
 
@@ -190,9 +198,18 @@
       <div class="flex items-center justify-between mb-3">
         <div>
           <span class="text-sm font-bold text-gray-200" id="modalTitle">ONDO</span>
-          <span class="text-[10px] text-gray-500 ml-2" id="modalSubtitle">3m · Click fuera para cerrar</span>
+          <span class="text-[10px] text-gray-500 ml-2" id="modalSubtitle">· Click fuera para cerrar</span>
         </div>
-        <button onclick="closeChartModal()" class="text-gray-500 hover:text-gray-300 text-xl">&times;</button>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1">
+            <button id="modalInt1m" onclick="switchIntervalModal('1')" class="text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300">1m</button>
+            <button id="modalInt3m" onclick="switchIntervalModal('3')" class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">3m</button>
+            <button id="modalInt15m" onclick="switchIntervalModal('15')" class="text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300">15m</button>
+            <button id="modalInt1h" onclick="switchIntervalModal('60')" class="text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300">1h</button>
+            <button id="modalInt1d" onclick="switchIntervalModal('D')" class="text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300">1d</button>
+          </div>
+          <button onclick="closeChartModal()" class="text-gray-500 hover:text-gray-300 text-xl ml-2">&times;</button>
+        </div>
       </div>
       <div id="modalChartContainer" class="h-80 sm:h-96"></div>
     </div>
@@ -719,7 +736,7 @@ document.querySelectorAll('.range-btn').forEach(function(b) {
 var chartState = {
   ONDO: { interval: '3', symbol: 'ONDOUSDT', charts: {} },
   MEGA: { interval: '3', symbol: 'MEGAUSDT', charts: {} },
-  BTC: { interval: '3', symbol: 'BTCUSDT', charts: {} }
+  THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} }
 };
 
 function createCandleChart(containerId, candles, isModal) {
@@ -819,13 +836,66 @@ async function switchInterval(sym, interval) {
   }
 }
 
+async function switchThirdChart(sym) {
+  var symMap = {
+    'BTC': 'BTCUSDT', 'ZEN': 'ZENUSDT', 'PENDLE': 'PENDLEUSDT',
+    'WLFI': 'WLFIUSDT', 'CHILLGUY': 'CHILLGUYUSDT', 'AXL': 'AXLUSDT',
+    'ZEREBRO': 'ZEREBROUSDT'
+  };
+  chartState.THIRD.symbol = symMap[sym] || 'BTCUSDT';
+  chartState.THIRD.interval = '3';
+  
+  // Reset interval buttons
+  var btns = document.querySelectorAll('.interval-btn[data-sym="THIRD"]');
+  btns.forEach(function(b) {
+    b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn';
+    if (b.getAttribute('data-int') === '3') {
+      b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active';
+    }
+  });
+  
+  await loadCandles('THIRD', '3', 'thirdChartContainer', false);
+}
+
 async function enlargeChart(sym) {
   document.getElementById('chartModal').classList.remove('hidden');
   document.getElementById('modalTitle').textContent = sym;
   var int = chartState[sym].interval;
-  var intLabel = int === '1' ? '1m' : int === '3' ? '3m' : int === '15' ? '15m' : int === '60' ? '1h' : '1d';
-  document.getElementById('modalSubtitle').textContent = intLabel + ' · Click fuera para cerrar';
+  // Update modal interval buttons
+  ['1','3','15','60','D'].forEach(function(i) {
+    var btn = document.getElementById('modalInt' + (i === '60' ? '1h' : i === 'D' ? '1d' : i + 'm'));
+    if (btn) btn.className = 'text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300';
+  });
+  var activeId = 'modalInt' + (int === '60' ? '1h' : int === 'D' ? '1d' : int + 'm');
+  var activeBtn = document.getElementById(activeId);
+  if (activeBtn) activeBtn.className = 'text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300';
+  
   await loadCandles(sym, int, 'modalChartContainer', true);
+}
+
+async function switchIntervalModal(interval) {
+  var sym = document.getElementById('modalTitle').textContent;
+  chartState[sym].interval = interval;
+  
+  // Update button styles
+  ['1','3','15','60','D'].forEach(function(i) {
+    var btn = document.getElementById('modalInt' + (i === '60' ? '1h' : i === 'D' ? '1d' : i + 'm'));
+    if (btn) btn.className = 'text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300';
+  });
+  var activeId = 'modalInt' + (interval === '60' ? '1h' : interval === 'D' ? '1d' : interval + 'm');
+  var activeBtn = document.getElementById(activeId);
+  if (activeBtn) activeBtn.className = 'text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300';
+  
+  // Also sync the mini chart interval button
+  var miniBtns = document.querySelectorAll('.interval-btn[data-sym="' + sym + '"]');
+  miniBtns.forEach(function(b) {
+    b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn';
+    if (b.getAttribute('data-int') === interval) {
+      b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active';
+    }
+  });
+  
+  await loadCandles(sym, interval, 'modalChartContainer', true);
 }
 
 function closeChartModal(e) {
@@ -838,7 +908,7 @@ async function updateMiniCharts() {
   await Promise.all([
     loadCandles('ONDO', chartState.ONDO.interval, 'ondoChartContainer', false),
     loadCandles('MEGA', chartState.MEGA.interval, 'megaChartContainer', false),
-    loadCandles('BTC', chartState.BTC.interval, 'btcChartContainer', false),
+    loadCandles('THIRD', chartState.THIRD.interval, 'thirdChartContainer', false),
   ]);
 }
 
