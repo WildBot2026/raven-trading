@@ -525,15 +525,18 @@ async function updatePositions(d) {
   }
   count.textContent = d.positions.length;
 
-  // Fetch live prices from Bybit
-  var syms = [...new Set(d.positions.map(function(p) { return p.symbol + 'USDT'; }))].join(',');
+  // Fetch live prices from Bybit (fetch all tickers, filter by positions)
   var livePrices = {};
   try {
-    var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + syms);
+    var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
     var j = await r.json();
     if (j.retCode === 0 && j.result && j.result.list) {
+      var posSyms = new Set(d.positions.map(function(p) { return p.symbol; }));
       j.result.list.forEach(function(t) {
-        livePrices[t.symbol.replace('USDT', '')] = parseFloat(t.lastPrice);
+        var sym = t.symbol.replace('USDT', '');
+        if (posSyms.has(sym)) {
+          livePrices[sym] = parseFloat(t.lastPrice);
+        }
       });
     }
   } catch(e) { console.log('Live price fetch failed:', e); }
