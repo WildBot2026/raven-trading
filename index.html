@@ -130,7 +130,32 @@
         <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-[0.5px]">Posiciones Abiertas</h3>
         <span class="text-[10px] text-gray-600 ml-auto" id="posCount">0</span>
       </div>
-      <div id="positionsList"></div>
+      
+  <!-- MINI CHARTS: 3-min candles -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">ONDO 3m</span>
+        <span class="text-[10px] text-indigo-300 font-medium" id="ondoMiniPrice">—</span>
+      </div>
+      <div class="h-16"><canvas id="ondoMiniChart"></canvas></div>
+    </div>
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">MEGA 3m</span>
+        <span class="text-[10px] text-indigo-300 font-medium" id="megaMiniPrice">—</span>
+      </div>
+      <div class="h-16"><canvas id="megaMiniChart"></canvas></div>
+    </div>
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">BTC 3m</span>
+        <span class="text-[10px] text-indigo-300 font-medium" id="btcMiniPrice">—</span>
+      </div>
+      <div class="h-16"><canvas id="btcMiniChart"></canvas></div>
+    </div>
+  </div>
+<div id="positionsList"></div>
 
       <div class="mt-4 pt-4 border-t border-gray-800">
         <div class="flex items-center gap-2 mb-3">
@@ -198,6 +223,9 @@
 
 <script>
 let capitalChart = null;
+let ondoMiniChart = null;
+let megaMiniChart = null;
+let btcMiniChart = null;
 let currentRange = 15;
 
 function fmtDollars(v) {
@@ -645,6 +673,76 @@ document.querySelectorAll('.range-btn').forEach(function(b) {
   });
 });
 
+async function updateMiniCharts() {
+  const symbols = ['ONDOUSDT','MEGAUSDT','BTCUSDT'];
+  const ids = ['ondo','mega','btc'];
+  const charts = [ondoMiniChart, megaMiniChart, btcMiniChart];
+  const chartSetters = [function(v){ondoMiniChart=v;}, function(v){megaMiniChart=v;}, function(v){btcMiniChart=v;}];
+
+  for (let i = 0; i < symbols.length; i++) {
+    try {
+      const r = await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol=' + symbols[i] + '&interval=3&limit=30');
+      const j = await r.json();
+      const candles = (j.result?.list || []).reverse();
+      if (candles.length < 2) continue;
+
+      const labels = candles.map(function(c) {
+        var d = new Date(parseInt(c[0]));
+        return d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
+      });
+      const prices = candles.map(function(c) { return parseFloat(c[4]); });
+      const lastPrice = prices[prices.length - 1];
+      const firstPrice = prices[0];
+      const wentUp = lastPrice >= firstPrice;
+      const lineColor = wentUp ? '#4ade80' : '#f87171';
+
+      // Update price display
+      document.getElementById(ids[i] + 'MiniPrice').textContent = '$' + lastPrice.toFixed(lastPrice < 0.1 ? 5 : 2);
+
+      // Get canvas
+      var canvas = document.getElementById(ids[i] + 'MiniChart');
+      if (!canvas) continue;
+      var ctx = canvas.getContext('2d');
+
+      // Destroy old chart
+      if (charts[i]) { charts[i].destroy(); }
+
+      // Create new mini chart
+      var grad = ctx.createLinearGradient(0, 0, 0, 50);
+      grad.addColorStop(0, wentUp ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)');
+      grad.addColorStop(1, 'rgba(74,222,128,0.01)');
+
+      chartSetters[i](new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: prices,
+            borderColor: lineColor,
+            backgroundColor: grad,
+            borderWidth: 1.5,
+            pointRadius: 0,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          scales: {
+            x: { display: false },
+            y: { display: false }
+          },
+          animation: { duration: 200 }
+        }
+      }));
+    } catch(e) {
+      console.log('Mini chart ' + ids[i] + ' failed:', e);
+    }
+  }
+}
+
 async function refresh() {
   try {
     const d = await fetchData();
@@ -657,6 +755,7 @@ async function refresh() {
     updateTrades(d);
     updateWatch(d);
     updateChart(d);
+    updateMiniCharts();
   } catch(e) {
     console.error(e);
     document.getElementById('lastUpdate').innerHTML = '&#x274C; Error';
