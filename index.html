@@ -760,7 +760,9 @@ function setRange(days) {
     var isActive = (b.dataset.days === 'all' && days >= 9999) || (b.dataset.days !== 'all' && parseInt(b.dataset.days) === days);
     b.className = isActive ? 'range-btn text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 active' : 'range-btn text-[9px] px-2 py-0.5 rounded bg-gray-800 text-gray-500 border border-gray-700 hover:border-indigo-500 hover:text-gray-200';
   });
-  refresh();
+  // Initial load
+refresh();
+setTimeout(function() { switchThirdChart('BTC'); }, 500);
 }
 
 // Chart state
@@ -1026,7 +1028,9 @@ async function refresh() {
 }
 
 setInterval(refresh, 15000);
+// Initial load
 refresh();
+setTimeout(function() { switchThirdChart('BTC'); }, 500);
 </script>
 </body>
 </html>
