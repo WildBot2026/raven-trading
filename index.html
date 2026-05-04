@@ -306,8 +306,8 @@ async function fetchData() {
 
     // Recalcular capital total con precios vivos
     if (d.wallets) {
-      const wild = { capital: d.accounts?.WILD?.startCapital || 0 };
-      const joako = { capital: d.accounts?.JOAKO?.startCapital || 0 };
+      const wild = { capital: 0 };
+      const joako = { capital: 0 };
       
       for (const w of d.wallets) {
         w.value = w.quantity * (w.price || 0);

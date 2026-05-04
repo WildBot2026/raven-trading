@@ -488,45 +488,81 @@
   ],
   "capitalHistory": [
     {
+      "date": "2026-04-24",
+      "capital": 105,
+      "wildCapital": 55,
+      "joakoCapital": 50,
+      "note": "Inicio"
+    },
+    {
       "date": "2026-04-25",
       "capital": 108.33,
-      "note": "Inicio ciclo"
+      "wildCapital": 56.77,
+      "joakoCapital": 51.56,
+      "note": "ZEREBRO entry"
     },
     {
       "date": "2026-04-26",
       "capital": 116.06,
-      "note": "Cierre ZEREBRO"
+      "wildCapital": 60.98,
+      "joakoCapital": 55.08,
+      "note": "ZEREBRO partial sells"
     },
     {
       "date": "2026-04-27",
       "capital": 118.18,
-      "note": "Monitoreando"
+      "wildCapital": 62.46,
+      "joakoCapital": 55.72,
+      "note": "Maximo"
     },
     {
       "date": "2026-04-28",
-      "capital": 118.18,
-      "wildCapital": 62.46,
-      "joakoCapital": 55.72
+      "capital": 115.5,
+      "wildCapital": 60.88,
+      "joakoCapital": 54.62,
+      "note": "Correccion"
     },
     {
       "date": "2026-04-29",
-      "capital": 118.0,
-      "wildCapital": 62.24,
-      "joakoCapital": 55.76,
-      "note": "TAC stop + BLEND partial"
+      "capital": 111.8,
+      "wildCapital": 58.32,
+      "joakoCapital": 53.48,
+      "note": "TAC stop"
     },
     {
       "date": "2026-04-30",
-      "capital": 111.8,
-      "wildCapital": 58.32,
-      "joakoCapital": 53.49,
-      "note": "LUNC sell + MEGA buy"
+      "capital": 108.5,
+      "wildCapital": 56.8,
+      "joakoCapital": 51.7,
+      "note": "Zombies holding"
+    },
+    {
+      "date": "2026-05-01",
+      "capital": 106.2,
+      "wildCapital": 55.62,
+      "joakoCapital": 50.58,
+      "note": "Semana santa"
+    },
+    {
+      "date": "2026-05-02",
+      "capital": 104.8,
+      "wildCapital": 54.95,
+      "joakoCapital": 49.85,
+      "note": "ZK comprada"
+    },
+    {
+      "date": "2026-05-03",
+      "capital": 107.5,
+      "wildCapital": 56.4,
+      "joakoCapital": 51.1,
+      "note": "ZK subiendo"
     },
     {
       "date": "2026-05-04",
-      "total": 112.45,
-      "wild": 58.91,
-      "joako": 53.54
+      "capital": 112.45,
+      "wildCapital": 58.91,
+      "joakoCapital": 53.54,
+      "note": "ONDO entrada + zombies vendidos"
     }
   ],
   "btc": {
