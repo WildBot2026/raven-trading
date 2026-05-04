@@ -405,24 +405,30 @@ function updateWallets(d) {
   if (wild.length) {
     rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-purple-400 font-semibold tracking-[0.5px]">═══ WILD ═══</td></tr>';
     wild.forEach(function(w) {
+      var coin = w.symbol || w.coin || '—';
+      var qty = w.quantity || w.amount || 0;
+      var val = w.value || w.valueUSDT || 0;
       rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
         '<td class="py-1.5 pr-2">' + accountTag('WILD') + '</td>' +
-        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + w.coin + '</td>' +
-        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(w.amount) + '</td>' +
-        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(w.valueUSDT) + '</td></tr>';
-      totalVal += w.valueUSDT;
+        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + coin + '</td>' +
+        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(qty) + '</td>' +
+        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(val) + '</td></tr>';
+      totalVal += val;
     });
   }
 
   if (joako.length) {
     rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-blue-400 font-semibold tracking-[0.5px]">═══ JOAKO ═══</td></tr>';
     joako.forEach(function(w) {
+      var coin = w.symbol || w.coin || '—';
+      var qty = w.quantity || w.amount || 0;
+      var val = w.value || w.valueUSDT || 0;
       rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
         '<td class="py-1.5 pr-2">' + accountTag('JOAKO') + '</td>' +
-        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + w.coin + '</td>' +
-        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(w.amount) + '</td>' +
-        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(w.valueUSDT) + '</td></tr>';
-      totalVal += w.valueUSDT;
+        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + coin + '</td>' +
+        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(qty) + '</td>' +
+        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(val) + '</td></tr>';
+      totalVal += val;
     });
   }
 

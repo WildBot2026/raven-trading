@@ -241,6 +241,60 @@
   ],
   "trades": [
     {
+      "date": "2026-05-04 07:34",
+      "symbol": "AMI",
+      "side": "Sell",
+      "price": 0.00525,
+      "qty": 3044,
+      "pnl": -15.47,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-05-04 07:34",
+      "symbol": "BLEND",
+      "side": "Sell",
+      "price": 0.114,
+      "qty": 73,
+      "pnl": -0.37,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-05-04 07:34",
+      "symbol": "BLEND",
+      "side": "Sell",
+      "price": 0.114,
+      "qty": 80,
+      "pnl": -0.41,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-05-04 07:42",
+      "symbol": "A8",
+      "side": "Sell",
+      "price": 0.001,
+      "qty": 1619,
+      "pnl": 0,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-05-04 08:38",
+      "symbol": "ONDO",
+      "side": "Buy",
+      "price": 0.3115,
+      "qty": 121.7,
+      "pnl": 0,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-05-04 08:38",
+      "symbol": "ONDO",
+      "side": "Buy",
+      "price": 0.3115,
+      "qty": 88.2,
+      "pnl": 0,
+      "account": "JOAKO"
+    },
+    {
       "date": "2026-04-26",
       "symbol": "ZEREBRO",
       "side": "Sell",
@@ -467,6 +521,12 @@
       "wildCapital": 58.32,
       "joakoCapital": 53.49,
       "note": "LUNC sell + MEGA buy"
+    },
+    {
+      "date": "2026-05-04",
+      "total": 112.45,
+      "wild": 58.91,
+      "joako": 53.54
     }
   ],
   "btc": {
