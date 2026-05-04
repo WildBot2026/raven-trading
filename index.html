@@ -516,7 +516,7 @@ function updateWallets(d) {
   totalEl.textContent = totalVal.toFixed(2) + ' USDT';
 }
 
-function updatePositions(d) {
+async function updatePositions(d) {
   const list = document.getElementById('positionsList');
   const count = document.getElementById('posCount');
   if (!d.positions || d.positions.length === 0) {
@@ -525,29 +525,44 @@ function updatePositions(d) {
     return;
   }
   count.textContent = d.positions.length;
+
+  // Fetch live prices from Bybit
+  var syms = d.positions.map(function(p) { return p.symbol + 'USDT'; }).join(',');
+  var livePrices = {};
+  try {
+    var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + syms);
+    var j = await r.json();
+    if (j.retCode === 0 && j.result && j.result.list) {
+      j.result.list.forEach(function(t) {
+        livePrices[t.symbol.replace('USDT', '')] = parseFloat(t.lastPrice);
+      });
+    }
+  } catch(e) { console.log('Live price fetch failed:', e); }
+
   var html = '<div class="space-y-2 scroll-table-sm max-h-[280px]">';
   d.positions.forEach(function(p) {
-    var pnlPct = p.pnlPct || 0;
+    var livePrice = livePrices[p.symbol] || p.currentPrice || 0;
+    var livePnl = (livePrice - p.entryPrice) * p.qty;
+    var livePnlPct = p.entryPrice > 0 ? ((livePrice / p.entryPrice - 1) * 100) : 0;
+    
     html += '<div class="rounded-lg bg-gray-800/40 border border-gray-800 p-2.5">' +
       '<div class="flex items-center justify-between mb-1">' +
       '<div class="flex items-center gap-1.5">' +
       '<span class="text-sm font-bold text-gray-100">' + p.symbol + '</span>' +
       accountTag(p.account) +
-      '<span class="text-xs ' + pnlClass(pnlPct) + '">' + fmtPct(pnlPct) + '</span>' +
+      '<span class="text-xs ' + pnlClass(livePnlPct) + '">' + fmtPct(livePnlPct) + '</span>' +
       '</div>' +
-      '<span class="text-xs text-indigo-300 font-semibold">' + fmtDollars(p.pnl) + '</span>' +
+      '<span class="text-xs text-indigo-300 font-semibold">' + fmtDollars(livePnl) + '</span>' +
       '</div>' +
-      '<div class="grid grid-cols-2 gap-1 text-[10px]">' +
+      '<div class="grid grid-cols-3 gap-1 text-[10px]">' +
       '<div><span class="text-gray-500">Entry:</span> <span class="text-gray-300 font-medium">' + fmtDollars(p.entryPrice) + '</span></div>' +
       '<div><span class="text-gray-500">Qty:</span> <span class="text-gray-300 font-medium">' + fmtQty(p.qty) + '</span></div>' +
-      '<div><span class="text-gray-500">Stop:</span> <span class="text-red-400 font-medium">' + fmtDollars(p.stop) + ' (-4.5%)</span></div>' +
-      '<div><span class="text-gray-500">Actual:</span> <span class="live-price text-gray-300 font-medium" data-symbol="' + p.symbol + '">' + fmtDollars(p.currentPrice) + '</span></div>' +
-      '</div>' +
-      '<div class="flex justify-between items-center mt-1.5 pt-1.5 border-t border-gray-800/50">' +
-      '<div class="flex flex-wrap gap-1.5 text-[9px]">' +
-      '<span class="text-green-400">🎯 +8%: <strong>' + fmtDollars(p.target8) + '</strong></span>' +
-      '<span class="text-green-500">🎯 +15%: <strong>' + fmtDollars(p.target15) + '</strong></span>' +
-      '<span class="text-green-600">🎯 +25%: <strong>' + fmtDollars(p.target25) + '</strong></span>' +
+      '<div><span class="text-gray-500">Stop:</span> <span class="text-red-400 font-medium">' + fmtDollars(p.stop) + '</span></div>' +
+      '<div class="col-span-3"><span class="text-gray-500">Actual:</span> <span class="font-medium ' + pnlClass(livePnlPct) + '">' + fmtDollars(livePrice) + '</span>' +
+      ' <span class="text-gray-500">| Targets:</span>' +
+      ' <span class="text-green-400">+8% <strong>' + fmtDollars(p.target8) + '</strong></span>' +
+      ' <span class="text-green-500">+15% <strong>' + fmtDollars(p.target15) + '</strong></span>' +
+      ' <span class="text-green-600">+25% <strong>' + fmtDollars(p.target25) + '</strong></span>' +
       '</div>' +
       '</div>' +
       '</div>';
@@ -941,8 +956,7 @@ async function refresh() {
     updateTopBar(d);
     updateAccountCards(d);
     updateWallets(d);
-    updatePositions(d);
-    updateLivePrices(d);
+    await updatePositions(d);
     updateStrategy(d);
     updateTrades(d);
     updateWatch(d);
