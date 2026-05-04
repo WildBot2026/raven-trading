@@ -525,21 +525,37 @@ async function updatePositions(d) {
   }
   count.textContent = d.positions.length;
 
-  // Fetch live prices from Bybit (fetch all tickers, filter by positions)
+  // Fetch live prices: try WebSocket state first, then REST fallback
   var livePrices = {};
   try {
-    var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
-    var j = await r.json();
-    if (j.retCode === 0 && j.result && j.result.list) {
-      var posSyms = new Set(d.positions.map(function(p) { return p.symbol; }));
-      j.result.list.forEach(function(t) {
-        var sym = t.symbol.replace('USDT', '');
-        if (posSyms.has(sym)) {
-          livePrices[sym] = parseFloat(t.lastPrice);
+    // Try local WebSocket data (super fast)
+    var wsR = await fetch('ticker_live.json?_=' + Date.now());
+    var wsJ = await wsR.json();
+    if (wsJ.prices) {
+      d.positions.forEach(function(p) {
+        if (wsJ.prices[p.symbol] && wsJ.prices[p.symbol].price) {
+          livePrices[p.symbol] = wsJ.prices[p.symbol].price;
         }
       });
     }
-  } catch(e) { console.log('Live price fetch failed:', e); }
+  } catch(e) { /* WS file not available, fall through */ }
+  
+  // Fallback to REST if WS didn't have all prices
+  var missing = d.positions.filter(function(p) { return livePrices[p.symbol] === undefined; });
+  if (missing.length > 0) {
+    try {
+      var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
+      var j = await r.json();
+      if (j.retCode === 0 && j.result && j.result.list) {
+        j.result.list.forEach(function(t) {
+          var sym = t.symbol.replace('USDT', '');
+          if (livePrices[sym] === undefined && missing.some(function(p) { return p.symbol === sym; })) {
+            livePrices[sym] = parseFloat(t.lastPrice);
+          }
+        });
+      }
+    } catch(e) { console.log('REST fallback failed:', e); }
+  }
 
   var html = '<div class="space-y-2 scroll-table-sm max-h-[280px]">';
   d.positions.forEach(function(p) {
