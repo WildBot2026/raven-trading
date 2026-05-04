@@ -134,21 +134,21 @@
       
   <!-- MINI CHARTS: Candlestick -->
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow" id="chartWrap1">
       <div class="flex items-center justify-between mb-1.5">
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase">ONDO</span>
-          <span class="text-[10px] font-medium text-indigo-300" id="ondoMiniPrice">—</span>
+          <span class="text-[10px] font-semibold text-gray-300 uppercase" id="chartLabel1">--</span>
+          <span class="text-[10px] font-medium text-green-400" id="chartMiniPrice1">—</span>
         </div>
-        <div class="flex gap-1">
-          <button onclick="switchInterval('ONDO','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="1">1m</button>
-          <button onclick="switchInterval('ONDO','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="ONDO" data-int="3">3m</button>
-          <button onclick="switchInterval('ONDO','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="15">15m</button>
-          <button onclick="switchInterval('ONDO','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="60">1h</button>
-          <button onclick="switchInterval('ONDO','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="D">1d</button>
+        <div class="flex gap-1" id="chartBtns1">
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="1">1m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART1" data-int="3">3m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="15">15m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="60">1h</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="D">1d</button>
         </div>
       </div>
-      <!-- removed old container -->
+      <div id="chartCont1" class="h-20"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow" id="chartWrap2">
       <div class="flex items-center justify-between mb-1.5">
@@ -526,7 +526,7 @@ async function updatePositions(d) {
   count.textContent = d.positions.length;
 
   // Fetch live prices: try WebSocket state first, then REST fallback
-  var livePrices = {};
+  window.livePrices = {};
   try {
     // Try local WebSocket data (super fast)
     var wsR = await fetch('ticker_live.json?_=' + Date.now());
@@ -534,7 +534,7 @@ async function updatePositions(d) {
     if (wsJ.prices) {
       d.positions.forEach(function(p) {
         if (wsJ.prices[p.symbol] && wsJ.prices[p.symbol].price) {
-          livePrices[p.symbol] = wsJ.prices[p.symbol].price;
+          window.livePrices[p.symbol] = wsJ.prices[p.symbol].price;
         }
       });
     }
@@ -550,7 +550,7 @@ async function updatePositions(d) {
         j.result.list.forEach(function(t) {
           var sym = t.symbol.replace('USDT', '');
           if (livePrices[sym] === undefined && missing.some(function(p) { return p.symbol === sym; })) {
-            livePrices[sym] = parseFloat(t.lastPrice);
+            window.livePrices[sym] = parseFloat(t.lastPrice);
           }
         });
       }
@@ -767,7 +767,7 @@ function setRange(days) {
 var chartState = { THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} } };
 var chartAllocs = { 1: { sym: null, loaded: false }, 2: { sym: null, loaded: false } };
 
-function updateDynamicCharts(data) {
+async function updateDynamicCharts(data) {
   if (!data) return;
   
   // Get positions sorted by value (non-USDT)
@@ -782,7 +782,7 @@ function updateDynamicCharts(data) {
     if (pos[i] && pos[i].symbol) {
       var sym = pos[i].symbol;
       label.textContent = sym;
-      document.getElementById('chartMiniPrice' + (i+1)).textContent = livePrices[sym] ? '$' + fmtPrice(livePrices[sym]) : '—';
+      document.getElementById('chartMiniPrice' + (i+1)).textContent = window.livePrices[sym] ? '$' + fmtPrice(window.livePrices[sym]) : '—';
       
       if (!chartState[sym]) {
         chartState[sym] = { interval: '3', symbol: sym + 'USDT', charts: {} };
@@ -798,7 +798,7 @@ function updateDynamicCharts(data) {
         cont.onclick = function() { enlargeChart(sym); };
         cont.style.cursor = 'pointer';
         
-        initChart(sym, 'chartCont' + (i+1), false);
+        await loadCandles(sym, '3', 'chartCont' + (i+1), false);
       }
       chartAllocs[i+1] = { sym: sym, loaded: chartAllocs[i+1] ? chartAllocs[i+1].loaded : true };
     } else {
@@ -1013,6 +1013,7 @@ async function refresh() {
     updateAccountCards(d);
     updateWallets(d);
     await updatePositions(d);
+    await updateDynamicCharts(d);
     updateStrategy(d);
     updateTrades(d);
     updateWatch(d);
