@@ -533,7 +533,7 @@ function updatePositions(d) {
       '<div><span class="text-gray-500">Entry:</span> <span class="text-gray-300 font-medium">' + fmtDollars(p.entryPrice) + '</span></div>' +
       '<div><span class="text-gray-500">Qty:</span> <span class="text-gray-300 font-medium">' + fmtQty(p.qty) + '</span></div>' +
       '<div><span class="text-gray-500">Stop:</span> <span class="text-red-400 font-medium">' + fmtDollars(p.stop) + ' (-4.5%)</span></div>' +
-      '<div><span class="text-gray-500">Actual:</span> <span class="text-gray-300 font-medium">' + fmtDollars(p.currentPrice) + '</span></div>' +
+      '<div><span class="text-gray-500">Actual:</span> <span class="live-price text-gray-300 font-medium" data-symbol="' + p.symbol + '">' + fmtDollars(p.currentPrice) + '</span></div>' +
       '</div>' +
       '<div class="flex justify-between items-center mt-1.5 pt-1.5 border-t border-gray-800/50">' +
       '<div class="flex flex-wrap gap-1.5 text-[9px]">' +
@@ -912,6 +912,30 @@ async function updateMiniCharts() {
   ]);
 }
 
+async function updateLivePrices(d) {
+  if (!d.positions || d.positions.length === 0) return;
+  var symbols = d.positions.map(function(p) { return p.symbol + 'USDT'; }).join(',');
+  try {
+    var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + symbols);
+    var j = await r.json();
+    if (j.retCode !== 0 || !j.result || !j.result.list) return;
+    j.result.list.forEach(function(t) {
+      var sym = t.symbol.replace('USDT', '');
+      var price = parseFloat(t.lastPrice);
+      var els = document.querySelectorAll('.live-price[data-symbol="' + sym + '"]');
+      els.forEach(function(el) {
+        var formatted = sym === 'BTC' ? '$' + price.toFixed(0) : 
+                       (price < 0.1 ? '$' + price.toFixed(5) : 
+                       (price < 1 ? '$' + price.toFixed(4) : 
+                       '$' + price.toFixed(2)));
+        el.textContent = formatted;
+      });
+    });
+  } catch(e) {
+    console.log('Live prices update failed:', e);
+  }
+}
+
 async function refresh() {
   try {
     const d = await fetchData();
@@ -920,6 +944,7 @@ async function refresh() {
     updateAccountCards(d);
     updateWallets(d);
     updatePositions(d);
+    updateLivePrices(d);
     updateStrategy(d);
     updateTrades(d);
     updateWatch(d);
