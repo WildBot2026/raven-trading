@@ -148,23 +148,23 @@
           <button onclick="switchInterval('ONDO','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="D">1d</button>
         </div>
       </div>
-      <div id="ondoChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('ONDO')"></div>
+      <!-- removed old container -->
     </div>
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow" id="chartWrap2">
       <div class="flex items-center justify-between mb-1.5">
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase">BILL</span>
-          <span class="text-[10px] font-medium text-indigo-300" id="megaMiniPrice">—</span>
+          <span class="text-[10px] font-semibold text-gray-300 uppercase" id="chartLabel2">--</span>
+          <span class="text-[10px] font-medium text-green-400" id="chartMiniPrice2">—</span>
         </div>
-        <div class="flex gap-1">
-          <button onclick="switchInterval('BILL','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="1">1m</button>
-          <button onclick="switchInterval('BILL','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="BILL" data-int="3">3m</button>
-          <button onclick="switchInterval('BILL','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="15">15m</button>
-          <button onclick="switchInterval('BILL','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="60">1h</button>
-          <button onclick="switchInterval('BILL','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="D">1d</button>
+        <div class="flex gap-1" id="chartBtns2">
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="1">1m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART2" data-int="3">3m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="15">15m</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="60">1h</button>
+          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="D">1d</button>
         </div>
       </div>
-      <div id="billChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('BILL')"></div>
+      <div id="chartCont2" class="h-20"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
@@ -764,11 +764,50 @@ function setRange(days) {
 }
 
 // Chart state
-var chartState = {
-  ONDO: { interval: '3', symbol: 'ONDOUSDT', charts: {} },
-  BILL: { interval: '3', symbol: 'BILLUSDT', charts: {} },
-  THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} }
-};
+var chartState = { THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} } };
+var chartAllocs = { 1: { sym: null, loaded: false }, 2: { sym: null, loaded: false } };
+
+function updateDynamicCharts(data) {
+  if (!data) return;
+  
+  // Get positions sorted by value (non-USDT)
+  var pos = (data.positions || []).filter(function(p) { return p.symbol !== 'USDT' && p.symbol !== undefined; });
+  pos.sort(function(a,b) { return (b.value||0) - (a.value||0); });
+  
+  for (var i = 0; i < 2; i++) {
+    var label = document.getElementById('chartLabel' + (i+1));
+    var cont = document.getElementById('chartCont' + (i+1));
+    if (!cont) continue;
+    
+    if (pos[i] && pos[i].symbol) {
+      var sym = pos[i].symbol;
+      label.textContent = sym;
+      document.getElementById('chartMiniPrice' + (i+1)).textContent = livePrices[sym] ? '$' + fmtPrice(livePrices[sym]) : '—';
+      
+      if (!chartState[sym]) {
+        chartState[sym] = { interval: '3', symbol: sym + 'USDT', charts: {} };
+        
+        // Wire up buttons in this slot
+        var btns = document.getElementById('chartBtns' + (i+1)).querySelectorAll('.interval-btn');
+        btns.forEach(function(b) {
+          b.onclick = function() { switchInterval(sym, b.getAttribute('data-int')); };
+          b.setAttribute('data-sym', sym);
+        });
+        
+        // Wire up click-to-enlarge
+        cont.onclick = function() { enlargeChart(sym); };
+        cont.style.cursor = 'pointer';
+        
+        initChart(sym, 'chartCont' + (i+1), false);
+      }
+      chartAllocs[i+1] = { sym: sym, loaded: chartAllocs[i+1] ? chartAllocs[i+1].loaded : true };
+    } else {
+      label.textContent = '--';
+      document.getElementById('chartMiniPrice' + (i+1)).textContent = '—';
+      cont.innerHTML = '<div class="text-center text-gray-600 text-xs mt-6">Sin posición</div>';
+    }
+  }
+}
 
 function createCandleChart(containerId, candles, isModal) {
   var container = document.getElementById(containerId);
@@ -937,8 +976,7 @@ function closeChartModal(e) {
 
 async function updateMiniCharts() {
   await Promise.all([
-    loadCandles('ONDO', chartState.ONDO.interval, 'ondoChartContainer', false),
-    loadCandles('MEGA', chartState.MEGA.interval, 'megaChartContainer', false),
+    // Dynamic charts loaded by updateDynamicCharts
     loadCandles('THIRD', chartState.THIRD.interval, 'thirdChartContainer', false),
   ]);
 }
