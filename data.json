@@ -8,14 +8,14 @@
   "accounts": {
     "WILD": {
       "capital": 58.2,
-      "startCapital": 55,
-      "startDate": "2026-04-24",
+      "startCapital": 55.0,
+      "startDate": "05/01",
       "pnl": 3.2
     },
     "JOAKO": {
       "capital": 52.47,
-      "startCapital": 50,
-      "startDate": "2026-04-24",
+      "startCapital": 50.0,
+      "startDate": "05/01",
       "pnl": 2.47
     }
   },
@@ -100,28 +100,56 @@
       "symbol": "BILL",
       "quantity": 423.6759,
       "price": 0.045552,
-      "value": 19.3
+      "value": 19.3,
+      "entryPrice": 0.04565,
+      "entryValue": 19.34,
+      "qty": 423.6759,
+      "stop": 0.04359575,
+      "target8": 0.049302,
+      "target15": 0.0524975,
+      "target25": 0.0570625
     },
     {
       "account": "WILD",
       "symbol": "ONDO",
       "quantity": 121.7082,
       "price": 0.3167,
-      "value": 38.54
+      "value": 38.54,
+      "entryPrice": 0.3112,
+      "entryValue": 37.88,
+      "qty": 121.7082,
+      "stop": 0.297196,
+      "target8": 0.336096,
+      "target15": 0.35788,
+      "target25": 0.389
     },
     {
       "account": "JOAKO",
       "symbol": "BILL",
       "quantity": 530.9685,
       "price": 0.045552,
-      "value": 24.19
+      "value": 24.19,
+      "entryPrice": 0.04565,
+      "entryValue": 24.24,
+      "qty": 530.9685,
+      "stop": 0.04359575,
+      "target8": 0.049302,
+      "target15": 0.0524975,
+      "target25": 0.0570625
     },
     {
       "account": "JOAKO",
       "symbol": "ONDO",
       "quantity": 88.1617,
       "price": 0.3163,
-      "value": 27.89
+      "value": 27.89,
+      "entryPrice": 0.3112,
+      "entryValue": 27.44,
+      "qty": 88.1617,
+      "stop": 0.297196,
+      "target8": 0.336096,
+      "target15": 0.35788,
+      "target25": 0.389
     }
   ],
   "usdtBalances": [
@@ -293,5 +321,6 @@
       "value": 24.25,
       "reason": "Momentum entry - fresh listing"
     }
-  ]
+  ],
+  "capital": 109.92
 }
