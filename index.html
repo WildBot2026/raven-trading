@@ -153,18 +153,18 @@
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase">MEGA</span>
+          <span class="text-[10px] font-semibold text-gray-300 uppercase">BILL</span>
           <span class="text-[10px] font-medium text-indigo-300" id="megaMiniPrice">—</span>
         </div>
         <div class="flex gap-1">
-          <button onclick="switchInterval('MEGA','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="1">1m</button>
-          <button onclick="switchInterval('MEGA','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="MEGA" data-int="3">3m</button>
-          <button onclick="switchInterval('MEGA','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="15">15m</button>
-          <button onclick="switchInterval('MEGA','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="60">1h</button>
-          <button onclick="switchInterval('MEGA','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="D">1d</button>
+          <button onclick="switchInterval('BILL','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="1">1m</button>
+          <button onclick="switchInterval('BILL','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="BILL" data-int="3">3m</button>
+          <button onclick="switchInterval('BILL','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="15">15m</button>
+          <button onclick="switchInterval('BILL','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="60">1h</button>
+          <button onclick="switchInterval('BILL','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BILL" data-int="D">1d</button>
         </div>
       </div>
-      <div id="megaChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('MEGA')"></div>
+      <div id="billChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('BILL')"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
@@ -766,7 +766,7 @@ function setRange(days) {
 // Chart state
 var chartState = {
   ONDO: { interval: '3', symbol: 'ONDOUSDT', charts: {} },
-  MEGA: { interval: '3', symbol: 'MEGAUSDT', charts: {} },
+  BILL: { interval: '3', symbol: 'BILLUSDT', charts: {} },
   THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} }
 };
 
