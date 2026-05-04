@@ -1,138 +1,66 @@
 {
-  "timestamp": "2026-04-30T19:27:21Z",
-  "totalCapital": 111.8,
+  "timestamp": "2026-05-04T08:55:02.989792",
+  "totalCapital": 112.45,
   "startCapital": 105,
   "startDate": "2026-04-24",
-  "pnlCycle": 6.8,
+  "pnlCycle": 7.45,
   "pnlPercent": "6.48%",
   "accounts": {
     "WILD": {
-      "capital": 58.32,
+      "capital": 58.91,
       "startCapital": 55,
       "startDate": "2026-04-24",
-      "pnl": 3.32
+      "pnl": 3.91
     },
     "JOAKO": {
-      "capital": 53.49,
+      "capital": 53.54,
       "startCapital": 50,
       "startDate": "2026-04-24",
-      "pnl": 3.49
+      "pnl": 3.54
     }
   },
   "wallets": [
     {
       "account": "WILD",
-      "coin": "BLEND",
-      "amount": 73.2612,
-      "valueUSDT": 9.54
+      "symbol": "USDT",
+      "quantity": 0.39,
+      "price": 1,
+      "value": 0.39
     },
     {
       "account": "WILD",
-      "coin": "A8",
-      "amount": 1263.735,
-      "valueUSDT": 13.0
+      "symbol": "ONDO",
+      "quantity": 121.71,
+      "price": 0.3132,
+      "value": 38.119572
     },
     {
       "account": "WILD",
-      "coin": "USDT",
-      "amount": 0.0884,
-      "valueUSDT": 0.09
-    },
-    {
-      "account": "WILD",
-      "coin": "MEGA",
-      "amount": 84.915,
-      "valueUSDT": 12.76
-    },
-    {
-      "account": "WILD",
-      "coin": "DOGE",
-      "amount": 0.5317,
-      "valueUSDT": 0.06
-    },
-    {
-      "account": "WILD",
-      "coin": "ZBT",
-      "amount": 40.7592,
-      "valueUSDT": 7.12
-    },
-    {
-      "account": "WILD",
-      "coin": "WIF",
-      "amount": 0.0075,
-      "valueUSDT": 0.0
-    },
-    {
-      "account": "WILD",
-      "coin": "TAC",
-      "amount": 0.103,
-      "valueUSDT": 0.0
-    },
-    {
-      "account": "WILD",
-      "coin": "SHIB",
-      "amount": 0.525,
-      "valueUSDT": 0.0
-    },
-    {
-      "account": "WILD",
-      "coin": "AMI",
-      "amount": 3044.5524,
-      "valueUSDT": 15.78
-    },
-    {
-      "account": "WILD",
-      "coin": "LUNC",
-      "amount": 0.832,
-      "valueUSDT": 0.0
+      "symbol": "ZK",
+      "quantity": 1163.82,
+      "price": 0.01753,
+      "value": 20.4017646
     },
     {
       "account": "JOAKO",
-      "coin": "BLEND",
-      "amount": 80.4603,
-      "valueUSDT": 10.48
+      "symbol": "USDT",
+      "quantity": 0.41,
+      "price": 1,
+      "value": 0.41
     },
     {
       "account": "JOAKO",
-      "coin": "A8",
-      "amount": 1619.379,
-      "valueUSDT": 16.66
+      "symbol": "ONDO",
+      "quantity": 88.16,
+      "price": 0.3132,
+      "value": 27.611711999999997
     },
     {
       "account": "JOAKO",
-      "coin": "USDT",
-      "amount": 0.1345,
-      "valueUSDT": 0.13
-    },
-    {
-      "account": "JOAKO",
-      "coin": "MEGA",
-      "amount": 173.826,
-      "valueUSDT": 26.13
-    },
-    {
-      "account": "JOAKO",
-      "coin": "DOGE",
-      "amount": 0.451,
-      "valueUSDT": 0.05
-    },
-    {
-      "account": "JOAKO",
-      "coin": "LUNC",
-      "amount": 0.876,
-      "valueUSDT": 0.0
-    },
-    {
-      "account": "JOAKO",
-      "coin": "ZBT",
-      "amount": 0.0481,
-      "valueUSDT": 0.01
-    },
-    {
-      "account": "JOAKO",
-      "coin": "TAC",
-      "amount": 0.146,
-      "valueUSDT": 0.0
+      "symbol": "ZK",
+      "quantity": 1455.41,
+      "price": 0.01753,
+      "value": 25.513337300000003
     }
   ],
   "strategy": {
@@ -542,7 +470,7 @@
     }
   ],
   "btc": {
-    "price": 76475.3,
-    "change": 1.26
+    "price": 79460,
+    "change": 0.96
   }
 }

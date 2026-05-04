@@ -248,12 +248,98 @@ function accountTag(account) {
 }
 
 async function fetchData() {
-  const r = await fetch('data.json?_=' + Date.now());
-  return r.json();
+  // 1. Cargar JSON estático primero (fallback si API falla)
+  let d;
+  try {
+    const r = await fetch('data.json?_=' + Date.now());
+    d = await r.json();
+  } catch(e) {
+    return null;
+  }
+
+  // 2. Intentar precios vivos desde Bybit (API pública, sin key)
+  try {
+    const symbols = ['BTCUSDT','ZKUSDT','ONDOUSDT','AXLUSDT','ZENUSDT','PENDLEUSDT','WLFIUSDT','CHILLGUYUSDT'];
+    const tickers = await Promise.all(
+      symbols.map(s => 
+        fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + s)
+          .then(r => r.json())
+          .then(j => ({ symbol: s, data: j.result?.list?.[0] }))
+          .catch(() => null)
+      )
+    );
+
+    // Actualizar precios en data.json con datos vivos
+    for (const t of tickers) {
+      if (!t || !t.data) continue;
+      const sym = t.symbol.replace('USDT', '');
+      const price = parseFloat(t.data.lastPrice);
+      const ch24 = parseFloat(t.data.price24hPcnt || 0) * 100;
+
+      // Actualizar BTC
+      if (sym === 'BTC' && d.btc) {
+        d.btc.price = price;
+        d.btc.change = ch24;
+      }
+
+      // Actualizar wallets si tienen ese token
+      if (d.wallets) {
+        for (const w of d.wallets) {
+          if (w.symbol === sym) {
+            w.price = price;
+            w.change24h = ch24;
+            w.value = w.quantity * price;
+          }
+        }
+      }
+
+      // Actualizar positions
+      if (d.positions) {
+        for (const p of d.positions.list || []) {
+          if (p.symbol === sym) {
+            p.currentPrice = price;
+            p.change24h = ch24;
+          }
+        }
+      }
+    }
+
+    // Recalcular capital total con precios vivos
+    if (d.wallets) {
+      const wild = { capital: d.accounts?.WILD?.startCapital || 0 };
+      const joako = { capital: d.accounts?.JOAKO?.startCapital || 0 };
+      
+      for (const w of d.wallets) {
+        w.value = w.quantity * (w.price || 0);
+        if (w.account === 'WILD') wild.capital += w.value;
+        else if (w.account === 'JOAKO') joako.capital += w.value;
+      }
+
+      if (d.accounts) {
+        d.accounts.WILD.capital = wild.capital;
+        d.accounts.JOAKO.capital = joako.capital;
+        d.totalCapital = wild.capital + joako.capital;
+        
+        // Recalcular P&L
+        d.accounts.WILD.pnl = wild.capital - (d.accounts.WILD.startCapital || wild.capital);
+        d.accounts.JOAKO.pnl = joako.capital - (d.accounts.JOAKO.startCapital || joako.capital);
+        d.pnlCycle = d.accounts.WILD.pnl + d.accounts.JOAKO.pnl;
+        d.pnlPercent = d.startCapital ? ((d.pnlCycle / d.startCapital) * 100).toFixed(2) : '0.00';
+      }
+    }
+
+    d.timestamp = Date.now();
+    d._livePrices = true;
+  } catch(e) {
+    console.log('Live prices not available, using static data');
+  }
+
+  return d;
 }
 
 function updateHeader(d) {
-  document.getElementById('lastUpdate').innerHTML = '🕐 ' + new Date(d.timestamp).toLocaleTimeString('es-MX');
+  const label = d._livePrices ? '🟢 En vivo' : '🕐 Datos estáticos';
+  document.getElementById('lastUpdate').innerHTML = label + ' · ' + new Date(d.timestamp).toLocaleTimeString('es-MX');
 }
 
 function updateTopBar(d) {
