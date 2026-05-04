@@ -256,14 +256,7 @@ function sideClass(side) {
   return map[side] || 'bg-gray-800 text-gray-400';
 }
 
-// function stopClass removed(stop) {
-  if (!stop) return '';
-  const s = stop.toLowerCase();
-  if (s.includes('trailing')) return 'stop-trailing';
-  if (s.includes('partial')) return 'stop-partial';
-  if (s.includes('stop')) return 'stop-loss';
-  return 'bg-gray-800 text-gray-400';
-}
+function stopClass(s) { return ''; }
 
 function accountTag(account) {
   const cls = account === 'WILD' ? 'account-wild' : 'account-joako';
