@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Raven Trading Dashboard 🦅</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -131,28 +132,69 @@
         <span class="text-[10px] text-gray-600 ml-auto" id="posCount">0</span>
       </div>
       
-  <!-- MINI CHARTS: 3-min candles -->
+  <!-- MINI CHARTS: Candlestick -->
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
-      <div class="flex items-center justify-between mb-1">
-        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">ONDO 3m</span>
-        <span class="text-[10px] text-indigo-300 font-medium" id="ondoMiniPrice">—</span>
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
+      <div class="flex items-center justify-between mb-1.5">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-semibold text-gray-300 uppercase">ONDO</span>
+          <span class="text-[10px] font-medium text-indigo-300" id="ondoMiniPrice">—</span>
+        </div>
+        <div class="flex gap-1">
+          <button onclick="switchInterval('ONDO','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="1">1m</button>
+          <button onclick="switchInterval('ONDO','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="ONDO" data-int="3">3m</button>
+          <button onclick="switchInterval('ONDO','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="15">15m</button>
+          <button onclick="switchInterval('ONDO','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="60">1h</button>
+          <button onclick="switchInterval('ONDO','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="ONDO" data-int="D">1d</button>
+        </div>
       </div>
-      <div class="h-16"><canvas id="ondoMiniChart"></canvas></div>
+      <div id="ondoChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('ONDO')"></div>
     </div>
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
-      <div class="flex items-center justify-between mb-1">
-        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">MEGA 3m</span>
-        <span class="text-[10px] text-indigo-300 font-medium" id="megaMiniPrice">—</span>
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
+      <div class="flex items-center justify-between mb-1.5">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-semibold text-gray-300 uppercase">MEGA</span>
+          <span class="text-[10px] font-medium text-indigo-300" id="megaMiniPrice">—</span>
+        </div>
+        <div class="flex gap-1">
+          <button onclick="switchInterval('MEGA','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="1">1m</button>
+          <button onclick="switchInterval('MEGA','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="MEGA" data-int="3">3m</button>
+          <button onclick="switchInterval('MEGA','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="15">15m</button>
+          <button onclick="switchInterval('MEGA','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="60">1h</button>
+          <button onclick="switchInterval('MEGA','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="MEGA" data-int="D">1d</button>
+        </div>
       </div>
-      <div class="h-16"><canvas id="megaMiniChart"></canvas></div>
+      <div id="megaChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('MEGA')"></div>
     </div>
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2 card-glow">
-      <div class="flex items-center justify-between mb-1">
-        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-[0.5px]">BTC 3m</span>
-        <span class="text-[10px] text-indigo-300 font-medium" id="btcMiniPrice">—</span>
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
+      <div class="flex items-center justify-between mb-1.5">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-semibold text-gray-300 uppercase">BTC</span>
+          <span class="text-[10px] font-medium text-indigo-300" id="btcMiniPrice">—</span>
+        </div>
+        <div class="flex gap-1">
+          <button onclick="switchInterval('BTC','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="1">1m</button>
+          <button onclick="switchInterval('BTC','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="BTC" data-int="3">3m</button>
+          <button onclick="switchInterval('BTC','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="15">15m</button>
+          <button onclick="switchInterval('BTC','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="60">1h</button>
+          <button onclick="switchInterval('BTC','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="BTC" data-int="D">1d</button>
+        </div>
       </div>
-      <div class="h-16"><canvas id="btcMiniChart"></canvas></div>
+      <div id="btcChartContainer" class="h-20 cursor-pointer" onclick="enlargeChart('BTC')"></div>
+    </div>
+  </div>
+
+  <!-- MODAL for enlarged chart -->
+  <div id="chartModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4" onclick="closeChartModal(event)">
+    <div class="rounded-xl bg-gray-900 border border-gray-700 w-full max-w-4xl p-4" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <span class="text-sm font-bold text-gray-200" id="modalTitle">ONDO</span>
+          <span class="text-[10px] text-gray-500 ml-2" id="modalSubtitle">3m · Click fuera para cerrar</span>
+        </div>
+        <button onclick="closeChartModal()" class="text-gray-500 hover:text-gray-300 text-xl">&times;</button>
+      </div>
+      <div id="modalChartContainer" class="h-80 sm:h-96"></div>
     </div>
   </div>
 <div id="positionsList"></div>
@@ -673,74 +715,131 @@ document.querySelectorAll('.range-btn').forEach(function(b) {
   });
 });
 
-async function updateMiniCharts() {
-  const symbols = ['ONDOUSDT','MEGAUSDT','BTCUSDT'];
-  const ids = ['ondo','mega','btc'];
-  const charts = [ondoMiniChart, megaMiniChart, btcMiniChart];
-  const chartSetters = [function(v){ondoMiniChart=v;}, function(v){megaMiniChart=v;}, function(v){btcMiniChart=v;}];
+// Chart state
+var chartState = {
+  ONDO: { interval: '3', symbol: 'ONDOUSDT', charts: {} },
+  MEGA: { interval: '3', symbol: 'MEGAUSDT', charts: {} },
+  BTC: { interval: '3', symbol: 'BTCUSDT', charts: {} }
+};
 
-  for (let i = 0; i < symbols.length; i++) {
-    try {
-      const r = await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol=' + symbols[i] + '&interval=3&limit=30');
-      const j = await r.json();
-      const candles = (j.result?.list || []).reverse();
-      if (candles.length < 2) continue;
+function createCandleChart(containerId, candles, isModal) {
+  var container = document.getElementById(containerId);
+  if (!container) return null;
+  container.innerHTML = '';
 
-      const labels = candles.map(function(c) {
-        var d = new Date(parseInt(c[0]));
-        return d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
-      });
-      const prices = candles.map(function(c) { return parseFloat(c[4]); });
-      const lastPrice = prices[prices.length - 1];
-      const firstPrice = prices[0];
-      const wentUp = lastPrice >= firstPrice;
-      const lineColor = wentUp ? '#4ade80' : '#f87171';
+  var chart = LightweightCharts.createChart(container, {
+    width: container.clientWidth || 200,
+    height: isModal ? 380 : 72,
+    layout: {
+      background: { type: 'solid', color: 'transparent' },
+      textColor: '#6b7280',
+      fontSize: isModal ? 10 : 7,
+    },
+    grid: { vertLines: { visible: false }, horzLines: { visible: false } },
+    crosshair: { mode: isModal ? LightweightCharts.CrosshairMode.Normal : 0 },
+    rightPriceScale: { visible: isModal, borderColor: '#1f2937' },
+    timeScale: { visible: isModal, borderColor: '#1f2937', timeVisible: isModal, secondsVisible: false },
+    handleScroll: isModal,
+    handleScale: isModal,
+  });
 
+  var series = chart.addCandlestickSeries({
+    upColor: '#4ade80',
+    downColor: '#f87171',
+    borderDownColor: '#f87171',
+    borderUpColor: '#4ade80',
+    wickDownColor: '#f87171',
+    wickUpColor: '#4ade80',
+    priceFormat: { type: 'price', minMove: 0.00001 },
+  });
+
+  series.setData(candles);
+  chart.timeScale().fitContent();
+  return chart;
+}
+
+function getBybitInterval(interval) {
+  return interval === 'D' ? 'D' : interval;
+}
+
+async function loadCandles(sym, interval, containerId, isModal) {
+  var bybitInt = interval === 'D' ? 'D' : interval;
+  var limit = isModal ? 100 : 40;
+  try {
+    var r = await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol=' + chartState[sym].symbol + '&interval=' + bybitInt + '&limit=' + limit);
+    var j = await r.json();
+    var list = (j.result?.list || []).reverse();
+    
+    var candles = list.map(function(c) {
+      return {
+        time: Math.floor(parseInt(c[0]) / 1000),
+        open: parseFloat(c[1]),
+        high: parseFloat(c[2]),
+        low: parseFloat(c[3]),
+        close: parseFloat(c[4]),
+      };
+    });
+    if (candles.length < 2) return null;
+    
+    var chart = createCandleChart(containerId, candles, isModal);
+    if (!isModal && chart) {
       // Update price display
-      document.getElementById(ids[i] + 'MiniPrice').textContent = '$' + lastPrice.toFixed(lastPrice < 0.1 ? 5 : 2);
-
-      // Get canvas
-      var canvas = document.getElementById(ids[i] + 'MiniChart');
-      if (!canvas) continue;
-      var ctx = canvas.getContext('2d');
-
-      // Destroy old chart
-      if (charts[i]) { charts[i].destroy(); }
-
-      // Create new mini chart
-      var grad = ctx.createLinearGradient(0, 0, 0, 50);
-      grad.addColorStop(0, wentUp ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)');
-      grad.addColorStop(1, 'rgba(74,222,128,0.01)');
-
-      chartSetters[i](new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            data: prices,
-            borderColor: lineColor,
-            backgroundColor: grad,
-            borderWidth: 1.5,
-            pointRadius: 0,
-            fill: true,
-            tension: 0.3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { enabled: false } },
-          scales: {
-            x: { display: false },
-            y: { display: false }
-          },
-          animation: { duration: 200 }
-        }
-      }));
-    } catch(e) {
-      console.log('Mini chart ' + ids[i] + ' failed:', e);
+      var last = candles[candles.length - 1];
+      var priceEl = document.getElementById(sym.toLowerCase() + 'MiniPrice');
+      if (priceEl) {
+        priceEl.textContent = '$' + last.close.toFixed(sym === 'BTC' ? 0 : (last.close < 0.1 ? 5 : 4));
+      }
     }
+    return chart;
+  } catch(e) {
+    console.log('Candle load error ' + sym + ':', e);
+    return null;
   }
+}
+
+async function switchInterval(sym, interval) {
+  chartState[sym].interval = interval;
+  
+  // Update button styles
+  var btns = document.querySelectorAll('.interval-btn[data-sym="' + sym + '"]');
+  btns.forEach(function(b) {
+    b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn';
+    if (b.getAttribute('data-int') === interval) {
+      b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active';
+    }
+  });
+  
+  var containerId = sym.toLowerCase() + 'ChartContainer';
+  await loadCandles(sym, interval, containerId, false);
+  
+  // Also update modal if it's showing this symbol
+  var modalSym = document.getElementById('modalTitle').textContent.trim();
+  if (modalSym === sym) {
+    await loadCandles(sym, interval, 'modalChartContainer', true);
+  }
+}
+
+async function enlargeChart(sym) {
+  document.getElementById('chartModal').classList.remove('hidden');
+  document.getElementById('modalTitle').textContent = sym;
+  var int = chartState[sym].interval;
+  var intLabel = int === '1' ? '1m' : int === '3' ? '3m' : int === '15' ? '15m' : int === '60' ? '1h' : '1d';
+  document.getElementById('modalSubtitle').textContent = intLabel + ' · Click fuera para cerrar';
+  await loadCandles(sym, int, 'modalChartContainer', true);
+}
+
+function closeChartModal(e) {
+  if (!e || e.target === document.getElementById('chartModal')) {
+    document.getElementById('chartModal').classList.add('hidden');
+  }
+}
+
+async function updateMiniCharts() {
+  await Promise.all([
+    loadCandles('ONDO', chartState.ONDO.interval, 'ondoChartContainer', false),
+    loadCandles('MEGA', chartState.MEGA.interval, 'megaChartContainer', false),
+    loadCandles('BTC', chartState.BTC.interval, 'btcChartContainer', false),
+  ]);
 }
 
 async function refresh() {
