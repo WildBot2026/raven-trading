@@ -526,7 +526,7 @@ async function updatePositions(d) {
   count.textContent = d.positions.length;
 
   // Fetch live prices from Bybit
-  var syms = d.positions.map(function(p) { return p.symbol + 'USDT'; }).join(',');
+  var syms = [...new Set(d.positions.map(function(p) { return p.symbol + 'USDT'; }))].join(',');
   var livePrices = {};
   try {
     var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + syms);
@@ -540,7 +540,7 @@ async function updatePositions(d) {
 
   var html = '<div class="space-y-2 scroll-table-sm max-h-[280px]">';
   d.positions.forEach(function(p) {
-    var livePrice = livePrices[p.symbol] || p.currentPrice || 0;
+    var livePrice = (livePrices[p.symbol] !== undefined) ? livePrices[p.symbol] : (p.currentPrice || 0);
     var livePnl = (livePrice - p.entryPrice) * p.qty;
     var livePnlPct = p.entryPrice > 0 ? ((livePrice / p.entryPrice - 1) * 100) : 0;
     
