@@ -259,7 +259,7 @@ async function fetchData() {
 
   // 2. Intentar precios vivos desde Bybit (API pública, sin key)
   try {
-    const symbols = ['BTCUSDT','ZKUSDT','ONDOUSDT','AXLUSDT','ZENUSDT','PENDLEUSDT','WLFIUSDT','CHILLGUYUSDT'];
+    const symbols = ['BTCUSDT','ZKUSDT','ONDOUSDT'];
     const tickers = await Promise.all(
       symbols.map(s => 
         fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=' + s)
@@ -269,62 +269,25 @@ async function fetchData() {
       )
     );
 
-    // Actualizar precios en data.json con datos vivos
+    // Solo actualizar precios BTC y en wallets, NO tocar capital
     for (const t of tickers) {
       if (!t || !t.data) continue;
       const sym = t.symbol.replace('USDT', '');
       const price = parseFloat(t.data.lastPrice);
       const ch24 = parseFloat(t.data.price24hPcnt || 0) * 100;
 
-      // Actualizar BTC
       if (sym === 'BTC' && d.btc) {
         d.btc.price = price;
         d.btc.change = ch24;
       }
 
-      // Actualizar wallets si tienen ese token
       if (d.wallets) {
         for (const w of d.wallets) {
           if (w.symbol === sym) {
-            w.price = price;
-            w.change24h = ch24;
-            w.value = w.quantity * price;
+            w.livePrice = price;
+            w.liveChange = ch24;
           }
         }
-      }
-
-      // Actualizar positions
-      if (d.positions) {
-        for (const p of d.positions.list || []) {
-          if (p.symbol === sym) {
-            p.currentPrice = price;
-            p.change24h = ch24;
-          }
-        }
-      }
-    }
-
-    // Recalcular capital total con precios vivos
-    if (d.wallets) {
-      const wild = { capital: 0 };
-      const joako = { capital: 0 };
-      
-      for (const w of d.wallets) {
-        w.value = w.quantity * (w.price || 0);
-        if (w.account === 'WILD') wild.capital += w.value;
-        else if (w.account === 'JOAKO') joako.capital += w.value;
-      }
-
-      if (d.accounts) {
-        d.accounts.WILD.capital = wild.capital;
-        d.accounts.JOAKO.capital = joako.capital;
-        d.totalCapital = wild.capital + joako.capital;
-        
-        // Recalcular P&L
-        d.accounts.WILD.pnl = wild.capital - (d.accounts.WILD.startCapital || wild.capital);
-        d.accounts.JOAKO.pnl = joako.capital - (d.accounts.JOAKO.startCapital || joako.capital);
-        d.pnlCycle = d.accounts.WILD.pnl + d.accounts.JOAKO.pnl;
-        d.pnlPercent = d.startCapital ? ((d.pnlCycle / d.startCapital) * 100).toFixed(2) : '0.00';
       }
     }
 
@@ -402,33 +365,34 @@ function updateWallets(d) {
   var rows = '';
   var totalVal = 0;
 
+  function walletRow(w, account) {
+    var coin = w.symbol || w.coin || '—';
+    var qty = w.quantity || w.amount || 0;
+    // Use live price if available, fallback to static price
+    var price = w.livePrice || w.price || 0;
+    var val = qty * price;
+    var chg = w.liveChange;
+    var chgHtml = chg !== undefined ? ' <span class="' + (chg >= 0 ? 'text-green-500' : 'text-red-500') + '">(' + (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%)</span>' : '';
+    return '<tr class="hover:bg-white/[0.02] transition-colors">' +
+      '<td class="py-1.5 pr-2">' + accountTag(account) + '</td>' +
+      '<td class="py-1.5 pr-2 font-medium text-gray-200">' + coin + chgHtml + '</td>' +
+      '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(qty) + '</td>' +
+      '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(val) + '</td></tr>';
+  }
+
   if (wild.length) {
     rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-purple-400 font-semibold tracking-[0.5px]">═══ WILD ═══</td></tr>';
     wild.forEach(function(w) {
-      var coin = w.symbol || w.coin || '—';
-      var qty = w.quantity || w.amount || 0;
-      var val = w.value || w.valueUSDT || 0;
-      rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
-        '<td class="py-1.5 pr-2">' + accountTag('WILD') + '</td>' +
-        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + coin + '</td>' +
-        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(qty) + '</td>' +
-        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(val) + '</td></tr>';
-      totalVal += val;
+      rows += walletRow(w, 'WILD');
+      totalVal += (w.livePrice || w.price || 0) * (w.quantity || w.amount || 0);
     });
   }
 
   if (joako.length) {
     rows += '<tr><td colspan="4" class="pt-3 pb-1 text-[9px] text-blue-400 font-semibold tracking-[0.5px]">═══ JOAKO ═══</td></tr>';
     joako.forEach(function(w) {
-      var coin = w.symbol || w.coin || '—';
-      var qty = w.quantity || w.amount || 0;
-      var val = w.value || w.valueUSDT || 0;
-      rows += '<tr class="hover:bg-white/[0.02] transition-colors">' +
-        '<td class="py-1.5 pr-2">' + accountTag('JOAKO') + '</td>' +
-        '<td class="py-1.5 pr-2 font-medium text-gray-200">' + coin + '</td>' +
-        '<td class="py-1.5 pr-2 text-right text-gray-400">' + fmtQty(qty) + '</td>' +
-        '<td class="py-1.5 text-right text-gray-300">' + fmtDollars(val) + '</td></tr>';
-      totalVal += val;
+      rows += walletRow(w, 'JOAKO');
+      totalVal += (w.livePrice || w.price || 0) * (w.quantity || w.amount || 0);
     });
   }
 
