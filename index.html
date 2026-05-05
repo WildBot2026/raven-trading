@@ -22,7 +22,7 @@ td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.03)}
 .h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
 select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
-canvas{width:100%!important;height:188px;display:block}
+canvas{width:100%!important;height:160px;display:block}
 .sort-handle{cursor:grab;opacity:0.5;font-size:14px;display:inline-block;margin-right:4px;user-select:none}
 .sort-handle:active{cursor:grabbing}
 .resize-h{cursor:ew-resize;z-index:20;position:absolute;top:0;bottom:0;width:8px}
@@ -180,7 +180,7 @@ function render(){
   h+='</div></div>';
   h+='<div class="col" id="colRight" style="flex:'+rw+'">';
   for(var ci=0;ci<3;ci++){
-    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="15">15m</option><option value="60">1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
+    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="1">1m</option><option value="3">3m</option><option value="5">5m</option><option value="15" selected>15m</option><option value="30">30m</option><option value="60">1h</option><option value="120">2h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
   }
   // Apply saved chart selections (timeframes)
   var chSaved=null;try{chSaved=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
@@ -341,7 +341,7 @@ async function fetchAndDrawCandles(id,symbol,tf){
   var can=document.getElementById(id);
   if(!can)return;
   try{
-    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval='+tf+'&limit=60');
+    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval='+tf+'&limit=200');
     var j=await r.json();
     if(j.retCode!==0||!j.result||!j.result.list)return;
     drawCandles(id,j.result.list.reverse());
@@ -351,7 +351,7 @@ async function fetchAndDrawCandles(id,symbol,tf){
 function drawCandles(id,data){
   var can=document.getElementById(id);
   if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||200,he=188;
+  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||200,he=160;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
   var pad={t:10,b:12,l:28,r:3},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
