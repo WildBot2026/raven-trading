@@ -3,18 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raven Trading</title>
-<meta http-equiv="refresh" content="0; url=https://cdn.jsdelivr.net/gh/WildBot2026/raven-trading@main/dashboard.html">
+<title>Raven Trading 🦅</title>
 <style>
-body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;text-align:center}
-a{color:#818cf8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:12px;min-height:100vh}
+.card{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:10px}
+.card h3{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.val{font-size:18px;font-weight:800}
+.green{color:#4ade80}.red{color:#f87171}.gray{color:#64748b}.indigo{color:#818cf8}
+.text-xs{font-size:11px}.text-sm{font-size:13px}.text-lg{font-size:16px}
+.mt-1{margin-top:4px}.mt-2{margin-top:8px}.mb-2{margin-bottom:8px}
+.flex{display:flex}.justify-between{justify-content:space-between}.items-center{align-items:center}
+.gap-1{gap:4px}.gap-2{gap:8px}
+.pos-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-bottom:6px}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+.tag-wild{background:rgba(129,140,248,0.15);color:#818cf8}
+.tag-joako{background:rgba(52,211,153,0.15);color:#34d399}
+.target{font-size:10px;color:#64748b}.target span{color:#4ade80;font-weight:600}
+table{width:100%;font-size:11px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.03)}
 </style>
 </head>
 <body>
-<div>
-<div style="font-size:48px;margin-bottom:12px">🦅</div>
-<p style="color:#64748b;margin-bottom:8px">Cargando Raven Trading Dashboard...</p>
-<p style="font-size:12px;color:#475569">Si no redirige automáticamente, <a href="https://cdn.jsdelivr.net/gh/WildBot2026/raven-trading@main/dashboard.html">haz clic aquí</a></p>
-</div>
+<div id="app"><div style="text-align:center;padding:40px;color:#64748b">🦅 Cargando...</div></div>
+<script>
+// ====== DATA INLINE ======
+const DATA = null;
+
+async function main(){
+  let d = DATA;
+  
+  // Try to fetch live data
+  try {
+    const r = await fetch('https://raw.githubusercontent.com/WildBot2026/raven-trading/main/data.json?_='+Date.now());
+    d = await r.json();
+  } catch(e) {
+    // Use fallback if fetch fails
+    d = {
+      "totalCapital": 106.79,
+      "startCapital": 100,
+      "pnlCycle": 6.79,
+      "pnlPercent": "6.79",
+      "accounts": {
+        "WILD": {"capital": 56.56, "startCapital": 60, "pnl": -3.44},
+        "JOAKO": {"capital": 50.23, "startCapital": 40, "pnl": 10.23}
+      },
+      "btc": {"price": 81475, "change": 2.04},
+      "positions": [
+        {"symbol":"ADA","account":"WILD","entryPrice":0.468,"qty":28.07,"stop":0.449,"target8":0.505,"target15":0.538,"target25":0.585,"currentPrice":0.468},
+        {"symbol":"BLEND","account":"JOAKO","entryPrice":0.1176,"qty":112.0,"stop":0.113,"target8":0.127,"target15":0.135,"target25":0.147,"currentPrice":0.138},
+        {"symbol":"ONDO","account":"JOAKO","entryPrice":0.3112,"qty":22.04,"stop":0.299,"target8":0.336,"target15":0.358,"target25":0.389,"currentPrice":0.309},
+        {"symbol":"ONDO","account":"WILD","entryPrice":0.3112,"qty":30.42,"stop":0.299,"target8":0.336,"target15":0.358,"target25":0.389,"currentPrice":0.309},
+        {"symbol":"TON","account":"JOAKO","entryPrice":1.823,"qty":12.72,"stop":1.750,"target8":1.969,"target15":2.096,"target25":2.279,"currentPrice":1.837},
+        {"symbol":"TON","account":"WILD","entryPrice":1.862,"qty":16.79,"stop":1.788,"target8":2.011,"target15":2.141,"target25":2.328,"currentPrice":1.837}
+      ],
+      "trades": [
+        {"date":"2026-05-04 19:06","symbol":"ATH","side":"buy","qty":2143.854,"price":0.0062,"value":13.29,"pnl":0,"account":"WILD"},
+        {"date":"2026-05-04 08:40","symbol":"ONDO","side":"buy","qty":121.7,"price":0.3112,"value":37.87,"pnl":0,"account":"WILD"},
+        {"date":"2026-05-04 08:40","symbol":"ONDO","side":"buy","qty":88.16,"price":0.3112,"value":27.44,"pnl":0,"account":"JOAKO"},
+        {"date":"2026-05-04 19:02","symbol":"BILL","side":"sell","qty":954.6,"price":0.0408,"value":38.95,"pnl":0,"account":"WILD"}
+      ]
+    };
+  }
+  
+  render(d);
+}
+
+function fmt$(n){
+  if(n===undefined||n===null)return'—';
+  if(n>=1000)return'$'+n.toFixed(0);
+  if(n>=1)return'$'+n.toFixed(2);
+  if(n>=0.01)return'$'+n.toFixed(4);
+  return'$'+n.toFixed(6);
+}
+function fmtQ(n){
+  if(!n||n===0)return'0';
+  if(n>=1000)return n.toFixed(0);
+  if(n>=1)return n.toFixed(2);
+  return n.toFixed(4);
+}
+function pnlCls(n){return n>=0?'green':'red'}
+function sideBadge(s){
+  const b=s&&s.toLowerCase();
+  return b==='buy'?'<span class="green" style="font-weight:600">BUY</span>':'<span class="red" style="font-weight:600">SELL</span>';
+}
+function acctTag(a){
+  return a==='WILD'?'<span class="tag tag-wild">WILD</span>':'<span class="tag tag-joako">JOAKO</span>';
+}
+
+function render(d){
+  let h='';
+  
+  // HEADER
+  const pnl=d.pnlCycle||0;
+  h+='<div class="card"><div class="flex justify-between items-center">';
+  h+='<div><div class="text-xs gray">Capital</div><div class="val '+(pnl>=0?'green':'red')+'">'+fmt$(d.totalCapital)+'</div></div>';
+  h+='<div style="text-align:right"><div class="text-xs gray">PNL</div><div class="val '+(pnl>=0?'green':'red')+'">'+(pnl>=0?'+':'')+fmt$(pnl)+'</div></div>';
+  h+='</div>';
+  if(d.btc){
+    h+='<div class="text-xs gray mt-1">BTC <span class="'+(d.btc.change>=0?'green':'red')+'">'+fmt$(d.btc.price)+' ('+(d.btc.change>=0?'+':'')+d.btc.change.toFixed(2)+'%)</span></div>';
+  }
+  h+='</div>';
+  
+  // ACCOUNTS
+  if(d.accounts){
+    h+='<div class="grid-2">';
+    for(const a of ['WILD','JOAKO']){
+      const ac=d.accounts[a];
+      if(!ac)continue;
+      const ap=ac.capital-ac.startCapital;
+      h+='<div class="card"><h3>'+a+'</h3><div class="val '+(ap>=0?'green':'red')+'">'+fmt$(ac.capital)+'</div>';
+      h+='<div class="text-xs mt-1">PNL: <span class="'+(ap>=0?'green':'red')+'">'+(ap>=0?'+':'')+fmt$(ap)+'</span> · Inicio: '+fmt$(ac.startCapital)+'</div></div>';
+    }
+    h+='</div>';
+  }
+  
+  // POSITIONS - NO SCROLL
+  if(d.positions&&d.positions.length){
+    h+='<div class="card"><h3>📌 Posiciones Abiertas ('+d.positions.length+')</h3>';
+    const sorted=d.positions.slice().sort((a,b)=>a.symbol.localeCompare(b.symbol));
+    sorted.forEach(function(p){
+      const lp=p.currentPrice||0;
+      const pp=(lp-p.entryPrice)*p.qty;
+      const pct=((lp/p.entryPrice)-1)*100;
+      h+='<div class="pos-card"><div class="flex justify-between items-center">';
+      h+='<div><span style="font-size:15px;font-weight:700;color:#f1f5f9">'+p.symbol+'</span> '+acctTag(p.account)+' <span class="'+(pct>=0?'green':'red')+'" style="font-size:12px;font-weight:600">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</span></div>';
+      h+='<span class="'+(pp>=0?'green':'red')+'" style="font-weight:700">'+(pp>=0?'+':'')+fmt$(pp)+'</span>';
+      h+='</div><div class="text-xs mt-1">Entry: <span style="color:#cbd5e1;font-weight:500">'+fmt$(p.entryPrice)+'</span> · Qty: '+fmtQ(p.qty);
+      h+=' · Stop: <span class="red">'+fmt$(p.stop)+'</span> · Actual: <span>'+fmt$(lp)+'</span></div>';
+      h+='<div class="target mt-1">🎯 Targets: +8% <span>'+fmt$(p.target8)+'</span> · +15% <span>'+fmt$(p.target15)+'</span> · +25% <span>'+fmt$(p.target25)+'</span></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  
+  // TRADES
+  const trades=d.trades||[];
+  h+='<div class="card"><h3>📜 Historial de Trades ('+trades.length+')</h3>';
+  if(trades.length){
+    h+='<table><thead><tr><th>Fecha</th><th>Símbolo</th><th>Tipo</th><th style="text-align:right">Precio</th><th style="text-align:right">Cant</th><th style="text-align:right">PNL</th><th>Cuenta</th></tr></thead><tbody>';
+    const rev=trades.slice().reverse();
+    rev.forEach(function(t){
+      h+='<tr><td class="gray">'+(t.date||'—')+'</td>';
+      h+='<td style="font-weight:600">'+t.symbol+'</td>';
+      h+='<td>'+sideBadge(t.side)+'</td>';
+      h+='<td style="text-align:right">'+fmt$(t.price)+'</td>';
+      h+='<td style="text-align:right">'+fmtQ(t.qty)+'</td>';
+      const tp=t.pnl||0;
+      h+='<td style="text-align:right;font-weight:600" class="'+(tp>=0?'green':'red')+'">'+(tp===0?'—':(tp>=0?'+':'')+fmt$(tp))+'</td>';
+      h+='<td>'+acctTag(t.account)+'</td></tr>';
+    });
+    h+='</tbody></table>';
+  }else{
+    h+='<div class="gray" style="text-align:center;padding:16px">Sin trades registrados</div>';
+  }
+  h+='</div>';
+  
+  document.getElementById('app').innerHTML=h;
+}
+
+main();
+</script>
 </body>
 </html>
