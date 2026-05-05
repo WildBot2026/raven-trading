@@ -22,7 +22,7 @@ td{padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px
 .h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
 select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
-canvas{width:100%!important;min-height:150px}
+canvas{width:100%!important;height:150px;display:block}
 .sort-handle{cursor:grab;opacity:0.5;font-size:14px;display:inline-block;margin-right:4px;user-select:none}
 .sort-handle:active{cursor:grabbing}
 .resize-h{cursor:ew-resize;z-index:20;position:absolute;top:0;bottom:0;width:8px}
@@ -252,40 +252,24 @@ function initVResize(){
     var item=items[idx];
     var old=item.querySelector('.resize-v');
     if(old)old.remove();
-
-    // Only in cols container, add v-resize handle
     var vh=document.createElement('div');
     vh.className='resize-v';
     vh.style.cssText='bottom:-2px;position:absolute;';
     item.style.position='relative';
     item.appendChild(vh);
-
-    var isRes=false,sY,sH;
-    vh.onmousedown=function(e,itm,id){
-      return function(ev){
-        isRes=true;sY=ev.clientY;sH=itm.offsetHeight;
-        document.body.classList.add('resizing-v');
-        document.body.style.cursor='ns-resize';document.body.style.userSelect='none';
-        ev.preventDefault();
-      };
-    }(null,item,item.getAttribute('data-id'));
-
     (function(itm,iid){
+      var res=false,sY,sH;
       vh.onmousedown=function(e){
-        isRes=true;sY=e.clientY;sH=itm.offsetHeight;
-        document.body.classList.add('resizing-v');
+        res=true;sY=e.clientY;sH=itm.offsetHeight;
         document.body.style.cursor='ns-resize';document.body.style.userSelect='none';
         e.preventDefault();
-        var dH=0;
         var mousemove=function(e2){
-          if(!isRes){document.removeEventListener('mousemove',mousemove);return;}
-          dH=e2.clientY-sY;
-          var nh=Math.max(30,sH+dH);
+          if(!res){document.removeEventListener('mousemove',mousemove);return;}
+          var nh=Math.max(30,sH+(e2.clientY-sY));
           itm.style.minHeight=nh+'px';
         };
         var mouseup=function(){
-          isRes=false;
-          document.body.classList.remove('resizing-v');
+          res=false;
           document.body.style.cursor='';document.body.style.userSelect='';
           document.removeEventListener('mousemove',mousemove);
           document.removeEventListener('mouseup',mouseup);
