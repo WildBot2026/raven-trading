@@ -98,28 +98,52 @@
       "symbol": "ATH",
       "quantity": 2143.854,
       "price": 0.006181,
-      "value": 13.25
+      "value": 13.25,
+      "entryPrice": 0.006192,
+      "qty": 2143.854,
+      "stop": 0.00591336,
+      "target8": 0.00668736,
+      "target15": 0.0071208,
+      "target25": 0.00774
     },
     {
       "account": "WILD",
       "symbol": "ONDO",
       "quantity": 121.7082,
       "price": 0.3079,
-      "value": 37.47
+      "value": 37.47,
+      "entryPrice": 0.309,
+      "qty": 121.7082,
+      "stop": 0.295095,
+      "target8": 0.33372,
+      "target15": 0.35535,
+      "target25": 0.38625
     },
     {
       "account": "JOAKO",
       "symbol": "BLEND",
       "quantity": 149.2114,
       "price": 0.11619,
-      "value": 17.34
+      "value": 17.34,
+      "entryPrice": 0.11761,
+      "qty": 149.2114,
+      "stop": 0.11231755,
+      "target8": 0.1270188,
+      "target15": 0.1352515,
+      "target25": 0.1470125
     },
     {
       "account": "JOAKO",
       "symbol": "ONDO",
       "quantity": 88.1617,
       "price": 0.3079,
-      "value": 27.15
+      "value": 27.15,
+      "entryPrice": 0.309,
+      "qty": 88.1617,
+      "stop": 0.295095,
+      "target8": 0.33372,
+      "target15": 0.35535,
+      "target25": 0.38625
     }
   ],
   "usdtBalances": [
