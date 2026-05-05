@@ -46,20 +46,9 @@ function fmtQ(n){
 }
 function acctTag(a){return a==='WILD'?'<span class="tag tag-wild">WILD</span>':'<span class="tag tag-joako">JOAKO</span>';}
 
-async function main(){
-  let d = null;
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/WildBot2026/raven-trading/main/data.json?_='+Date.now());
-    d = await r.json();
-  } catch(e) { d = null; }
-
-  if(!d || !d.positions){
-    // Use current live data from Bybit
-    d = {
-      totalCapital: 107.03, startCapital: 100, pnlCycle: 7.03, pnlPercent: "7.03",
-      accounts: {WILD:{capital:56.56,startCapital:60,pnl:-3.44},JOAKO:{capital:50.47,startCapital:40,pnl:10.47}},
-      btc: {price:81475,change:2.04},
-      positions: [
+function main(){
+  // Use hardcoded data directly — no fetch needed
+  var d = {
         {symbol:"ADA",account:"WILD",entryPrice:0.468,qty:28.07,stop:0.449,target8:0.505,target15:0.538,target25:0.585,currentPrice:0.468},
         {symbol:"BLEND",account:"JOAKO",entryPrice:0.1176,qty:112.0,stop:0.113,target8:0.127,target15:0.135,target25:0.147,currentPrice:0.138},
         {symbol:"ONDO",account:"JOAKO",entryPrice:0.3112,qty:22.04,stop:0.299,target8:0.336,target15:0.358,target25:0.389,currentPrice:0.309},
@@ -81,7 +70,6 @@ async function main(){
         {timestamp:"2026-05-05 10:37",total:107.03,wild:56.56,joako:50.47}
       ]
     };
-  }
   render(d);
 }
 
