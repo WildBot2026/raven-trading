@@ -803,16 +803,32 @@ function updateTrades(d) {
 function updateWatch(d) {
   const grid = document.getElementById('watchCoinsGrid');
   const empty = document.getElementById('watchEmpty');
-
-  if (!d.watchCoins || d.watchCoins.length === 0) {
-    grid.innerHTML = '';
-    empty.classList.remove('hidden');
+  empty.classList.add('hidden');
+  
+  // Use positions + BTC + any watchCoins from JSON
+  var coins = [];
+  if (d.btc) coins.push({ symbol: 'BTC', price: d.btc.price || 0, change: d.btc.change || 0, signal: d.btc.signal || '' });
+  if (d.positions) {
+    // Deduplicate by symbol
+    var seen = {};
+    d.positions.forEach(function(p) {
+      if (p.symbol !== 'USDT' && !seen[p.symbol]) {
+        seen[p.symbol] = true;
+        var entry = p.entryPrice || 0;
+        var cur = p.price || 0;
+        var ch = entry > 0 ? ((cur / entry - 1) * 100) : 0;
+        coins.push({ symbol: p.symbol, price: cur, change: ch, signal: (ch > 8 ? 'Target +8%' : ch < -3 ? 'Watch stop' : '') });
+      }
+    });
+  }
+  
+  if (coins.length === 0) {
+    grid.innerHTML = '<div class="text-center py-8 text-gray-600 text-xs">Sin monitoreo</div>';
     return;
   }
-  empty.classList.add('hidden');
-
+  
   var html = '';
-  d.watchCoins.forEach(function(c) {
+  coins.forEach(function(c) {
     var chCls = c.change >= 0 ? 'text-green-400' : 'text-red-400';
     html += '<div class="rounded-lg bg-gray-800/40 border border-gray-800 p-2.5 text-center hover:border-gray-700 transition-all">' +
       '<div class="text-sm font-bold text-gray-100">' + c.symbol + '</div>' +
