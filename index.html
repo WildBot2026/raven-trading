@@ -59,10 +59,16 @@ var d = {
     {s:"TON",a:"WILD",e:1.862,q:16.79,st:1.788,t8:2.011,t15:2.141,t25:2.328,pr:1.837}
   ],
   tr: [
-    {d:"05-04 19:06",s:"ATH",sd:"buy",q:2143.854,p:0.0062,v:13.29,pl:0,ac:"WILD"},
-    {d:"05-04 08:40",s:"ONDO",sd:"buy",q:121.7,p:0.3112,v:37.87,pl:0,ac:"WILD"},
-    {d:"05-04 08:40",s:"ONDO",sd:"buy",q:88.16,p:0.3112,v:27.44,pl:0,ac:"JOAKO"},
-    {d:"05-04 19:02",s:"BILL",sd:"sell",q:954.6,p:0.0408,v:38.95,pl:0,ac:"WILD"}
+    {d:'05-05 11:12',s:'TAC',sd:'sell',q:0.146,ac:'JOAKO'},
+    {d:'05-05 08:16',s:'MEGA',sd:'sell',q:0.0114,ac:'WILD'},
+    {d:'05-05 08:16',s:'MEGA',sd:'sell',q:0.0083,ac:'JOAKO'},
+    {d:'05-05 07:54',s:'A8',sd:'sell',q:0.095,ac:'JOAKO'},
+    {d:'05-05 07:33',s:'BLEND',sd:'sell',q:37.3,ac:'JOAKO'},
+    {d:'05-05 07:32',s:'LUNC',sd:'sell',q:0.219,ac:'JOAKO'},
+    {d:'05-05 06:17',s:'TON',sd:'sell',q:4.19,ac:'WILD'},
+    {d:'05-05 06:17',s:'TON',sd:'sell',q:3.11,ac:'JOAKO'},
+    {d:'05-05 06:13',s:'BILL',sd:'sell',q:0.076,ac:'WILD'},
+    {d:'05-05 06:13',s:'BILL',sd:'sell',q:0.069,ac:'JOAKO'}
   ],
   allCoins: []
 };
@@ -174,10 +180,10 @@ function render(){
   h+='<div class="layout-item" data-id="trades" style="'+(heights.trades?'min-height:'+heights.trades+'px':'')+'">';
   h+='<div class="c" style="padding:3px 6px"><div class="h3"><span class="sort-handle">⠿</span>📜 Trades ('+d.tr.length+')</div>';
   if(d.tr.length){
-    h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Pr.</th><th style="text-align:right">Q</th><th>Cta</th></tr></thead><tbody>';
+    h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Q</th><th>Cta</th></tr></thead><tbody>';
     for(var i=d.tr.length-1;i>=0;i--){
       var t=d.tr[i];
-      h+='<tr><td class="gr">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+$(t.p)+'</td><td style="text-align:right">'+q(t.q)+'</td><td>'+at(t.ac)+'</td></tr>';
+      h+='<tr><td class="gr">'+(t.d||'—')+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+q(t.q)+'</td><td>'+at(t.ac)+'</td></tr>';
     }
     h+='</tbody></table>';
   }
