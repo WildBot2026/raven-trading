@@ -39,7 +39,7 @@ canvas{width:100%!important;height:160px;display:block}
 .layout-cols{display:flex;gap:5px}
 .layout-cols>.col{flex:1;min-width:0;display:flex;flex-direction:column}
 .layout-cols>.col>.c{flex:1}
-@media(max-width:700px){.layout-cols{flex-direction:column}.t{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:700px){.layout-cols{flex-direction:column}.t{grid-template-columns:1fr 1fr}.h{grid-template-columns:1fr 1fr}.c{padding:3px 4px}}@media(max-width:480px){.t{grid-template-columns:1fr}.h{grid-template-columns:1fr}body{padding:2px}.c{padding:2px 3px}}
 </style>
 </head>
 <body>
@@ -100,14 +100,16 @@ async function fetchAllCoins(){
     }
     coins.sort(function(a,b){return a.localeCompare(b);});
     d.allCoins=coins;
-    // Update positions with live prices
     d.bc=tickers['BTCUSDT']||d.bc;
-    for(var i=0;i<d.pos.length;i++){
-      var sym=d.pos[i].s+'USDT';
-      if(tickers[sym])d.pos[i].pr=tickers[sym];
+    for(var fi=0;fi<d.pos.length;fi++){
+      var sym=d.pos[fi].s+'USDT';
+      if(tickers[sym])d.pos[fi].pr=tickers[sym];
     }
-    render();
-  }catch(e){render();}
+    populateSelects();
+    document.querySelectorAll('.cpnl').forEach(function(el,i){if(d.pos[i]){var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100;el.textContent=(pct>=0?'+':'')+Math.round(pct)+'%';el.className='cpnl '+(pct>=0?'g':'r');}});
+  }catch(e){
+    populateSelects();
+  }
 }
 
 function populateSelects(){
@@ -172,7 +174,7 @@ function render(){
   for(var i=0;i<d.pos.length;i++){
     var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
     h+='<div class="pc">';
-    h+='<span style="font-size:16px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:14px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
+    h+='<span style="font-size:16px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span class="cpnl '+(pct>=0?'g':'r')+'" style="font-size:14px;font-weight:700">'+(a>=0?'+':'')+a+'%</span>';
     h+='<div style="font-size:14px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
     h+='<div class="tg2" style="font-size:12px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
     h+='</div>';
@@ -393,7 +395,7 @@ btn.onclick=function(){
   }
 };
 
-fetchAllCoins();
+render();fetchAllCoins();
 })();
 </script>
 </body>
