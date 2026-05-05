@@ -55,7 +55,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$0.00000418</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.00000418</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.00000418</span></span>
           <span data-pct class="g" style="font-size:16px;font-weight:700">+0.00%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -73,7 +73,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$0.6054</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span style="font-size:13px;font-weight:600;color:#818cf8">$0.6054</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#818cf8">$0.6054</span></span>
           <span class="g" style="font-size:16px;font-weight:700">+0.0%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -91,7 +91,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$0.01126</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.01126</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.01126</span></span>
           <span data-pct class="g" style="font-size:16px;font-weight:700">+0.00%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -115,7 +115,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$1.988</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$1.988</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$1.988</span></span>
           <span data-pct class="g" style="font-size:16px;font-weight:700">+0.00%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -133,7 +133,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$0.00000418</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span style="font-size:13px;font-weight:600;color:#818cf8">$0.00000418</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#818cf8">$0.00000418</span></span>
           <span class="g" style="font-size:16px;font-weight:700">+0.0%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -151,7 +151,7 @@ table{width:100%;border-collapse:collapse}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600">$0.03228</span></span>
-          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Act</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.03228</span></span>
+          <span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act style="font-size:13px;font-weight:600;color:#818cf8">$0.03228</span></span>
           <span data-pct class="g" style="font-size:16px;font-weight:700">+0.00%</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">
@@ -345,67 +345,22 @@ async function updateAllPrices(){
     for(let i=0;i<list.length;i++){
       prices[list[i].symbol]=parseFloat(list[i].lastPrice);
     }
-    // Update each position's actual price and %
-    // PEPE WILD
-    if(prices['PEPEUSDT']){
-      let p=prices['PEPEUSDT'];
-      let entries=document.querySelectorAll('[data-sym="PEPE"] [data-act]');
-      entries.forEach(function(e){
-        e.textContent='$'+p.toFixed(8);
-      });
-      let pcts=document.querySelectorAll('[data-sym="PEPE"] [data-pct]');
-      let entry=priceData['PEPEUSDT'][0];
+    // Loop through all tracked symbols
+    let syms=Object.keys(priceData);
+    for(let s=0;s<syms.length;s++){
+      let sym=syms[s];
+      let p=prices[sym];
+      if(!p)continue;
+      let entry=priceData[sym][0];
+      // Update Actual prices
+      let acts=document.querySelectorAll('[data-sym="'+sym.replace('USDT','')+'"] [data-act]');
+      let dec=sym.includes('PEPE')?8:sym.includes('PENGU')?5:sym.includes('MON')?5:sym.includes('BSB')?4:3;
+      acts.forEach(function(e){e.textContent='$'+p.toFixed(dec);});
+      // Update percentages
       let chg=(p-entry)/entry*100;
+      let pcts=document.querySelectorAll('[data-sym="'+sym.replace('USDT','')+'"] [data-pct]');
       pcts.forEach(function(e){
         e.textContent=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-        e.style.color=chg>=0?'#4ade80':'#f87171';
-      });
-    }
-    if(prices['BSBUSDT']){
-      let p=prices['BSBUSDT'];
-      let entries=document.querySelectorAll('[data-sym="BSB"] [data-act]');
-      entries.forEach(function(e){e.textContent='$'+p.toFixed(4);});
-      let pcts=document.querySelectorAll('[data-sym="BSB"] [data-pct]');
-      let entry=priceData['BSBUSDT'][0];
-      let chg=(p-entry)/entry*100;
-      pcts.forEach(function(e){
-        e.textContent=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-        e.style.color=chg>=0?'#4ade80':'#f87171';
-      });
-    }
-    if(prices['PENGUUSDT']){
-      let p=prices['PENGUUSDT'];
-      let entries=document.querySelectorAll('[data-sym="PENGU"] [data-act]');
-      entries.forEach(function(e){e.textContent='$'+p.toFixed(5);});
-      let pcts=document.querySelectorAll('[data-sym="PENGU"] [data-pct]');
-      let entry=priceData['PENGUUSDT'][0];
-      let chg=(p-entry)/entry*100;
-      pcts.forEach(function(e){
-        e.textContent=(chg>=0?'':'')+chg.toFixed(2)+'%';
-        e.style.color=chg>=0?'#4ade80':'#f87171';
-      });
-    }
-    if(prices['TONUSDT']){
-      let p=prices['TONUSDT'];
-      let entries=document.querySelectorAll('[data-sym="TON"] [data-act]');
-      entries.forEach(function(e){e.textContent='$'+p.toFixed(3);});
-      let pcts=document.querySelectorAll('[data-sym="TON"] [data-pct]');
-      let entry=priceData['TONUSDT'][0];
-      let chg=(p-entry)/entry*100;
-      pcts.forEach(function(e){
-        e.textContent=(chg>=0?'':'')+chg.toFixed(2)+'%';
-        e.style.color=chg>=0?'#4ade80':'#f87171';
-      });
-    }
-    if(prices['MONUSDT']){
-      let p=prices['MONUSDT'];
-      let entries=document.querySelectorAll('[data-sym="MON"] [data-act]');
-      entries.forEach(function(e){e.textContent='$'+p.toFixed(5);});
-      let pcts=document.querySelectorAll('[data-sym="MON"] [data-pct]');
-      let entry=priceData['MONUSDT'][0];
-      let chg=(p-entry)/entry*100;
-      pcts.forEach(function(e){
-        e.textContent=(chg>=0?'':'')+chg.toFixed(2)+'%';
         e.style.color=chg>=0?'#4ade80':'#f87171';
       });
     }
