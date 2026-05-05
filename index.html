@@ -207,7 +207,7 @@
           <button onclick="switchInterval('CHART1','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="D">1d</button>
         </div>
       </div>
-      <div id="chartCont1" class="h-20 cursor-pointer" onclick="enlargeChart('CHART1')"></div>
+      <div id="chartCont1" class="h-20 cursor-pointer" onclick="enlargeChart(document.getElementById('chartSelect1').value)"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
@@ -279,7 +279,7 @@
           <button onclick="switchInterval('CHART2','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="D">1d</button>
         </div>
       </div>
-      <div id="chartCont2" class="h-20 cursor-pointer" onclick="enlargeChart('CHART2')"></div>
+      <div id="chartCont2" class="h-20 cursor-pointer" onclick="enlargeChart(document.getElementById('chartSelect2').value)"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
@@ -1091,7 +1091,14 @@ async function switchThirdChart(sym) {
 async function enlargeChart(sym) {
   document.getElementById('chartModal').classList.remove('hidden');
   document.getElementById('modalTitle').textContent = sym;
-  var int = chartState[sym].interval;
+  // Resolve CHART1/CHART2 to their actual coin symbol
+  var realSym = sym;
+  if (sym === 'CHART1' || sym === 'CHART2' || sym === 'THIRD') {
+    realSym = document.getElementById('chartSelect' + (sym === 'CHART1' ? '1' : sym === 'CHART2' ? '2' : '3')).value;
+    document.getElementById('modalTitle').textContent = realSym;
+  }
+  if (!chartState[realSym]) chartState[realSym] = { interval: '3', symbol: realSym + 'USDT', charts: {} };
+  var int = chartState[realSym].interval;
   // Update modal interval buttons
   ['1','3','15','60','D'].forEach(function(i) {
     var btn = document.getElementById('modalInt' + (i === '60' ? '1h' : i === 'D' ? '1d' : i + 'm'));
