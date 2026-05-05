@@ -9,20 +9,20 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:4px;overflow-x:hidden}
 .c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:4px 6px;margin-bottom:3px}
-.h3{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.h3{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
 .v{font-size:15px;font-weight:800}
 .g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:10px}
 .pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:3px 5px;margin-bottom:2px}
 .tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
 .tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
 .tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
-table{width:100%;font-size:11px;border-collapse:collapse}
-th{color:#64748b;font-weight:500;text-align:left;padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px}
+table{width:100%;font-size:13px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.03)}
 .h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
 select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
-canvas{width:100%!important;height:150px;display:block}
+canvas{width:100%!important;height:188px;display:block}
 .sort-handle{cursor:grab;opacity:0.5;font-size:14px;display:inline-block;margin-right:4px;user-select:none}
 .sort-handle:active{cursor:grabbing}
 .resize-h{cursor:ew-resize;z-index:20;position:absolute;top:0;bottom:0;width:8px}
@@ -164,9 +164,9 @@ function render(){
   for(var i=0;i<d.pos.length;i++){
     var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
     h+='<div class="pc">';
-    h+='<span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:12px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
-    h+='<div style="font-size:12px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
-    h+='<div class="tg2" style="font-size:10px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
+    h+='<span style="font-size:16px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:14px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
+    h+='<div style="font-size:14px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
+    h+='<div class="tg2" style="font-size:12px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
     h+='</div>';
   }
   h+='</div></div>';
@@ -332,7 +332,7 @@ async function fetchAndDrawCandles(id,symbol,tf){
 function drawCandles(id,data){
   var can=document.getElementById(id);
   if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||200,he=150;
+  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||200,he=188;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
   var pad={t:10,b:12,l:28,r:3},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
