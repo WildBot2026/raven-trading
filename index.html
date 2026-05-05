@@ -3,112 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raven</title>
+<title>Raven 🦅</title>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,sans-serif;padding:8px;font-size:15px}
-h1{color:#818cf8;font-size:20px;margin-bottom:8px}
-h2{color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
-.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px;margin-bottom:6px}
-.row{display:flex;gap:6px;flex-wrap:wrap}
-.row>*{flex:1;min-width:200px}
-.g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}
-.v{font-size:24px;font-weight:800}
-.sm{font-size:12px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:#64748b;text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:4px 6px;border-top:1px solid rgba(255,255,255,0.03)}
-.gr2{background:rgba(255,255,255,0.03);border-radius:4px;padding:6px;margin-bottom:4px}
+body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:4px;overflow-x:hidden}
+.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:4px 6px;margin-bottom:3px}
+.h3{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.v{font-size:15px;font-weight:800}
+.g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:10px}
+.pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:3px 5px;margin-bottom:2px}
+.tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
+.tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
+.tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
+table{width:100%;font-size:13px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
+select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
+canvas{width:100%!important;height:160px;display:block}
+.sort-handle{cursor:grab;opacity:0.5;font-size:14px;display:inline-block;margin-right:4px;user-select:none}
+.sort-handle:active{cursor:grabbing}
+.resize-h{cursor:ew-resize;z-index:20;position:absolute;top:0;bottom:0;width:8px}
+.resize-v{cursor:ns-resize;z-index:20;height:8px;width:100%;position:absolute;bottom:0;left:0}
+.resize-h:hover,.resizing .resize-h{background:rgba(129,140,248,0.3)}
+.resize-v:hover,.resizing-v .resize-v{background:rgba(129,140,248,0.3)}
+.edit-mode .c{border-color:rgba(129,140,248,0.3);border-style:dashed;position:relative}
+.edit-mode .c:hover{border-color:#818cf8}
+#editBtn{position:fixed;bottom:10px;right:10px;z-index:999;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;white-space:nowrap}
+#editBtn.active{background:#818cf8;color:#0f0f1a;font-weight:600}
+.sort-ghost{opacity:0.3;background:rgba(129,140,248,0.1)!important}
+#layoutWrap{min-height:200px}
+.layout-item{margin-bottom:3px;position:relative}
+.layout-cols{display:flex;gap:5px}
+.layout-cols>.col{flex:1;min-width:0;display:flex;flex-direction:column}
+.layout-cols>.col>.c{flex:1}
+@media(max-width:700px){.layout-cols{flex-direction:column}.t{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
-<h1>🦅 Raven</h1>
-<div id="root">Cargando...</div>
-
+<div id="editBtn">✏️ Editar</div>
+<div id="a"><div style="padding:20px;text-align:center;color:#64748b">Cargando...</div></div>
 <script>
-let data = {btc:0,btcC:0,wild:{},joako:{},trades:[]};
+(function(){
+var d = {
+  cap: 107.03, start: 100, pnl: 7.03, pnlp: "7.03",
+  btc: 81178, btcc: 1.11,
+  acc: {WILD:{c:56.56,s:60},JOAKO:{c:50.47,s:40}},
+  pos: [
+    {s:"ADA",a:"WILD",e:0.468,q:28.07,st:0.449,t8:0.505,t15:0.538,t25:0.585,pr:0.468},
+    {s:"BLEND",a:"JOAKO",e:0.1176,q:112,st:0.113,t8:0.127,t15:0.135,t25:0.147,pr:0.138},
+    {s:"ONDO",a:"JOAKO",e:0.3112,q:22.04,st:0.299,t8:0.336,t15:0.358,t25:0.389,pr:0.309},
+    {s:"ONDO",a:"WILD",e:0.3112,q:30.42,st:0.299,t8:0.336,t15:0.358,t25:0.389,pr:0.309},
+    {s:"TON",a:"JOAKO",e:1.823,q:12.72,st:1.75,t8:1.969,t15:2.096,t25:2.279,pr:1.837},
+    {s:"TON",a:"WILD",e:1.862,q:16.79,st:1.788,t8:2.011,t15:2.141,t25:2.328,pr:1.837}
+  ],
+  tr: [
+    {d:'05-05 11:12',s:'TAC',sd:'sell',q:0.146,ac:'JOAKO'},
+    {d:'05-05 08:16',s:'MEGA',sd:'sell',q:0.0114,ac:'WILD'},
+    {d:'05-05 08:16',s:'MEGA',sd:'sell',q:0.0083,ac:'JOAKO'},
+    {d:'05-05 07:54',s:'A8',sd:'sell',q:0.095,ac:'JOAKO'},
+    {d:'05-05 07:33',s:'BLEND',sd:'sell',q:37.3,ac:'JOAKO'},
+    {d:'05-05 07:32',s:'LUNC',sd:'sell',q:0.219,ac:'JOAKO'},
+    {d:'05-05 06:17',s:'TON',sd:'sell',q:4.19,ac:'WILD'},
+    {d:'05-05 06:17',s:'TON',sd:'sell',q:3.11,ac:'JOAKO'},
+    {d:'05-05 06:13',s:'BILL',sd:'sell',q:0.076,ac:'WILD'},
+    {d:'05-05 06:13',s:'BILL',sd:'sell',q:0.069,ac:'JOAKO'}
+  ],
+  allCoins: []
+};
 
-async function load(){
+function $(n){
+  if(n==null)return'—';
+  if(n>=1e3)return'$'+n.toFixed(0);
+  if(n>=1)return'$'+n.toFixed(2);
+  if(n>=0.01)return'$'+n.toFixed(4);
+  return'$'+n.toFixed(6);
+}
+function q(n){if(!n)return'0';return n>=1e3?n.toFixed(0):n>=1?n.toFixed(2):n.toFixed(4);}
+function at(a){return a==='WILD'?'<span class="tg tw">W</span>':'<span class="tg tj">J</span>';}
+function sb(s){return s==='buy'||s==='Buy'?'<span style="color:#4ade80;font-weight:700;font-size:9px">B</span>':'<span style="color:#f87171;font-weight:700;font-size:9px">S</span>';}
+
+async function fetchAllCoins(){
   try{
-    // BTC
-    let b=await(await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=BTCUSDT')).json();
-    data.btc=parseFloat(b.result.list[0].lastPrice);
-    data.btcC=parseFloat(b.result.list[0].price24hPcnt)*100;
-  }catch(e){}
-  try{
-    // FHE price
-    let f=await(await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=FHEUSDT')).json();
-    data.fhe=parseFloat(f.result.list[0].lastPrice);
-    data.fheC=parseFloat(f.result.list[0].price24hPcnt)*100;
-  }catch(e){}
-  render();
+    var r=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
+    var j=await r.json();
+    if(j.retCode!==0||!j.result||!j.result.list)return;
+    var raw=j.result.list,tickers={},coins=[];
+    for(var i=0;i<raw.length;i++){
+      var t=raw[i];
+      if(t.symbol.indexOf('USDT')===-1)continue;
+      if(parseFloat(t.volume24h||0)<100000)continue;
+      coins.push(t.symbol);
+      tickers[t.symbol]=parseFloat(t.lastPrice);
+    }
+    coins.sort(function(a,b){return a.localeCompare(b);});
+    d.allCoins=coins;
+    // Update positions with live prices
+    d.bc=tickers['BTCUSDT']||d.bc;
+    for(var i=0;i<d.pos.length;i++){
+      var sym=d.pos[i].s+'USDT';
+      if(tickers[sym])d.pos[i].pr=tickers[sym];
+    }
+    render();
+  }catch(e){render();}
 }
 
-function coin(name,bal,pr,usd,pnl,acct){
-  let p=parseFloat(pr), u=parseFloat(usd);
-  let s=bal?parseFloat(bal):0;
-  return `<div class="gr2">
-    <div style="display:flex;justify-content:space-between">
-      <span style="font-weight:700">${name}</span>
-      <span class="gr">${acct}</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800">
-      <span>$${p.toFixed(p<1?5:4)}</span>
-      <span class="${pnl>=0?'g':'r'}">$${u.toFixed(2)}</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:#64748b">
-      <span>${s.toFixed(s<1?4:2)} ${name}</span>
-      <span>${pnl>=0?'+':''}$${pnl.toFixed(2)}</span>
-    </div>
-  </div>`;
+function populateSelects(){
+  var coins=d.allCoins;if(!coins||!coins.length)return;
+  var top=['BTCUSDT','ETHUSDT','SOLUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','TONUSDT','LINKUSDT','SUIUSDT','AVAXUSDT','TRXUSDT','DOTUSDT','UNIUSDT','PEPEUSDT','SHIBUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','TIAUSDT','SEIUSDT','WIFUSDT','BONKUSDT','NOTUSDT','PENGUUSDT','DOGSUSDT','LUNCUSDT','FTTUSDT','FHEUSDT','ONDOUSDT','BLENDUSDT'];
+  for(var i=0;i<d.pos.length;i++){var sym=d.pos[i].s+'USDT';if(top.indexOf(sym)===-1)top.push(sym);}
+  var merged=[];for(var i=0;i<top.length;i++){if(coins.indexOf(top[i])!==-1)merged.push(top[i]);}
+  for(var i=0;i<coins.length;i++){if(merged.indexOf(coins[i])===-1)merged.push(coins[i]);}
+  var saved=null;try{saved=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+  for(var ci=0;ci<3;ci++){
+    var sel=document.getElementById('coin'+ci);
+    if(!sel)continue;
+    sel.innerHTML='<option value="">—</option>';
+    for(var i=0;i<merged.length;i++){
+      var opt=document.createElement('option');
+      opt.value=merged[i];opt.textContent=merged[i].replace('USDT','');
+      if(saved&&saved['c'+ci]===merged[i])opt.selected=true;
+      else if(!saved&&((ci===0&&merged[i]==='BTCUSDT')||(ci===1&&merged[i]==='ETHUSDT')||(ci===2&&merged[i]==='ADAUSDT')))opt.selected=true;
+      sel.appendChild(opt);
+    }
+    sel.onchange=(function(i){return function(){
+      loadChart(i);
+      var ch={};try{ch=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+      ch['c'+i]=this.value;
+      try{localStorage.setItem('ravenCharts',JSON.stringify(ch));}catch(e){}
+    };})(ci);
+  }
 }
 
 function render(){
-  let h=`
-    <div class="row">
-      <div class="c">
-        <h2>Capital</h2>
-        <div class="v">$113.91</div>
-      </div>
-      <div class="c">
-        <h2>PNL 24h</h2>
-        <div class="v g">+$8.91</div>
-      </div>
-      <div class="c">
-        <h2>BTC</h2>
-        <div class="v">$${data.btc?data.btc.toLocaleString():'--'}</div>
-        <div class="sm ${data.btcC>=0?'g':'r'}">${data.btcC?(data.btcC>0?'+':'')+data.btcC.toFixed(2)+'%':'--'}</div>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="c">
-        <h2>🐺 WILD</h2>
-        ${coin('PEPE',7336406,data.fhe||0.00000418,30.72,0,'WILD')}
-        ${coin('BSB',26.87,0.6054,16.27,0,'WILD')}
-        ${coin('PENGU',853.1,0.01126,9.60,0,'WILD')}
-        <div style="margin-top:4px;text-align:right;font-weight:700;color:#818cf8">$59.59</div>
-      </div>
-      <div class="c">
-        <h2>🐺 JOAKO</h2>
-        ${coin('TON',12.45,1.988,24.75,0,'JOAKO')}
-        ${coin('PEPE',4680410,data.fhe||0.00000418,19.62,0,'JOAKO')}
-        ${coin('MON',215.4,0.03228,6.96,0,'JOAKO')}
-        <div style="margin-top:4px;text-align:right;font-weight:700;color:#818cf8">$54.32</div>
-      </div>
-    </div>
-    
-    <div class="c">
-      <h2>FHE</h2>
-      <div class="v">${data.fhe?'$'+data.fhe.toFixed(5):'--'}</div>
-      <div class="sm ${data.fheC>=0?'g':'r'}">${data.fheC?'+'+(data.fheC>0?data.fheC.toFixed(1):'')+'%':'--'}</div>
-      <div class="sm gr">Vendida ✅ (+$2.22 ganancia)</div>
-    </div>
-  `;
-  document.getElementById('root').innerHTML=h;
+  var saved=null;
+  try{saved=JSON.parse(localStorage.getItem('ravenLayoutV3'));}catch(e){}
+  var colsW=null;
+  try{colsW=JSON.parse(localStorage.getItem('ravenColsWidth'));}catch(e){}
+  if(!colsW)colsW=[38,62];
+  var heights=null;
+  try{heights=JSON.parse(localStorage.getItem('ravenHeights'));}catch(e){}
+  if(!heights)heights={};
+
+  var h='';
+  var isEdit=window.editMode||false;
+
+  h+='<div id="layoutWrap" class="'+(isEdit?'edit-mode':'')+'">';
+
+  // HEADER
+  h+='<div class="layout-item" data-id="header" style="'+(heights.header?'min-height:'+heights.header+'px':'')+'">';
+  h+='<div class="t">';
+  var wa=d.acc.WILD,wap=wa.c-wa.s;
+  h+='<div class="c" style="padding:4px 8px;text-align:center"><span class="x gr" style="font-size:9px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span> <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
+  var ja=d.acc.JOAKO,jap=ja.c-ja.s;
+  h+='<div class="c" style="padding:4px 8px;text-align:center"><span class="x gr" style="font-size:9px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span> <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
+  h+='<div class="c" style="padding:4px 12px;text-align:right"><span class="x gr" style="font-size:9px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span> <span style="font-size:10px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span></div>';
+  h+='</div></div>';
+
+  // COLS
+  h+='<div class="layout-item" data-id="cols" style="'+(heights.cols?'min-height:'+heights.cols+'px':'')+'">';
+  h+='<div class="layout-cols" id="colsContainer">';
+  var lw=colsW[0],rw=colsW[1];
+  h+='<div class="col" id="colLeft" style="flex:'+lw+'">';
+  h+='<div class="c" style="padding:4px 6px"><div class="h3"><span class="sort-handle">⠿</span>📌 Posiciones ('+d.pos.length+')</div>';
+  d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
+  for(var i=0;i<d.pos.length;i++){
+    var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
+    h+='<div class="pc">';
+    h+='<span style="font-size:16px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:14px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
+    h+='<div style="font-size:14px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
+    h+='<div class="tg2" style="font-size:12px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
+    h+='</div>';
+  }
+  h+='</div></div>';
+  h+='<div class="col" id="colRight" style="flex:'+rw+'">';
+  for(var ci=0;ci<3;ci++){
+    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="1">1m</option><option value="3">3m</option><option value="5">5m</option><option value="15" selected>15m</option><option value="30">30m</option><option value="60">1h</option><option value="120">2h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
+  }
+  // Apply saved chart selections (timeframes)
+  var chSaved=null;try{chSaved=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+  if(chSaved){
+    for(var sci=0;sci<3;sci++){
+      var tfs=document.getElementById('tf'+sci);
+      if(tfs&&chSaved['tf'+sci])tfs.value=chSaved['tf'+sci];
+    }
+  }
+  }
+  h+='</div>';
+  h+='</div></div>';
+
+  // TRADES
+  h+='<div class="layout-item" data-id="trades" style="'+(heights.trades?'min-height:'+heights.trades+'px':'')+'">';
+  h+='<div class="c" style="padding:3px 6px"><div class="h3"><span class="sort-handle">⠿</span>📜 Trades ('+d.tr.length+')</div>';
+  if(d.tr.length){
+    h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Q</th><th>Cta</th></tr></thead><tbody>';
+    for(var i=d.tr.length-1;i>=0;i--){
+      var t=d.tr[i];
+      h+='<tr><td class="gr">'+(t.d||'—')+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+q(t.q)+'</td><td>'+at(t.ac)+'</td></tr>';
+    }
+    h+='</tbody></table>';
+  }
+  h+='</div></div>';
+
+  h+='</div>'; // layoutWrap
+
+  document.getElementById('a').innerHTML=h;
+  populateSelects();
+
+  // Reorder from saved
+  var wrap=document.getElementById('layoutWrap');
+  if(saved&&wrap){
+    for(var si=0;si<saved.length;si++){
+      var el=wrap.querySelector('[data-id="'+saved[si]+'"]');
+      if(el)wrap.appendChild(el);
+    }
+  }
+
+  // Bind tf onchange (coin is bound in populateSelects)
+  for(var ci=0;ci<3;ci++){
+    var ts=document.getElementById('tf'+ci);
+    if(ts)ts.onchange=(function(i){return function(){loadChart(i);
+      var ch={};try{ch=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+      ch['tf'+i]=this.value;
+      try{localStorage.setItem('ravenCharts',JSON.stringify(ch));}catch(e){}
+    };})(ci);
+  }
+
+  initAllResize();
+  initSortable();
+  loadAllCharts();
 }
-load();
-setInterval(load,15000);
+
+function initAllResize(){
+  initHResize();
+  initVResize();
+}
+
+function initHResize(){
+  var colL=document.getElementById('colLeft');
+  var colR=document.getElementById('colRight');
+  var container=document.getElementById('colsContainer');
+  if(!colL||!colR||!container)return;
+  var old=container.querySelector('.resize-h');
+  if(old)old.remove();
+  var handle=document.createElement('div');
+  handle.className='resize-h';
+  handle.style.cssText='right:-3px;position:absolute;';
+  colL.style.position='relative';
+  colL.appendChild(handle);
+
+  var isRes=false,sX,sLW,sRW;
+  handle.onmousedown=function(e){
+    isRes=true;sX=e.clientX;
+    var tot=container.offsetWidth;
+    sLW=colL.offsetWidth/tot*100;sRW=colR.offsetWidth/tot*100;
+    container.classList.add('resizing');
+    document.body.style.cursor='ew-resize';document.body.style.userSelect='none';
+    e.preventDefault();
+  };
+  document.onmousemove=function(e){
+    if(!isRes)return;
+    var tot=container.offsetWidth,dx=(e.clientX-sX)/tot*100;
+    var nL=Math.max(15,Math.min(85,sLW+dx));
+    colL.style.flex=nL;colR.style.flex=100-nL;
+    for(var i=0;i<3;i++)redrawChart(i);
+  };
+  document.onmouseup=function(){
+    if(!isRes)return;
+    isRes=false;container.classList.remove('resizing');
+    document.body.style.cursor='';document.body.style.userSelect='';
+    var tot=container.offsetWidth;
+    try{localStorage.setItem('ravenColsWidth',JSON.stringify([Math.round(colL.offsetWidth/tot*100),Math.round(colR.offsetWidth/tot*100)]));}catch(e){}
+  };
+}
+
+function initVResize(){
+  var items=document.querySelectorAll('.layout-item');
+  for(var idx=0;idx<items.length;idx++){
+    var item=items[idx];
+    var old=item.querySelector('.resize-v');
+    if(old)old.remove();
+    var vh=document.createElement('div');
+    vh.className='resize-v';
+    vh.style.cssText='bottom:-2px;position:absolute;';
+    item.style.position='relative';
+    item.appendChild(vh);
+    (function(itm,iid){
+      var res=false,sY,sH;
+      vh.onmousedown=function(e){
+        res=true;sY=e.clientY;sH=itm.offsetHeight;
+        document.body.style.cursor='ns-resize';document.body.style.userSelect='none';
+        e.preventDefault();
+        var mousemove=function(e2){
+          if(!res){document.removeEventListener('mousemove',mousemove);return;}
+          var nh=Math.max(30,sH+(e2.clientY-sY));
+          itm.style.minHeight=nh+'px';
+        };
+        var mouseup=function(){
+          res=false;
+          document.body.style.cursor='';document.body.style.userSelect='';
+          document.removeEventListener('mousemove',mousemove);
+          document.removeEventListener('mouseup',mouseup);
+          var hh={};try{hh=JSON.parse(localStorage.getItem('ravenHeights'))||{};}catch(e){}
+          hh[iid]=itm.offsetHeight;
+          try{localStorage.setItem('ravenHeights',JSON.stringify(hh));}catch(e){}
+        };
+        document.addEventListener('mousemove',mousemove);
+        document.addEventListener('mouseup',mouseup);
+      };
+    })(item,item.getAttribute('data-id'));
+  }
+}
+
+function redrawChart(idx){
+  var cs=document.getElementById('coin'+idx),ts=document.getElementById('tf'+idx);
+  if(cs&&ts)loadChart(idx);
+}
+
+function initSortable(){
+  if(typeof Sortable==='undefined')return;
+  var wrap=document.getElementById('layoutWrap');
+  if(!wrap)return;
+  if(window._sortable)window._sortable.destroy();
+  window._sortable=new Sortable(wrap,{animation:150,handle:'.sort-handle',ghostClass:'sort-ghost',disabled:!window.editMode});
+}
+
+function loadChart(idx){
+  var coin=document.getElementById('coin'+idx),tf=document.getElementById('tf'+idx);
+  if(!coin||!tf||!coin.value)return;
+  fetchAndDrawCandles('chart'+idx,coin.value,tf.value);
+}
+function loadAllCharts(){for(var i=0;i<3;i++){setTimeout(function(n){return function(){loadChart(n);};}(i),200);}}
+
+async function fetchAndDrawCandles(id,symbol,tf){
+  var can=document.getElementById(id);
+  if(!can)return;
+  try{
+    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval='+tf+'&limit=200');
+    var j=await r.json();
+    if(j.retCode!==0||!j.result||!j.result.list)return;
+    drawCandles(id,j.result.list.reverse());
+  }catch(e){}
+}
+
+function drawCandles(id,data){
+  var can=document.getElementById(id);
+  if(!can||!data||data.length<2)return;
+  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||200,he=160;
+  can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
+  ctx.scale(2,2);
+  var pad={t:10,b:12,l:28,r:3},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
+  var o=[],h=[],l=[],c=[];
+  for(var i=0;i<data.length;i++){o.push(parseFloat(data[i][1]));h.push(parseFloat(data[i][2]));l.push(parseFloat(data[i][3]));c.push(parseFloat(data[i][4]));}
+  var mx=-1e9,mn=1e9;
+  for(var i=0;i<data.length;i++){if(h[i]>mx)mx=h[i];if(l[i]<mn)mn=l[i];}
+  var range=mx-mn||1;mn-=range*0.05;mx+=range*0.05;range=mx-mn;
+  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
+  for(var y=0;y<=2;y++){var yy=pad.t+(ch/2)*y;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';var tmp=mx-(range/2)*y;ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-2,yy+2);}
+  var candleW=Math.max(1,cw/data.length-1);
+  for(var i=0;i<data.length;i++){var x=pad.l+(cw/data.length)*i;var yO=pad.t+ch-((o[i]-mn)/range)*ch,yC=pad.t+ch-((c[i]-mn)/range)*ch,yH=pad.t+ch-((h[i]-mn)/range)*ch,yL=pad.t+ch-((l[i]-mn)/range)*ch,isG=c[i]>=o[i],col=isG?'#4ade80':'#f87171';ctx.strokeStyle=col;ctx.lineWidth=0.7;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();var tp=Math.min(yO,yC),bt=Math.max(yO,yC);ctx.fillStyle=col;ctx.fillRect(x-candleW/2,tp,candleW,Math.max(1,bt-tp));}
+}
+
+// ===== EDIT TOGGLE =====
+var btn=document.getElementById('editBtn');
+btn.onclick=function(){
+  window.editMode=!window.editMode;
+  if(window.editMode){
+    btn.textContent='🔒 Fijar';btn.className='active';
+    var wrap=document.getElementById('layoutWrap');
+    if(wrap)wrap.classList.add('edit-mode');
+    if(window._sortable)window._sortable.option('disabled',false);
+    // Show resize handles
+    document.querySelectorAll('.resize-h,.resize-v').forEach(function(e){e.style.background='rgba(129,140,248,0.15)';});
+  } else {
+    btn.textContent='✅ Fijado';
+    var wrap=document.getElementById('layoutWrap');
+    if(wrap){
+      var items=wrap.querySelectorAll('.layout-item');
+      var order=[];
+      for(var i=0;i<items.length;i++)order.push(items[i].getAttribute('data-id'));
+      try{localStorage.setItem('ravenLayoutV3',JSON.stringify(order));}catch(e){}
+      wrap.classList.remove('edit-mode');
+    }
+    if(window._sortable)window._sortable.option('disabled',true);
+    document.querySelectorAll('.resize-h,.resize-v').forEach(function(e){e.style.background='transparent';});
+    setTimeout(function(){btn.textContent='✏️ Editar';btn.className='';},1200);
+  }
+};
+
+fetchAllCoins();
+})();
 </script>
 </body>
 </html>
