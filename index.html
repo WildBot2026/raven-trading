@@ -15,11 +15,13 @@ body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-s
 .tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
 .tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
 .tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
-table{width:100%;font-size:9px;border-collapse:collapse}
-th{color:#64748b;font-weight:500;text-align:left;padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.03)}
+table{width:100%;font-size:10px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.03)}
 .h{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .t{display:grid;grid-template-columns:1fr auto auto;gap:4px}
+select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 4px;font-size:10px;margin-left:4px}
+select:focus{outline:none;border-color:#818cf8}
 @media(max-width:700px){.h{grid-template-columns:1fr}.t{grid-template-columns:1fr}}
 </style>
 </head>
@@ -27,7 +29,6 @@ td{padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.03)}
 <div id="a"><div style="padding:20px;text-align:center;color:#64748b">Cargando...</div></div>
 <script>
 (function(){
-// ===== DATA =====
 var d = {
   cap: 107.03, start: 100, pnl: 7.03, pnlp: "7.03",
   btc: 81178, btcc: 1.11,
@@ -45,13 +46,6 @@ var d = {
     {d:"05-04 08:40",s:"ONDO",sd:"buy",q:121.7,p:0.3112,v:37.87,pl:0,ac:"WILD"},
     {d:"05-04 08:40",s:"ONDO",sd:"buy",q:88.16,p:0.3112,v:27.44,pl:0,ac:"JOAKO"},
     {d:"05-04 19:02",s:"BILL",sd:"sell",q:954.6,p:0.0408,v:38.95,pl:0,ac:"WILD"}
-  ],
-  ch: [
-    {t:"05-04 20:08",to:105.21,w:55.72,j:49.49},
-    {t:"05-05 05:50",to:108.43,w:56.56,j:51.87},
-    {t:"05-05 07:23",to:108.95,w:56.56,j:52.39},
-    {t:"05-05 08:38",to:107.84,w:56.56,j:51.28},
-    {t:"05-05 10:37",to:107.03,w:56.56,j:50.47}
   ]
 };
 
@@ -68,62 +62,57 @@ function q(n){
 function at(a){return a==='WILD'?'<span class="tg tw">W</span>':'<span class="tg tj">J</span>';}
 function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:700;font-size:9px">B</span>':'<span class="r" style="font-weight:700;font-size:9px">S</span>';}
 
-// ===== RENDER =====
 var h='';
 
-// 3 BIG BOXES: Total right-aligned, WILD/JOAKO left
+// HEADER: TOTAL right | WILD | JOAKO
 h+='<div class="t">';
-// Total — right side
-h+='<div class="c" style="padding:6px 10px;text-align:right">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:24px">'+$(d.cap)+'</span>';
+h+='<div class="c" style="padding:5px 10px;text-align:right">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span>';
 h+=' <span style="font-size:11px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span>';
 h+='</div>';
-// WILD
 var wa=d.acc.WILD,wap=wa.c-wa.s;
-h+='<div class="c" style="padding:6px 10px;text-align:center">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:20px">'+$(wa.c)+'</span>';
-h+=' <span style="font-size:11px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span>';
-h+='</div>';
-// JOAKO
+h+='<div class="c" style="padding:5px 10px;text-align:center">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span>';
+h+=' <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
 var ja=d.acc.JOAKO,jap=ja.c-ja.s;
-h+='<div class="c" style="padding:6px 10px;text-align:center">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:20px">'+$(ja.c)+'</span>';
-h+=' <span style="font-size:11px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span>';
-h+='</div>';
+h+='<div class="c" style="padding:5px 10px;text-align:center">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span>';
+h+=' <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
 h+='</div>';
 
-// TWO-COLUMN: positions + charts
+// TWO COLUMNS
 h+='<div class="h">';
 
-// LEFT: Positions bigger
-h+='<div><div class="c" style="padding:6px 8px"><span class="h3" style="font-size:10px">📌 Posiciones ('+d.pos.length+')</span>';
+// LEFT: Positions bigger text
+h+='<div>';
+h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:11px">📌 Posiciones ('+d.pos.length+')</div>';
 d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
 for(var i=0;i<d.pos.length;i++){
   var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
-  var pctStr=(a>=0?'+':'')+a+'%';
-  h+='<div class="pc" style="padding:4px 6px">';
-  h+='<span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:12px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+pctStr+'</span>';
-  h+='<div style="font-size:12px;color:#64748b;margin-top:2px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
-  h+='<div class="tg2" style="font-size:10px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
+  h+='<div class="pc" style="padding:5px 7px">';
+  h+='<span style="font-size:15px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:13px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
+  h+='<div style="font-size:13px;color:#64748b;margin-top:2px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
+  h+='<div class="tg2" style="font-size:11px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
   h+='</div>';
 }
 h+='</div></div>';
 
-// RIGHT: BTC + ETH candlestick (bigger)
+// RIGHT: Chart with selector + time buttons
 h+='<div>';
-h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:10px">🕯 BTC 15m</div><canvas id="btcChart" style="width:100%;height:180px"></canvas></div>';
-h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:10px">🕯 ETH 15m</div><canvas id="ethChart" style="width:100%;height:180px"></canvas></div>';
+h+='<div class="c" style="padding:6px 8px">';
+h+='<div class="h3" style="font-size:11px">🕯 <select id="chartCoin"><option value="BTCUSDT">BTC</option><option value="ETHUSDT">ETH</option></select> <select id="chartTF"><option value="15">15m</option><option value="60">1h</option><option value="240">4h</option><option value="D">1d</option></select></div>';
+h+='<canvas id="mainChart" style="width:100%;height:200px"></canvas></div>';
 h+='</div>';
 
 h+='</div>';
 
-// TRADES
-h+='<div class="c" style="padding:4px 6px"><span class="h3">📜 Trades ('+d.tr.length+')</span>';
+// TRADES bigger
+h+='<div class="c" style="padding:5px 8px"><span class="h3" style="font-size:11px">📜 Trades ('+d.tr.length+')</span>';
 if(d.tr.length){
-  h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Pr.</th><th style="text-align:right">Q</th><th>Cuenta</th></tr></thead><tbody>';
+  h+='<table><thead><tr><th style="font-size:11px">Fecha</th><th style="font-size:11px">Sim</th><th style="font-size:11px">T</th><th style="text-align:right;font-size:11px">Pr.</th><th style="text-align:right;font-size:11px">Q</th><th style="font-size:11px">Cuenta</th></tr></thead><tbody>';
   for(var i=d.tr.length-1;i>=0;i--){
     var t=d.tr[i];
-    h+='<tr><td class="gr">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+$(t.p)+'</td><td style="text-align:right">'+q(t.q)+'</td><td>'+at(t.ac)+'</td></tr>';
+    h+='<tr><td class="gr" style="font-size:11px">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600;font-size:11px">'+t.s+'</td><td style="font-size:11px">'+sb(t.sd)+'</td><td style="text-align:right;font-size:11px">'+$(t.p)+'</td><td style="text-align:right;font-size:11px">'+q(t.q)+'</td><td style="font-size:11px">'+at(t.ac)+'</td></tr>';
   }
   h+='</tbody></table>';
 }
@@ -131,29 +120,35 @@ h+='</div>';
 
 document.getElementById('a').innerHTML=h;
 
-// ===== DRAW CANDLESTICK CHARTS =====
-fetchAndDrawCandles('btcChart','BTCUSDT');
-fetchAndDrawCandles('ethChart','ETHUSDT');
+// ===== CHART LOADING =====
+loadChart();
+document.getElementById('chartCoin').onchange=loadChart;
+document.getElementById('chartTF').onchange=loadChart;
 
-async function fetchAndDrawCandles(id,symbol){
+function loadChart(){
+  var coin=document.getElementById('chartCoin').value;
+  var tf=document.getElementById('chartTF').value;
+  fetchAndDrawCandles('mainChart',coin,tf);
+}
+
+async function fetchAndDrawCandles(id,symbol,tf){
   var can=document.getElementById(id);
   if(!can)return;
   try{
-    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval=15&limit=60');
+    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval='+tf+'&limit=60');
     var j=await r.json();
     if(j.retCode!==0||!j.result||!j.result.list)return;
-    var raw=j.result.list.reverse();
-    drawCandles(id,raw);
+    drawCandles(id,j.result.list.reverse());
   }catch(e){}
 }
 
 function drawCandles(id,data){
   var can=document.getElementById(id);
   if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=180;
+  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=200;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
-  var pad={t:10,b:12,l:32,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
+  var pad={t:12,b:14,l:35,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
   
   var o=[],h=[],l=[],c=[];
   for(var i=0;i<data.length;i++){
@@ -164,19 +159,18 @@ function drawCandles(id,data){
   for(var i=0;i<data.length;i++){
     if(h[i]>max)max=h[i];if(l[i]<min)min=l[i];
   }
-  var range=max-min||1;min-=range*0.05;max+=range*0.05;range=max-min;
+  var range=max-min||1;min-=range*0.04;max+=range*0.04;range=max-min;
   
-  // Grid
   ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
   for(var y=0;y<=3;y++){
     var yy=pad.t+(ch/3)*y;
     ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
-    ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
+    ctx.fillStyle='#475569';ctx.font='9px sans-serif';ctx.textAlign='right';
     var tmp=max-(range/3)*y;
-    ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-2,yy+2);
+    ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-3,yy+3);
   }
   
-  var candleW=Math.max(1,cw/data.length-1);
+  var candleW=Math.max(1.5,cw/data.length-2);
   for(var i=0;i<data.length;i++){
     var x=pad.l+(cw/data.length)*i;
     var yO=pad.t+ch-((o[i]-min)/range)*ch;
@@ -185,11 +179,11 @@ function drawCandles(id,data){
     var yL=pad.t+ch-((l[i]-min)/range)*ch;
     var isGreen=c[i]>=o[i];
     var color=isGreen?'#4ade80':'#f87171';
-    ctx.strokeStyle=color;ctx.lineWidth=0.8;
+    ctx.strokeStyle=color;ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();
     var top=Math.min(yO,yC),bot=Math.max(yO,yC);
     ctx.fillStyle=color;
-    ctx.fillRect(x-candleW/2,top,candleW,Math.max(1,bot-top));
+    ctx.fillRect(x-candleW/2,top,candleW,Math.max(1.5,bot-top));
   }
 }
 })();
