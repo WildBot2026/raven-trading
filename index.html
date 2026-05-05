@@ -17,26 +17,27 @@ body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-s
 .tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
 .tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
 table{width:100%;font-size:11px;border-collapse:collapse}
-th{color:#64748b;font-weight:500;text-align:left;padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:11px}
+th{color:#64748b;font-weight:500;text-align:left;padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.06)}
 td{padding:3px 5px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px}
 .h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
 select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
-canvas{width:100%!important;height:150px!important}
+canvas{width:100%!important;min-height:150px}
 .sort-handle{cursor:grab;opacity:0.5;font-size:14px;display:inline-block;margin-right:4px;user-select:none}
 .sort-handle:active{cursor:grabbing}
-.resize-handle{position:absolute;right:0;top:0;bottom:0;width:6px;cursor:ew-resize;background:transparent;z-index:10}
-.resize-handle:hover,.resizing .resize-handle{background:rgba(129,140,248,0.3)}
+.resize-h{cursor:ew-resize;z-index:20;position:absolute;top:0;bottom:0;width:8px}
+.resize-v{cursor:ns-resize;z-index:20;height:8px;width:100%;position:absolute;bottom:0;left:0}
+.resize-h:hover,.resizing .resize-h{background:rgba(129,140,248,0.3)}
+.resize-v:hover,.resizing-v .resize-v{background:rgba(129,140,248,0.3)}
 .edit-mode .c{border-color:rgba(129,140,248,0.3);border-style:dashed;position:relative}
 .edit-mode .c:hover{border-color:#818cf8}
 #editBtn{position:fixed;bottom:10px;right:10px;z-index:999;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;white-space:nowrap}
 #editBtn.active{background:#818cf8;color:#0f0f1a;font-weight:600}
 .sort-ghost{opacity:0.3;background:rgba(129,140,248,0.1)!important}
 #layoutWrap{min-height:200px}
-.layout-item{margin-bottom:4px}
+.layout-item{margin-bottom:3px;position:relative}
 .layout-cols{display:flex;gap:5px}
 .layout-cols>.col{flex:1;min-width:0}
-.layout-cols>.col-resize{position:relative;overflow:hidden}
 @media(max-width:700px){.layout-cols{flex-direction:column}.t{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
@@ -75,7 +76,7 @@ function $(n){
 }
 function q(n){if(!n)return'0';return n>=1e3?n.toFixed(0):n>=1?n.toFixed(2):n.toFixed(4);}
 function at(a){return a==='WILD'?'<span class="tg tw">W</span>':'<span class="tg tj">J</span>';}
-function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:700;font-size:9px">B</span>':'<span class="r" style="font-weight:700;font-size:9px">S</span>';}
+function sb(s){return s==='buy'||s==='Buy'?'<span style="color:#4ade80;font-weight:700;font-size:9px">B</span>':'<span style="color:#f87171;font-weight:700;font-size:9px">S</span>';}
 
 async function fetchAllCoins(){
   try{
@@ -116,10 +117,13 @@ function populateSelects(){
 
 function render(){
   var saved=null;
-  try{saved=JSON.parse(localStorage.getItem('ravenLayoutV2'));}catch(e){}
+  try{saved=JSON.parse(localStorage.getItem('ravenLayoutV3'));}catch(e){}
   var colsW=null;
   try{colsW=JSON.parse(localStorage.getItem('ravenColsWidth'));}catch(e){}
   if(!colsW)colsW=[38,62];
+  var heights=null;
+  try{heights=JSON.parse(localStorage.getItem('ravenHeights'));}catch(e){}
+  if(!heights)heights={};
 
   var h='';
   var isEdit=window.editMode||false;
@@ -127,46 +131,41 @@ function render(){
   h+='<div id="layoutWrap" class="'+(isEdit?'edit-mode':'')+'">';
 
   // HEADER
-  h+='<div class="layout-item" data-id="header">';
+  h+='<div class="layout-item" data-id="header" style="'+(heights.header?'min-height:'+heights.header+'px':'')+'">';
   h+='<div class="t">';
   var wa=d.acc.WILD,wap=wa.c-wa.s;
-  h+='<div class="c" style="padding:5px 8px;text-align:center"><span class="x gr" style="font-size:9px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span> <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
+  h+='<div class="c" style="padding:4px 8px;text-align:center"><span class="x gr" style="font-size:9px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span> <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
   var ja=d.acc.JOAKO,jap=ja.c-ja.s;
-  h+='<div class="c" style="padding:5px 8px;text-align:center"><span class="x gr" style="font-size:9px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span> <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
-  h+='<div class="c" style="padding:5px 12px;text-align:right"><span class="x gr" style="font-size:9px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span> <span style="font-size:10px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span></div>';
+  h+='<div class="c" style="padding:4px 8px;text-align:center"><span class="x gr" style="font-size:9px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span> <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
+  h+='<div class="c" style="padding:4px 12px;text-align:right"><span class="x gr" style="font-size:9px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span> <span style="font-size:10px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span></div>';
   h+='</div></div>';
 
-  // TWO-COLUMN layout with resizable divider
-  h+='<div class="layout-item" data-id="cols">';
+  // COLS
+  h+='<div class="layout-item" data-id="cols" style="'+(heights.cols?'min-height:'+heights.cols+'px':'')+'">';
   h+='<div class="layout-cols" id="colsContainer">';
-  // LEFT: Positions
   var lw=colsW[0],rw=colsW[1];
   h+='<div class="col" id="colLeft" style="flex:'+lw+'">';
-  h+='<div class="c" style="padding:5px 7px"><div class="h3" style="font-size:10px"><span class="sort-handle">⠿</span>📌 Posiciones ('+d.pos.length+')</div>';
+  h+='<div class="c" style="padding:4px 6px"><div class="h3"><span class="sort-handle">⠿</span>📌 Posiciones ('+d.pos.length+')</div>';
   d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
   for(var i=0;i<d.pos.length;i++){
     var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
-    h+='<div class="pc" style="padding:4px 6px">';
+    h+='<div class="pc">';
     h+='<span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:12px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
     h+='<div style="font-size:12px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
     h+='<div class="tg2" style="font-size:10px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
     h+='</div>';
   }
   h+='</div></div>';
-
-  // RIGHT: Charts
   h+='<div class="col" id="colRight" style="flex:'+rw+'">';
   for(var ci=0;ci<3;ci++){
-    var tfId='tf'+ci;
-    h+='<div class="c" style="padding:4px 6px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="'+tfId+'" class="tfSel"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
+    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
   }
   h+='</div>';
-
-  h+='</div></div>'; // close layout-cols, layout-item
+  h+='</div></div>';
 
   // TRADES
-  h+='<div class="layout-item" data-id="trades">';
-  h+='<div class="c" style="padding:4px 7px"><div class="h3" style="font-size:10px"><span class="sort-handle">⠿</span>📜 Trades ('+d.tr.length+')</div>';
+  h+='<div class="layout-item" data-id="trades" style="'+(heights.trades?'min-height:'+heights.trades+'px':'')+'">';
+  h+='<div class="c" style="padding:3px 6px"><div class="h3"><span class="sort-handle">⠿</span>📜 Trades ('+d.tr.length+')</div>';
   if(d.tr.length){
     h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Pr.</th><th style="text-align:right">Q</th><th>Cta</th></tr></thead><tbody>';
     for(var i=d.tr.length-1;i>=0;i--){
@@ -182,7 +181,7 @@ function render(){
   document.getElementById('a').innerHTML=h;
   populateSelects();
 
-  // Reorder from saved layout
+  // Reorder from saved
   var wrap=document.getElementById('layoutWrap');
   if(saved&&wrap){
     for(var si=0;si<saved.length;si++){
@@ -191,7 +190,7 @@ function render(){
     }
   }
 
-  // Bind chart controls
+  // Bind charts
   for(var ci=0;ci<3;ci++){
     var cs=document.getElementById('coin'+ci);
     var ts=document.getElementById('tf'+ci);
@@ -199,69 +198,110 @@ function render(){
     if(ts)ts.onchange=(function(i){return function(){loadChart(i);};})(ci);
   }
 
-  // Init resize + sortable
-  initResize();
+  initAllResize();
   initSortable();
   loadAllCharts();
 }
 
-function initResize(){
+function initAllResize(){
+  initHResize();
+  initVResize();
+}
+
+function initHResize(){
   var colL=document.getElementById('colLeft');
   var colR=document.getElementById('colRight');
   var container=document.getElementById('colsContainer');
   if(!colL||!colR||!container)return;
-
-  // Remove old handle if exists
-  var old=container.querySelector('.resize-handle');
+  var old=container.querySelector('.resize-h');
   if(old)old.remove();
-
   var handle=document.createElement('div');
-  handle.className='resize-handle';
-  handle.style.cssText='position:absolute;right:-3px;top:0;bottom:0;width:8px;cursor:ew-resize;z-index:20';
+  handle.className='resize-h';
+  handle.style.cssText='right:-3px;position:absolute;';
   colL.style.position='relative';
   colL.appendChild(handle);
 
-  var isResizing=false;
-  var startX,startLW,startRW;
-
+  var isRes=false,sX,sLW,sRW;
   handle.onmousedown=function(e){
-    isResizing=true;
-    startX=e.clientX;
-    var total=container.offsetWidth;
-    startLW=colL.offsetWidth/total*100;
-    startRW=colR.offsetWidth/total*100;
+    isRes=true;sX=e.clientX;
+    var tot=container.offsetWidth;
+    sLW=colL.offsetWidth/tot*100;sRW=colR.offsetWidth/tot*100;
     container.classList.add('resizing');
-    document.body.style.cursor='ew-resize';
-    document.body.style.userSelect='none';
+    document.body.style.cursor='ew-resize';document.body.style.userSelect='none';
     e.preventDefault();
   };
   document.onmousemove=function(e){
-    if(!isResizing)return;
-    var total=container.offsetWidth;
-    var dx=(e.clientX-startX)/total*100;
-    var newL=Math.max(20,Math.min(80,startLW+dx));
-    var newR=100-newL;
-    colL.style.flex=newL;
-    colR.style.flex=newR;
-    // Redraw charts after resize
+    if(!isRes)return;
+    var tot=container.offsetWidth,dx=(e.clientX-sX)/tot*100;
+    var nL=Math.max(15,Math.min(85,sLW+dx));
+    colL.style.flex=nL;colR.style.flex=100-nL;
     for(var i=0;i<3;i++)redrawChart(i);
   };
   document.onmouseup=function(){
-    if(!isResizing)return;
-    isResizing=false;
-    container.classList.remove('resizing');
-    document.body.style.cursor='';
-    document.body.style.userSelect='';
-    // Save widths
-    var total=container.offsetWidth;
-    var savedW=[Math.round(colL.offsetWidth/total*100),Math.round(colR.offsetWidth/total*100)];
-    try{localStorage.setItem('ravenColsWidth',JSON.stringify(savedW));}catch(e){}
+    if(!isRes)return;
+    isRes=false;container.classList.remove('resizing');
+    document.body.style.cursor='';document.body.style.userSelect='';
+    var tot=container.offsetWidth;
+    try{localStorage.setItem('ravenColsWidth',JSON.stringify([Math.round(colL.offsetWidth/tot*100),Math.round(colR.offsetWidth/tot*100)]));}catch(e){}
   };
 }
 
+function initVResize(){
+  var items=document.querySelectorAll('.layout-item');
+  for(var idx=0;idx<items.length;idx++){
+    var item=items[idx];
+    var old=item.querySelector('.resize-v');
+    if(old)old.remove();
+
+    // Only in cols container, add v-resize handle
+    var vh=document.createElement('div');
+    vh.className='resize-v';
+    vh.style.cssText='bottom:-2px;position:absolute;';
+    item.style.position='relative';
+    item.appendChild(vh);
+
+    var isRes=false,sY,sH;
+    vh.onmousedown=function(e,itm,id){
+      return function(ev){
+        isRes=true;sY=ev.clientY;sH=itm.offsetHeight;
+        document.body.classList.add('resizing-v');
+        document.body.style.cursor='ns-resize';document.body.style.userSelect='none';
+        ev.preventDefault();
+      };
+    }(null,item,item.getAttribute('data-id'));
+
+    (function(itm,iid){
+      vh.onmousedown=function(e){
+        isRes=true;sY=e.clientY;sH=itm.offsetHeight;
+        document.body.classList.add('resizing-v');
+        document.body.style.cursor='ns-resize';document.body.style.userSelect='none';
+        e.preventDefault();
+        var dH=0;
+        var mousemove=function(e2){
+          if(!isRes){document.removeEventListener('mousemove',mousemove);return;}
+          dH=e2.clientY-sY;
+          var nh=Math.max(30,sH+dH);
+          itm.style.minHeight=nh+'px';
+        };
+        var mouseup=function(){
+          isRes=false;
+          document.body.classList.remove('resizing-v');
+          document.body.style.cursor='';document.body.style.userSelect='';
+          document.removeEventListener('mousemove',mousemove);
+          document.removeEventListener('mouseup',mouseup);
+          var hh={};try{hh=JSON.parse(localStorage.getItem('ravenHeights'))||{};}catch(e){}
+          hh[iid]=itm.offsetHeight;
+          try{localStorage.setItem('ravenHeights',JSON.stringify(hh));}catch(e){}
+        };
+        document.addEventListener('mousemove',mousemove);
+        document.addEventListener('mouseup',mouseup);
+      };
+    })(item,item.getAttribute('data-id'));
+  }
+}
+
 function redrawChart(idx){
-  var cs=document.getElementById('coin'+idx);
-  var ts=document.getElementById('tf'+idx);
+  var cs=document.getElementById('coin'+idx),ts=document.getElementById('tf'+idx);
   if(cs&&ts)loadChart(idx);
 }
 
@@ -270,25 +310,15 @@ function initSortable(){
   var wrap=document.getElementById('layoutWrap');
   if(!wrap)return;
   if(window._sortable)window._sortable.destroy();
-  window._sortable=new Sortable(wrap,{
-    animation:150,
-    handle:'.sort-handle',
-    ghostClass:'sort-ghost',
-    disabled:!window.editMode,
-    onEnd:function(){}
-  });
+  window._sortable=new Sortable(wrap,{animation:150,handle:'.sort-handle',ghostClass:'sort-ghost',disabled:!window.editMode});
 }
 
 function loadChart(idx){
-  var coin=document.getElementById('coin'+idx);
-  var tf=document.getElementById('tf'+idx);
+  var coin=document.getElementById('coin'+idx),tf=document.getElementById('tf'+idx);
   if(!coin||!tf||!coin.value)return;
   fetchAndDrawCandles('chart'+idx,coin.value,tf.value);
 }
-
-function loadAllCharts(){
-  for(var i=0;i<3;i++){setTimeout(function(n){return function(){loadChart(n);};}(i),200);}
-}
+function loadAllCharts(){for(var i=0;i<3;i++){setTimeout(function(n){return function(){loadChart(n);};}(i),200);}}
 
 async function fetchAndDrawCandles(id,symbol,tf){
   var can=document.getElementById(id);
@@ -319,35 +349,30 @@ function drawCandles(id,data){
   for(var i=0;i<data.length;i++){var x=pad.l+(cw/data.length)*i;var yO=pad.t+ch-((o[i]-mn)/range)*ch,yC=pad.t+ch-((c[i]-mn)/range)*ch,yH=pad.t+ch-((h[i]-mn)/range)*ch,yL=pad.t+ch-((l[i]-mn)/range)*ch,isG=c[i]>=o[i],col=isG?'#4ade80':'#f87171';ctx.strokeStyle=col;ctx.lineWidth=0.7;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();var tp=Math.min(yO,yC),bt=Math.max(yO,yC);ctx.fillStyle=col;ctx.fillRect(x-candleW/2,tp,candleW,Math.max(1,bt-tp));}
 }
 
-// ===== TOGGLE EDIT =====
+// ===== EDIT TOGGLE =====
 var btn=document.getElementById('editBtn');
 btn.onclick=function(){
   window.editMode=!window.editMode;
-  var body=document.getElementById('a');
-  if(!body)return;
   if(window.editMode){
-    btn.textContent='🔒 Fijar';
-    btn.className='active';
+    btn.textContent='🔒 Fijar';btn.className='active';
     var wrap=document.getElementById('layoutWrap');
     if(wrap)wrap.classList.add('edit-mode');
     if(window._sortable)window._sortable.option('disabled',false);
-    // Show resize handle
-    var rh=document.querySelector('.resize-handle');
-    if(rh)rh.style.display='block';
+    // Show resize handles
+    document.querySelectorAll('.resize-h,.resize-v').forEach(function(e){e.style.background='rgba(129,140,248,0.15)';});
   } else {
+    btn.textContent='✅ Fijado';
     var wrap=document.getElementById('layoutWrap');
     if(wrap){
       var items=wrap.querySelectorAll('.layout-item');
       var order=[];
       for(var i=0;i<items.length;i++)order.push(items[i].getAttribute('data-id'));
-      try{localStorage.setItem('ravenLayoutV2',JSON.stringify(order));}catch(e){}
-      btn.textContent='✅ Fijado';
-      setTimeout(function(){btn.textContent='✏️ Editar';btn.className='';},1500);
+      try{localStorage.setItem('ravenLayoutV3',JSON.stringify(order));}catch(e){}
+      wrap.classList.remove('edit-mode');
     }
-    if(wrap)wrap.classList.remove('edit-mode');
     if(window._sortable)window._sortable.option('disabled',true);
-    var rh=document.querySelector('.resize-handle');
-    if(rh)rh.style.display='none';
+    document.querySelectorAll('.resize-h,.resize-v').forEach(function(e){e.style.background='transparent';});
+    setTimeout(function(){btn.textContent='✏️ Editar';btn.className='';},1200);
   }
 };
 
