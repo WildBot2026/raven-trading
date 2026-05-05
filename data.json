@@ -80,12 +80,28 @@
     "change": 1.9
   },
   "totalValue": 55.993218987,
-  "startCapital": {
-    "WILD": 55.0
-  },
+  "startCapital": 100,
   "startDate": {
     "WILD": "2026-05-04"
   },
   "version": "v65896",
-  "_ts": 1777945130
+  "_ts": 1777945130,
+  "accounts": {
+    "WILD": {
+      "capital": 55.99321898699999,
+      "startCapital": 50,
+      "pnl": 5.993218986999992,
+      "startDate": "2026-04-01"
+    },
+    "JOAKO": {
+      "capital": 0,
+      "startCapital": 50,
+      "pnl": -50,
+      "startDate": "2026-04-01"
+    }
+  },
+  "totalCapital": 55.99321898699999,
+  "pnlCycle": -44.00678101300001,
+  "pnlPercent": "-44.01%",
+  "timestamp": 1777945899000
 }
