@@ -6,27 +6,26 @@
 <title>Raven 🦅</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:10px}
-.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-bottom:8px}
-.h3{color:#64748b;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.v{font-size:18px;font-weight:800}
-.g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:11px}
+body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:8px;overflow-x:hidden}
+.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:6px 8px;margin-bottom:5px}
+.h3{color:#64748b;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.v{font-size:15px;font-weight:800}
+.g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:10px}
 .f{display:flex}.b{justify-content:space-between}.a{align-items:center}
-.pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px;margin-bottom:5px}
-.tg{font-size:9px;padding:2px 5px;border-radius:4px;font-weight:600;display:inline-block}
-.tw{background:rgba(129,140,248,0.15);color:#818cf8}
-.tj{background:rgba(52,211,153,0.15);color:#34d399}
+.pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:5px 7px;margin-bottom:4px}
+.tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
+.tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
 .tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
-table{width:100%;font-size:10px;border-collapse:collapse}
-th{color:#64748b;font-weight:500;text-align:left;padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.03)}
-.mt{margin-top:4px}.mb{margin-bottom:6px}
-.h{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:700px){.h{grid-template-columns:1fr}}
+table{width:100%;font-size:9px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.h{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.t{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+@media(max-width:700px){.h{grid-template-columns:1fr}.t{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="a"><div style="padding:30px;text-align:center;color:#64748b">Cargando...</div></div>
+<div id="a"><div style="padding:20px;text-align:center;color:#64748b">Cargando...</div></div>
 <script>
 (function(){
 // ===== DATA =====
@@ -65,113 +64,180 @@ function $(n){
   return'$'+n.toFixed(6);
 }
 function q(n){
-  if(!n)return'0';
-  return n>=1e3?n.toFixed(0):n>=1?n.toFixed(2):n.toFixed(4);
+  if(!n)return'0';return n>=1e3?n.toFixed(0):n>=1?n.toFixed(2):n.toFixed(4);
 }
-function at(a){return a==='WILD'?'<span class="tg tw">WILD</span>':'<span class="tg tj">JOAKO</span>';}
-function sb(s){return(s==='buy'||s==='Buy')?'<span class="g" style="font-weight:600;font-size:10px">BUY</span>':'<span class="r" style="font-weight:600;font-size:10px">SELL</span>';}
+function at(a){return a==='WILD'?'<span class="tg tw">W</span>':'<span class="tg tj">J</span>';}
+function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:700;font-size:9px">B</span>':'<span class="r" style="font-weight:700;font-size:9px">S</span>';}
 
 // ===== RENDER =====
 var h='';
 
-// HEADER
-h+='<div class="c"><div class="f b a">';
-h+='<div><span class="gr x">Capital</span> <span class="v '+(d.pnl>=0?'g':'r')+'">'+$(d.cap)+'</span></div>';
-h+='<div><span class="gr x">PNL</span> <span class="v '+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+'</span></div>';
-h+='<div><span class="gr x">BTC</span> <span class="v '+(d.btcc>=0?'g':'r')+'">'+$(d.btc)+'</span> <span class="x '+(d.btcc>=0?'g':'r')+'">('+(d.btcc>=0?'+':'')+d.btcc.toFixed(2)+'%)</span></div>';
-h+='</div></div>';
-
-// ACCOUNTS
-h+='<div class="c"><div class="f b a">';
+// COMPACT HEADER: Capital | PNL | BTC | WILD | JOAKO
+h+='<div class="c"><div class="f b a" style="font-size:11px">';
+h+='<b>Cap</b> <span class="'+(d.pnl>=0?'g':'r')+'">'+$(d.cap)+'</span>';
+h+=' <span class="gr">|</span> <b>PNL</b> <span class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+'</span>';
+h+=' <span class="gr">|</span> <b>BTC</b> <span class="'+(d.btcc>=0?'g':'r')+'">'+$(d.btc)+'</span><span class="x '+(d.btcc>=0?'g':'r')+'">('+(d.btcc>=0?'+':'')+d.btcc.toFixed(2)+'%)</span>';
 for(var a in d.acc){
   var ac=d.acc[a],ap=ac.c-ac.s;
-  h+='<div><span class="gr x">'+a+'</span> <span class="v '+(ap>=0?'g':'r')+'">'+$(ac.c)+'</span> <span class="x '+(ap>=0?'g':'r')+'">('+(ap>=0?'+':'')+$(ap)+')</span></div>';
+  h+=' <span class="gr">|</span> <b>'+a+'</b> <span class="'+(ap>=0?'g':'r')+'">'+$(ac.c)+'</span> <span class="x '+(ap>=0?'g':'r')+'">('+(ap>=0?'+':'')+$(ap)+')</span>';
 }
 h+='</div></div>';
 
-// TWO COLUMNS
+// TWO-COLUMN: positions + chart
 h+='<div class="h">';
-// LEFT: Positions
-h+='<div><div class="c"><div class="h3">Posiciones ('+d.pos.length+')</div>';
+// LEFT: Positions compact
+h+='<div><div class="c" style="padding:4px 6px"><span class="h3">Posiciones ('+d.pos.length+')</span>';
 d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
 for(var i=0;i<d.pos.length;i++){
-  var p=d.pos[i],lp=p.pr||0,pp=(lp-p.e)*p.q,pct=((lp/p.e)-1)*100;
-  h+='<div class="pc"><div class="f b a">';
-  h+='<div><span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span class="'+(pct>=0?'g':'r')+'" style="font-size:11px;font-weight:600">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</span></div>';
-  h+='<span class="'+(pp>=0?'g':'r')+'" style="font-weight:600;font-size:12px">'+(pp>=0?'+':'')+$(pp)+'</span>';
-  h+='</div><div class="x mt" style="color:#64748b">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> Qty: '+q(p.q)+' Act: <span>'+$(lp)+'</span></div>';
-  h+='<div class="tg2 mt">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> Targets: <s>+8% '+$(p.t8)+'</s> <s>+15% '+$(p.t15)+'</s> <s>+25% '+$(p.t25)+'</s></div>';
+  var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100;
+  h+='<div class="pc" style="padding:3px 5px"><div class="f b a">';
+  h+='<span style="font-size:12px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span class="'+(pct>=0?'g':'r')+'" style="font-size:10px;font-weight:600">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</span>';
+  h+='</div><div class="x" style="color:#64748b">E:'+$(p.e)+' Q:'+q(p.q)+' A:'+$(lp)+'</div>';
+  h+='<div class="tg2">S:<span class="r" style="font-weight:600">'+$(p.st)+'</span> T:<s>'+$(p.t8)+'</s> <s>'+$(p.t15)+'</s> <s>'+$(p.t25)+'</s></div>';
   h+='</div>';
 }
 h+='</div></div>';
 
-// RIGHT: Chart
-h+='<div><div class="c"><div class="h3">Capital</div><canvas id="chart" style="width:100%;height:150px"></canvas></div></div>';
+// RIGHT: Capital chart + BTC candlestick
+h+='<div>';
+h+='<div class="c" style="padding:4px 6px"><div class="h3">Capital</div><canvas id="capChart" style="width:100%;height:100px"></canvas></div>';
+h+='<div class="c" style="padding:4px 6px"><div class="h3">BTC 15m</div><canvas id="btcChart" style="width:100%;height:100px"></canvas></div>';
+h+='<div class="c" style="padding:4px 6px"><div class="h3">ETH 15m</div><canvas id="ethChart" style="width:100%;height:100px"></canvas></div>';
+h+='</div>';
 
 h+='</div>';
 
 // TRADES
-h+='<div class="c"><div class="h3">Trades ('+d.tr.length+')</div>';
+h+='<div class="c" style="padding:4px 6px"><span class="h3">Trades ('+d.tr.length+')</span>';
 if(d.tr.length){
-  h+='<table><thead><tr><th>Fecha</th><th>Simbolo</th><th>Tipo</th><th style="text-align:right">Precio</th><th style="text-align:right">Cant</th><th style="text-align:right">PNL</th><th>Cuenta</th></tr></thead><tbody>';
+  h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Pr.</th><th style="text-align:right">Q</th><th>Cuenta</th></tr></thead><tbody>';
   for(var i=d.tr.length-1;i>=0;i--){
     var t=d.tr[i];
-    h+='<tr><td class="gr">'+(t.d||'—')+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+$(t.p)+'</td><td style="text-align:right">'+q(t.q)+'</td>';
-    var tp=t.pl||0;
-    h+='<td style="text-align:right;font-weight:600" class="'+(tp>=0?'g':'r')+'">'+(tp===0?'—':(tp>=0?'+':'')+$(tp))+'</td><td>'+at(t.ac)+'</td></tr>';
+    h+='<tr><td class="gr">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600">'+t.s+'</td><td>'+sb(t.sd)+'</td><td style="text-align:right">'+$(t.p)+'</td><td style="text-align:right">'+q(t.q)+'</td><td>'+at(t.ac)+'</td></tr>';
   }
   h+='</tbody></table>';
-}else{
-  h+='<div class="gr" style="text-align:center;padding:12px">Sin trades</div>';
 }
 h+='</div>';
 
 document.getElementById('a').innerHTML=h;
 
-// ===== CHART =====
-var can=document.getElementById('chart');
-if(can&&d.ch&&d.ch.length>1){
-  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=150;
+// ===== DRAW CHARTS with Canvas =====
+drawLineChart('capChart',d.ch,'total');
+fetchAndDrawCandles('btcChart','BTCUSDT');
+fetchAndDrawCandles('ethChart','ETHUSDT');
+
+function drawLineChart(id,data,key){
+  var can=document.getElementById(id);
+  if(!can||!data||data.length<2)return;
+  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=100;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
-  var pad={t:15,b:15,l:35,r:10},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
-  var max=0,min=1e9;
-  for(var i=0;i<d.ch.length;i++){
-    if(d.ch[i].to>max)max=d.ch[i].to;
-    if(d.ch[i].to<min)min=d.ch[i].to;
+  var pad={t:10,b:12,l:30,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
+  var max=-1e9,min=1e9;
+  for(var i=0;i<data.length;i++){
+    var v=data[i].to;
+    if(v>max)max=v;if(v<min)min=v;
   }
   var range=max-min||1;min-=range*0.1;max+=range*0.1;range=max-min;
   
-  // Grid lines
-  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=0.5;
-  for(var y=0;y<=4;y++){
-    var yy=pad.t+(ch/4)*y;
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
+  for(var y=0;y<=3;y++){
+    var yy=pad.t+(ch/3)*y;
     ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
-    ctx.fillStyle='#475569';ctx.font='8px sans-serif';ctx.textAlign='right';
-    ctx.fillText('$'+(max-(range/4)*y).toFixed(1),pad.l-4,yy+3);
+    ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
+    ctx.fillText('$'+(max-(range/3)*y).toFixed(1),pad.l-3,yy+2);
   }
   
-  // Line + gradient
+  // Gradient fill
   var grad=ctx.createLinearGradient(0,pad.t,0,he-pad.b);
-  grad.addColorStop(0,'rgba(74,222,128,0.12)');grad.addColorStop(1,'rgba(74,222,128,0.01)');
+  grad.addColorStop(0,'rgba(74,222,128,0.08)');grad.addColorStop(1,'rgba(74,222,128,0.01)');
   
   ctx.beginPath();
-  for(var i=0;i<d.ch.length;i++){
-    var x=pad.l+(cw/(d.ch.length-1))*i;
-    var y=pad.t+ch-((d.ch[i].to-min)/range)*ch;
+  for(var i=0;i<data.length;i++){
+    var x=pad.l+(cw/(data.length-1))*i;
+    var y=pad.t+ch-((data[i].to-min)/range)*ch;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.lineTo(pad.l+(cw/(data.length-1))*(data.length-1),he-pad.b);
+  ctx.lineTo(pad.l,he-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  
+  ctx.beginPath();
+  for(var i=0;i<data.length;i++){
+    var x=pad.l+(cw/(data.length-1))*i;
+    var y=pad.t+ch-((data[i].to-min)/range)*ch;
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
   ctx.strokeStyle='#4ade80';ctx.lineWidth=1.5;ctx.stroke();
   
-  // Fill
-  var lastX=pad.l+(cw/(d.ch.length-1))*(d.ch.length-1);
-  ctx.lineTo(lastX,he-pad.b);ctx.lineTo(pad.l,he-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  for(var i=0;i<data.length;i++){
+    var x=pad.l+(cw/(data.length-1))*i;
+    var y=pad.t+ch-((data[i].to-min)/range)*ch;
+    ctx.beginPath();ctx.arc(x,y,1.5,0,Math.PI*2);ctx.fillStyle='#4ade80';ctx.fill();
+  }
+}
+
+async function fetchAndDrawCandles(id,symbol){
+  var can=document.getElementById(id);
+  if(!can)return;
+  try{
+    var r=await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol='+symbol+'&interval=15&limit=60');
+    var j=await r.json();
+    if(j.retCode!==0||!j.result||!j.result.list)return;
+    var raw=j.result.list.reverse();
+    drawCandles(id,raw);
+  }catch(e){}
+}
+
+function drawCandles(id,data){
+  var can=document.getElementById(id);
+  if(!can||!data||data.length<2)return;
+  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=100;
+  can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
+  ctx.scale(2,2);
+  var pad={t:8,b:10,l:30,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
   
-  // Points
-  for(var i=0;i<d.ch.length;i++){
-    var x=pad.l+(cw/(d.ch.length-1))*i;
-    var y=pad.t+ch-((d.ch[i].to-min)/range)*ch;
-    ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);ctx.fillStyle='#4ade80';ctx.fill();
+  // Parse
+  var o=[],h=[],l=[],c=[];
+  for(var i=0;i<data.length;i++){
+    o.push(parseFloat(data[i][1]));h.push(parseFloat(data[i][2]));
+    l.push(parseFloat(data[i][3]));c.push(parseFloat(data[i][4]));
+  }
+  var max=-1e9,min=1e9;
+  for(var i=0;i<data.length;i++){
+    if(h[i]>max)max=h[i];if(l[i]<min)min=l[i];
+  }
+  var range=max-min||1;min-=range*0.05;max+=range*0.05;range=max-min;
+  
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
+  for(var y=0;y<=3;y++){
+    var yy=pad.t+(ch/3)*y;
+    ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
+    ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
+    ctx.fillText(max.toFixed(0),pad.l-3,yy+2);
+    max-=range/3;
+  }
+  
+  var candleW=Math.max(1,cw/data.length-1);
+  for(var i=0;i<data.length;i++){
+    var x=pad.l+(cw/data.length)*i;
+    var yO=pad.t+ch-((o[i]-min)/range)*ch;
+    var yC=pad.t+ch-((c[i]-min)/range)*ch;
+    var yH=pad.t+ch-((h[i]-min)/range)*ch;
+    var yL=pad.t+ch-((l[i]-min)/range)*ch;
+    var isGreen=c[i]>=o[i];
+    var color=isGreen?'#4ade80':'#f87171';
+    
+    // Wick
+    ctx.strokeStyle=color;ctx.lineWidth=0.8;
+    ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();
+    
+    // Body
+    var top=Math.min(yO,yC),bot=Math.max(yO,yC);
+    var bodyH=Math.max(1,bot-top);
+    ctx.fillStyle=color;
+    ctx.fillRect(x-candleW/2,top,candleW,bodyH);
   }
 }
 })();
