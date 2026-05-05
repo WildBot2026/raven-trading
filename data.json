@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-05-05T10:11:34-06:00",
-  "totalCapital": 106.79,
+  "timestamp": "2026-05-05T10:37:30-06:00",
+  "totalCapital": 107.03,
   "startCapital": 100,
   "startDate": {
     "WILD": "2026-05-04"
   },
-  "pnlCycle": 6.79,
-  "pnlPercent": "6.79",
+  "pnlCycle": 7.03,
+  "pnlPercent": "7.03",
   "accounts": {
     "WILD": {
-      "capital": 55.83,
+      "capital": 55.93,
       "startCapital": 60,
       "startDate": "2026-04-01",
-      "pnl": -4.17
+      "pnl": -4.07
     },
     "JOAKO": {
-      "capital": 50.96,
+      "capital": 51.1,
       "startCapital": 40,
       "startDate": "2026-04-01",
-      "pnl": 10.96
+      "pnl": 11.1
     }
   },
   "wallets": [
@@ -33,8 +33,8 @@
       "account": "WILD",
       "symbol": "TON",
       "quantity": 16.7732,
-      "price": 1.798,
-      "value": 30.16,
+      "price": 1.806,
+      "value": 30.29,
       "entryPrice": 1.823,
       "qty": 16.7732,
       "stop": 1.740965,
@@ -59,8 +59,8 @@
       "account": "WILD",
       "symbol": "ADA",
       "quantity": 62.1578,
-      "price": 0.2569,
-      "value": 15.97,
+      "price": 0.2565,
+      "value": 15.94,
       "entryPrice": 0.2585,
       "qty": 62.1578,
       "stop": 0.2468675,
@@ -72,8 +72,8 @@
       "account": "JOAKO",
       "symbol": "BLEND",
       "quantity": 149.2114,
-      "price": 0.12434,
-      "value": 18.55,
+      "price": 0.12478,
+      "value": 18.62,
       "entryPrice": 0.12757,
       "qty": 149.2114,
       "stop": 0.12182935,
@@ -92,8 +92,8 @@
       "account": "JOAKO",
       "symbol": "TON",
       "quantity": 12.4475,
-      "price": 1.8,
-      "value": 22.41,
+      "price": 1.805,
+      "value": 22.47,
       "entryPrice": 1.823,
       "qty": 12.4475,
       "stop": 1.740965,
@@ -105,8 +105,8 @@
       "account": "JOAKO",
       "symbol": "ONDO",
       "quantity": 22.0418,
-      "price": 0.3173,
-      "value": 6.99,
+      "price": 0.3175,
+      "value": 7.0,
       "entryPrice": 0.3215,
       "qty": 22.0418,
       "stop": 0.3070325,
@@ -143,16 +143,16 @@
   },
   "openPositions": 6,
   "btc": {
-    "price": 81502.9,
-    "change": 2.22
+    "price": 81166.2,
+    "change": 1.06
   },
   "positions": [
     {
       "account": "WILD",
       "symbol": "TON",
       "quantity": 16.7732,
-      "price": 1.798,
-      "value": 30.16,
+      "price": 1.806,
+      "value": 30.29,
       "entryPrice": 1.823,
       "qty": 16.7732,
       "stop": 1.740965,
@@ -177,8 +177,8 @@
       "account": "WILD",
       "symbol": "ADA",
       "quantity": 62.1578,
-      "price": 0.2569,
-      "value": 15.97,
+      "price": 0.2565,
+      "value": 15.94,
       "entryPrice": 0.2585,
       "qty": 62.1578,
       "stop": 0.2468675,
@@ -190,8 +190,8 @@
       "account": "JOAKO",
       "symbol": "BLEND",
       "quantity": 149.2114,
-      "price": 0.12434,
-      "value": 18.55,
+      "price": 0.12478,
+      "value": 18.62,
       "entryPrice": 0.12757,
       "qty": 149.2114,
       "stop": 0.12182935,
@@ -203,8 +203,8 @@
       "account": "JOAKO",
       "symbol": "TON",
       "quantity": 12.4475,
-      "price": 1.8,
-      "value": 22.41,
+      "price": 1.805,
+      "value": 22.47,
       "entryPrice": 1.823,
       "qty": 12.4475,
       "stop": 1.740965,
@@ -216,8 +216,8 @@
       "account": "JOAKO",
       "symbol": "ONDO",
       "quantity": 22.0418,
-      "price": 0.3173,
-      "value": 6.99,
+      "price": 0.3175,
+      "value": 7.0,
       "entryPrice": 0.3215,
       "qty": 22.0418,
       "stop": 0.3070325,
@@ -278,6 +278,12 @@
       "total": 106.79,
       "wild": 55.83,
       "joako": 50.96
+    },
+    {
+      "timestamp": "2026-05-05T10:37:30-06:00",
+      "total": 107.03,
+      "wild": 55.93,
+      "joako": 51.1
     }
   ],
   "trades": [

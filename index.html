@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raven Trading 🦅</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:12px;min-height:100vh}
@@ -12,7 +13,7 @@ body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-s
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .val{font-size:18px;font-weight:800}
 .green{color:#4ade80}.red{color:#f87171}.gray{color:#64748b}.indigo{color:#818cf8}
-.text-xs{font-size:11px}.text-sm{font-size:13px}.text-lg{font-size:16px}
+.text-xs{font-size:11px}.text-sm{font-size:13px}
 .mt-1{margin-top:4px}.mt-2{margin-top:8px}.mb-2{margin-bottom:8px}
 .flex{display:flex}.justify-between{justify-content:space-between}.items-center{align-items:center}
 .gap-1{gap:4px}.gap-2{gap:8px}
@@ -28,48 +29,9 @@ td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,0.03)}
 </head>
 <body>
 <div id="app"><div style="text-align:center;padding:40px;color:#64748b">🦅 Cargando...</div></div>
-<script>
-// ====== DATA INLINE ======
-const DATA = null;
 
-async function main(){
-  let d = DATA;
-  
-  // Try to fetch live data
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/WildBot2026/raven-trading/main/data.json?_='+Date.now());
-    d = await r.json();
-  } catch(e) {
-    // Use fallback if fetch fails
-    d = {
-      "totalCapital": 106.79,
-      "startCapital": 100,
-      "pnlCycle": 6.79,
-      "pnlPercent": "6.79",
-      "accounts": {
-        "WILD": {"capital": 56.56, "startCapital": 60, "pnl": -3.44},
-        "JOAKO": {"capital": 50.23, "startCapital": 40, "pnl": 10.23}
-      },
-      "btc": {"price": 81475, "change": 2.04},
-      "positions": [
-        {"symbol":"ADA","account":"WILD","entryPrice":0.468,"qty":28.07,"stop":0.449,"target8":0.505,"target15":0.538,"target25":0.585,"currentPrice":0.468},
-        {"symbol":"BLEND","account":"JOAKO","entryPrice":0.1176,"qty":112.0,"stop":0.113,"target8":0.127,"target15":0.135,"target25":0.147,"currentPrice":0.138},
-        {"symbol":"ONDO","account":"JOAKO","entryPrice":0.3112,"qty":22.04,"stop":0.299,"target8":0.336,"target15":0.358,"target25":0.389,"currentPrice":0.309},
-        {"symbol":"ONDO","account":"WILD","entryPrice":0.3112,"qty":30.42,"stop":0.299,"target8":0.336,"target15":0.358,"target25":0.389,"currentPrice":0.309},
-        {"symbol":"TON","account":"JOAKO","entryPrice":1.823,"qty":12.72,"stop":1.750,"target8":1.969,"target15":2.096,"target25":2.279,"currentPrice":1.837},
-        {"symbol":"TON","account":"WILD","entryPrice":1.862,"qty":16.79,"stop":1.788,"target8":2.011,"target15":2.141,"target25":2.328,"currentPrice":1.837}
-      ],
-      "trades": [
-        {"date":"2026-05-04 19:06","symbol":"ATH","side":"buy","qty":2143.854,"price":0.0062,"value":13.29,"pnl":0,"account":"WILD"},
-        {"date":"2026-05-04 08:40","symbol":"ONDO","side":"buy","qty":121.7,"price":0.3112,"value":37.87,"pnl":0,"account":"WILD"},
-        {"date":"2026-05-04 08:40","symbol":"ONDO","side":"buy","qty":88.16,"price":0.3112,"value":27.44,"pnl":0,"account":"JOAKO"},
-        {"date":"2026-05-04 19:02","symbol":"BILL","side":"sell","qty":954.6,"price":0.0408,"value":38.95,"pnl":0,"account":"WILD"}
-      ]
-    };
-  }
-  
-  render(d);
-}
+<script>
+let capitalChart = null;
 
 function fmt$(n){
   if(n===undefined||n===null)return'—';
@@ -93,21 +55,65 @@ function acctTag(a){
   return a==='WILD'?'<span class="tag tag-wild">WILD</span>':'<span class="tag tag-joako">JOAKO</span>';
 }
 
-function render(d){
-  let h='';
+async function main(){
+  let d = null;
   
-  // HEADER
-  const pnl=d.pnlCycle||0;
-  h+='<div class="card"><div class="flex justify-between items-center">';
-  h+='<div><div class="text-xs gray">Capital</div><div class="val '+(pnl>=0?'green':'red')+'">'+fmt$(d.totalCapital)+'</div></div>';
-  h+='<div style="text-align:right"><div class="text-xs gray">PNL</div><div class="val '+(pnl>=0?'green':'red')+'">'+(pnl>=0?'+':'')+fmt$(pnl)+'</div></div>';
-  h+='</div>';
-  if(d.btc){
-    h+='<div class="text-xs gray mt-1">BTC <span class="'+(d.btc.change>=0?'green':'red')+'">'+fmt$(d.btc.price)+' ('+(d.btc.change>=0?'+':'')+d.btc.change.toFixed(2)+'%)</span></div>';
+  // Try live data, fallback to hardcoded
+  try {
+    const r = await fetch('https://raw.githubusercontent.com/WildBot2026/raven-trading/main/data.json?_='+Date.now());
+    d = await r.json();
+  } catch(e) {
+    d = null;
   }
+  
+  if(!d || !d.positions){
+    // Full hardcoded fallback
+    d = {
+      totalCapital: 107.03, startCapital: 100, pnlCycle: 7.03, pnlPercent: "7.03",
+      accounts: {WILD:{capital:56.56,startCapital:60,pnl:-3.44},JOAKO:{capital:50.47,startCapital:40,pnl:10.47}},
+      btc: {price:81475,change:2.04},
+      positions: [
+        {symbol:"ADA",account:"WILD",entryPrice:0.468,qty:28.07,stop:0.449,target8:0.505,target15:0.538,target25:0.585,currentPrice:0.468},
+        {symbol:"BLEND",account:"JOAKO",entryPrice:0.1176,qty:112.0,stop:0.113,target8:0.127,target15:0.135,target25:0.147,currentPrice:0.138},
+        {symbol:"ONDO",account:"JOAKO",entryPrice:0.3112,qty:22.04,stop:0.299,target8:0.336,target15:0.358,target25:0.389,currentPrice:0.309},
+        {symbol:"ONDO",account:"WILD",entryPrice:0.3112,qty:30.42,stop:0.299,target8:0.336,target15:0.358,target25:0.389,currentPrice:0.309},
+        {symbol:"TON",account:"JOAKO",entryPrice:1.823,qty:12.72,stop:1.750,target8:1.969,target15:2.096,target25:2.279,currentPrice:1.837},
+        {symbol:"TON",account:"WILD",entryPrice:1.862,qty:16.79,stop:1.788,target8:2.011,target15:2.141,target25:2.328,currentPrice:1.837}
+      ],
+      trades: [
+        {date:"2026-05-04 19:06",symbol:"ATH",side:"buy",qty:2143.854,price:0.0062,value:13.29,pnl:0,account:"WILD"},
+        {date:"2026-05-04 08:40",symbol:"ONDO",side:"buy",qty:121.7,price:0.3112,value:37.87,pnl:0,account:"WILD"},
+        {date:"2026-05-04 08:40",symbol:"ONDO",side:"buy",qty:88.16,price:0.3112,value:27.44,pnl:0,account:"JOAKO"},
+        {date:"2026-05-04 19:02",symbol:"BILL",side:"sell",qty:954.6,price:0.0408,value:38.95,pnl:0,account:"WILD"}
+      ],
+      capitalHistory: [
+        {timestamp:"2026-05-04 20:08",total:105.21,wild:55.72,joako:49.49},
+        {timestamp:"2026-05-05 05:50",total:108.43,wild:56.56,joako:51.87},
+        {timestamp:"2026-05-05 05:50",total:108.41,wild:56.56,joako:51.85},
+        {timestamp:"2026-05-05 07:23",total:108.95,wild:56.56,joako:52.39},
+        {timestamp:"2026-05-05 07:23",total:108.95,wild:56.56,joako:52.39},
+        {timestamp:"2026-05-05 08:38",total:107.84,wild:56.56,joako:51.28},
+        {timestamp:"2026-05-05 10:37",total:107.03,wild:56.56,joako:50.47}
+      ]
+    };
+  }
+  
+  render(d);
+}
+
+function render(d){
+  const pnl = d.pnlCycle || 0;
+  let h = '';
+  
+  // ===== HEADER =====
+  h+='<div class="card"><div class="flex justify-between items-center">';
+  h+='<div><div class="text-xs gray">Capital Total</div><div class="val '+(pnl>=0?'green':'red')+'">'+fmt$(d.totalCapital)+'</div></div>';
+  h+='<div style="text-align:right"><div class="text-xs gray">PNL Ciclo</div><div class="val '+(pnl>=0?'green':'red')+'">'+(pnl>=0?'+':'')+fmt$(pnl)+' ('+(pnl>=0?'+':'')+d.pnlPercent+'%)</div></div>';
+  h+='</div>';
+  if(d.btc) h+='<div class="text-xs gray mt-1">Inicio: '+fmt$(d.startCapital)+' · BTC <span class="'+(d.btc.change>=0?'green':'red')+'">'+fmt$(d.btc.price)+' ('+(d.btc.change>=0?'+':'')+d.btc.change.toFixed(2)+'%)</span></div>';
   h+='</div>';
   
-  // ACCOUNTS
+  // ===== ACCOUNTS =====
   if(d.accounts){
     h+='<div class="grid-2">';
     for(const a of ['WILD','JOAKO']){
@@ -120,7 +126,10 @@ function render(d){
     h+='</div>';
   }
   
-  // POSITIONS - NO SCROLL
+  // ===== CAPITAL CHART =====
+  h+='<div class="card"><h3>📈 Evolución del Capital</h3><canvas id="capitalChart" style="width:100%;height:200px"></canvas></div>';
+  
+  // ===== POSITIONS (NO SCROLL) =====
   if(d.positions&&d.positions.length){
     h+='<div class="card"><h3>📌 Posiciones Abiertas ('+d.positions.length+')</h3>';
     const sorted=d.positions.slice().sort((a,b)=>a.symbol.localeCompare(b.symbol));
@@ -139,8 +148,8 @@ function render(d){
     h+='</div>';
   }
   
-  // TRADES
-  const trades=d.trades||[];
+  // ===== TRADES =====
+  const trades = d.trades || [];
   h+='<div class="card"><h3>📜 Historial de Trades ('+trades.length+')</h3>';
   if(trades.length){
     h+='<table><thead><tr><th>Fecha</th><th>Símbolo</th><th>Tipo</th><th style="text-align:right">Precio</th><th style="text-align:right">Cant</th><th style="text-align:right">PNL</th><th>Cuenta</th></tr></thead><tbody>';
@@ -161,7 +170,96 @@ function render(d){
   }
   h+='</div>';
   
-  document.getElementById('app').innerHTML=h;
+  document.getElementById('app').innerHTML = h;
+  
+  // ===== DRAW CHART =====
+  if(d.capitalHistory && d.capitalHistory.length > 1){
+    drawChart(d.capitalHistory, pnl);
+  }
+}
+
+function drawChart(history, pnl){
+  const canvas = document.getElementById('capitalChart');
+  if(!canvas) return;
+  if(capitalChart) capitalChart.destroy();
+  
+  const labels = history.map(h => {
+    const t = h.timestamp || '';
+    return t.length > 10 ? t.substring(5,16) : t;
+  });
+  const total = history.map(h => h.total);
+  const wild = history.map(h => h.wild);
+  const joako = history.map(h => h.joako);
+  
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(74,222,128,0.15)');
+  grad.addColorStop(1,'rgba(74,222,128,0.01)');
+  
+  capitalChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Total',
+          data: total,
+          borderColor: '#4ade80',
+          backgroundColor: grad,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 3,
+          borderWidth: 2
+        },
+        {
+          label: 'WILD',
+          data: wild,
+          borderColor: '#818cf8',
+          borderDash: [4,3],
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 1.5
+        },
+        {
+          label: 'JOAKO',
+          data: joako,
+          borderColor: '#34d399',
+          borderDash: [4,3],
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 1.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#64748b', font: { size: 9 }, boxWidth: 12, boxHeight: 2, padding: 6 }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: '#1a1a2e',
+          titleColor: '#e2e8f0',
+          bodyColor: '#94a3b8',
+          borderColor: 'rgba(255,255,255,0.08)',
+          borderWidth: 1
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#475569', font: { size: 8 }, maxRotation: 45 },
+          grid: { color: 'rgba(255,255,255,0.03)' }
+        },
+        y: {
+          ticks: { color: '#475569', font: { size: 9 }, callback: v => '$'+v },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        }
+      }
+    }
+  });
 }
 
 main();
