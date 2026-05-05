@@ -1,538 +1,89 @@
 {
-  "timestamp": "2026-05-04T17:03:23-06:00",
-  "totalCapital": 110.67,
-  "startCapital": 105,
-  "startDate": "2026-04-24",
-  "pnlCycle": 5.67,
-  "pnlPercent": "5.4",
-  "accounts": {
-    "WILD": {
-      "capital": 58.2,
-      "startCapital": 55.0,
-      "startDate": "05/01",
-      "pnl": 3.2
+  "positions": [
+    {
+      "symbol": "ATH",
+      "account": "WILD",
+      "quantity": 2143.854,
+      "price": 0.006163,
+      "value": 13.212572201999999,
+      "entryPrice": 0.006194451674414396,
+      "qty": 2143.854,
+      "stop": 0.005915701349065748,
+      "target8": 0.006690007808367548,
+      "target15": 0.007123619425576555,
+      "target25": 0.007743064593017995
     },
-    "JOAKO": {
-      "capital": 52.47,
-      "startCapital": 50.0,
-      "startDate": "05/01",
-      "pnl": 2.47
+    {
+      "symbol": "ONDO",
+      "account": "WILD",
+      "quantity": 121.70817,
+      "price": 0.3105,
+      "value": 37.790386784999995,
+      "entryPrice": 0.3112,
+      "qty": 121.70817,
+      "stop": 0.297196,
+      "target8": 0.336096,
+      "target15": 0.35788,
+      "target25": 0.389
+    },
+    {
+      "symbol": "ZK",
+      "account": "WILD",
+      "quantity": 0.005,
+      "price": 0.052,
+      "value": 0.00026,
+      "entryPrice": 0.052,
+      "qty": 0.005,
+      "stop": 0,
+      "target8": 0,
+      "target15": 0,
+      "target25": 0
     }
-  },
+  ],
   "wallets": [
     {
       "account": "WILD",
       "symbol": "USDT",
-      "quantity": 0.3619,
+      "quantity": 4.99,
       "price": 1.0,
-      "value": 0.36
+      "value": 4.99
     },
     {
       "account": "WILD",
-      "symbol": "BILL",
-      "quantity": 423.6759,
-      "price": 0.045552,
-      "value": 19.3,
-      "entryPrice": 0.04565
+      "symbol": "ATH",
+      "quantity": 2143.854,
+      "price": 0.006163,
+      "value": 13.212572201999999,
+      "entryPrice": 0.006194451674414396
     },
     {
       "account": "WILD",
       "symbol": "ONDO",
-      "quantity": 121.7082,
-      "price": 0.3167,
-      "value": 38.54,
+      "quantity": 121.70817,
+      "price": 0.3105,
+      "value": 37.790386784999995,
       "entryPrice": 0.3112
     },
     {
-      "account": "JOAKO",
-      "symbol": "USDT",
-      "quantity": 0.3883,
-      "price": 1.0,
-      "value": 0.39
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "BILL",
-      "quantity": 530.9685,
-      "price": 0.045552,
-      "value": 24.19,
-      "entryPrice": 0.04565
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 88.1617,
-      "price": 0.3163,
-      "value": 27.89,
-      "entryPrice": 0.3112
-    }
-  ],
-  "strategy": {
-    "name": "Wave Trading - Raven",
-    "rules": [
-      {
-        "at": "+8%",
-        "action": "Vender 33% (partial sell)"
-      },
-      {
-        "at": "+15%",
-        "action": "Vender 30% de lo que queda"
-      },
-      {
-        "at": "+25%",
-        "action": "Vender 20% de lo que queda"
-      },
-      {
-        "at": "trailing",
-        "action": "Stop din\u00e1mico 12% desde pico"
-      },
-      {
-        "at": "stop loss",
-        "action": "Stop duro -8% desde entrada"
-      }
-    ],
-    "notes": "Momentum wave trading. Una ola activa a la vez. Micro-caps."
-  },
-  "openPositions": 4,
-  "positions": [
-    {
-      "account": "WILD",
-      "symbol": "BILL",
-      "quantity": 423.6759,
-      "price": 0.045552,
-      "value": 19.3,
-      "entryPrice": 0.04565,
-      "entryValue": 19.34,
-      "qty": 423.6759,
-      "stop": 0.04359575,
-      "target8": 0.049302,
-      "target15": 0.0524975,
-      "target25": 0.0570625,
-      "currentPrice": 0.045552
-    },
-    {
-      "account": "WILD",
-      "symbol": "ONDO",
-      "quantity": 121.7082,
-      "price": 0.3167,
-      "value": 38.54,
-      "entryPrice": 0.3112,
-      "entryValue": 37.88,
-      "qty": 121.7082,
-      "stop": 0.297196,
-      "target8": 0.336096,
-      "target15": 0.35788,
-      "target25": 0.389,
-      "currentPrice": 0.3167
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "BILL",
-      "quantity": 530.9685,
-      "price": 0.045552,
-      "value": 24.19,
-      "entryPrice": 0.04565,
-      "entryValue": 24.24,
-      "qty": 530.9685,
-      "stop": 0.04359575,
-      "target8": 0.049302,
-      "target15": 0.0524975,
-      "target25": 0.0570625,
-      "currentPrice": 0.045552
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 88.1617,
-      "price": 0.3163,
-      "value": 27.89,
-      "entryPrice": 0.3112,
-      "entryValue": 27.44,
-      "qty": 88.1617,
-      "stop": 0.297196,
-      "target8": 0.336096,
-      "target15": 0.35788,
-      "target25": 0.389,
-      "currentPrice": 0.3163
-    }
-  ],
-  "usdtBalances": [
-    {
-      "account": "WILD",
-      "symbol": "USDT",
-      "quantity": 0.3619,
-      "price": 1.0,
-      "value": 0.36
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "USDT",
-      "quantity": 0.3883,
-      "price": 1.0,
-      "value": 0.39
-    }
-  ],
-  "capitalHistory": [
-    {
-      "date": "2026-05-03",
-      "capital": 107.5,
-      "wildCapital": 56.4,
-      "joakoCapital": 51.1,
-      "note": "ZK holding"
-    },
-    {
-      "date": "2026-05-04",
-      "capital": 112.43,
-      "wildCapital": 58.93,
-      "joakoCapital": 53.5,
-      "note": "ONDO + MEGA"
-    },
-    {
-      "timestamp": "2026-05-04T17:03:23-06:00",
-      "total": 110.67,
-      "wild": 58.2,
-      "joako": 52.47
-    }
-  ],
-  "tradeHistory": [
-    {
-      "timestamp": "2026-05-04T07:33:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "BLEND",
-      "quantity": 73.26,
-      "price": 0.114,
-      "value": 8.36,
-      "reason": "Zombie liquidation"
-    },
-    {
-      "timestamp": "2026-05-04T07:33:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "AMI",
-      "quantity": 3044,
-      "price": 0.00525,
-      "value": 15.47,
-      "reason": "Zombie liquidation"
-    },
-    {
-      "timestamp": "2026-05-04T07:35:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "BLEND",
-      "quantity": 80.46,
-      "price": 0.114,
-      "value": 9.17,
-      "reason": "Zombie liquidation"
-    },
-    {
-      "timestamp": "2026-05-04T08:39:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "ONDO",
-      "quantity": 121.71,
-      "price": 0.3112,
-      "value": 37.87,
-      "reason": "Momentum entry"
-    },
-    {
-      "timestamp": "2026-05-04T08:40:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 88.16,
-      "price": 0.3112,
-      "value": 27.44,
-      "reason": "Momentum entry"
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "sell",
       "account": "WILD",
       "symbol": "ZK",
-      "quantity": 1163.81,
-      "price": 0.01746,
-      "value": 20.32,
-      "reason": "Rotation to MEGA"
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "MEGA",
-      "quantity": 154.15,
-      "price": 0.131,
-      "value": 20.19,
-      "reason": "Momentum entry"
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "ZK",
-      "quantity": 1455.41,
-      "price": 0.01746,
-      "value": 25.4,
-      "reason": "Rotation to MEGA"
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "MEGA",
-      "quantity": 192.73,
-      "price": 0.131,
-      "value": 25.24,
-      "reason": "Momentum entry"
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "MEGA",
-      "quantity": 154.1,
-      "price": 0.1255,
-      "value": 19.35,
-      "reason": "Rotation to BILL - MEGA stagnant"
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "MEGA",
-      "quantity": 192.7,
-      "price": 0.1255,
-      "value": 24.25,
-      "reason": "Rotation to BILL - MEGA stagnant"
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "BILL",
-      "quantity": 423.68,
-      "price": 0.04565,
-      "value": 19.35,
-      "reason": "Momentum entry - fresh listing"
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "BILL",
-      "quantity": 530.97,
-      "price": 0.04565,
-      "value": 24.25,
-      "reason": "Momentum entry - fresh listing"
+      "quantity": 0.005,
+      "price": 0.052,
+      "value": 0.00026,
+      "entryPrice": 0.052
     }
   ],
-  "capital": 109.92,
-  "trades": [
-    {
-      "timestamp": "2026-05-04T07:33:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "BLEND",
-      "quantity": 73.26,
-      "price": 0.114,
-      "value": 8.36,
-      "reason": "Zombie liquidation",
-      "date": "2026-05-04T07:33:00-06:00",
-      "side": "sell",
-      "qty": 73.26,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T07:33:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "AMI",
-      "quantity": 3044,
-      "price": 0.00525,
-      "value": 15.47,
-      "reason": "Zombie liquidation",
-      "date": "2026-05-04T07:33:00-06:00",
-      "side": "sell",
-      "qty": 3044,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T07:35:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "BLEND",
-      "quantity": 80.46,
-      "price": 0.114,
-      "value": 9.17,
-      "reason": "Zombie liquidation",
-      "date": "2026-05-04T07:35:00-06:00",
-      "side": "sell",
-      "qty": 80.46,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T08:39:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "ONDO",
-      "quantity": 121.71,
-      "price": 0.3112,
-      "value": 37.87,
-      "reason": "Momentum entry",
-      "date": "2026-05-04T08:39:00-06:00",
-      "side": "buy",
-      "qty": 121.71,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T08:40:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 88.16,
-      "price": 0.3112,
-      "value": 27.44,
-      "reason": "Momentum entry",
-      "date": "2026-05-04T08:40:00-06:00",
-      "side": "buy",
-      "qty": 88.16,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "ZK",
-      "quantity": 1163.81,
-      "price": 0.01746,
-      "value": 20.32,
-      "reason": "Rotation to MEGA",
-      "date": "2026-05-04T09:10:00-06:00",
-      "side": "sell",
-      "qty": 1163.81,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "MEGA",
-      "quantity": 154.15,
-      "price": 0.131,
-      "value": 20.19,
-      "reason": "Momentum entry",
-      "date": "2026-05-04T09:10:00-06:00",
-      "side": "buy",
-      "qty": 154.15,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "ZK",
-      "quantity": 1455.41,
-      "price": 0.01746,
-      "value": 25.4,
-      "reason": "Rotation to MEGA",
-      "date": "2026-05-04T09:10:00-06:00",
-      "side": "sell",
-      "qty": 1455.41,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T09:10:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "MEGA",
-      "quantity": 192.73,
-      "price": 0.131,
-      "value": 25.24,
-      "reason": "Momentum entry",
-      "date": "2026-05-04T09:10:00-06:00",
-      "side": "buy",
-      "qty": 192.73,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "sell",
-      "account": "WILD",
-      "symbol": "MEGA",
-      "quantity": 154.1,
-      "price": 0.1255,
-      "value": 19.35,
-      "reason": "Rotation to BILL - MEGA stagnant",
-      "date": "2026-05-04T17:00:00-06:00",
-      "side": "sell",
-      "qty": 154.1,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "sell",
-      "account": "JOAKO",
-      "symbol": "MEGA",
-      "quantity": 192.7,
-      "price": 0.1255,
-      "value": 24.25,
-      "reason": "Rotation to BILL - MEGA stagnant",
-      "date": "2026-05-04T17:00:00-06:00",
-      "side": "sell",
-      "qty": 192.7,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "buy",
-      "account": "WILD",
-      "symbol": "BILL",
-      "quantity": 423.68,
-      "price": 0.04565,
-      "value": 19.35,
-      "reason": "Momentum entry - fresh listing",
-      "date": "2026-05-04T17:00:00-06:00",
-      "side": "buy",
-      "qty": 423.68,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-05-04T17:00:00-06:00",
-      "type": "buy",
-      "account": "JOAKO",
-      "symbol": "BILL",
-      "quantity": 530.97,
-      "price": 0.04565,
-      "value": 24.25,
-      "reason": "Momentum entry - fresh listing",
-      "date": "2026-05-04T17:00:00-06:00",
-      "side": "buy",
-      "qty": 530.97,
-      "pnl": 0
-    }
-  ],
-  "watchCoins": [
-    {
-      "symbol": "BILL",
-      "price": 0.045552,
-      "change24h": 0,
-      "volume24h": 0
-    },
-    {
-      "symbol": "ONDO",
-      "price": 0.3167,
-      "change24h": 0,
-      "volume24h": 0
-    },
-    {
-      "symbol": "BTC",
-      "price": 0,
-      "change24h": 0,
-      "volume24h": 0
-    }
-  ],
+  "capitalHistory": [],
+  "tradeHistory": [],
   "btc": {
-    "price": 0,
-    "change": 0
+    "price": 80146,
+    "change": 1.9
+  },
+  "totalValue": 55.993218987,
+  "startCapital": {
+    "WILD": 55.0
+  },
+  "startDate": {
+    "WILD": "2026-05-04"
   }
 }
