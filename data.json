@@ -170,7 +170,11 @@
       "joako": 49.49
     }
   ],
-  "tradeHistory": [
+  "btc": {
+    "price": 80563.6,
+    "change": 0.65
+  },
+  "trades": [
     {
       "side": "buy",
       "symbol": "ATH",
@@ -178,7 +182,9 @@
       "price": "0.0062",
       "value": "13.29",
       "date": "2026-05-04 19:06",
-      "type": "auto-buy"
+      "type": "auto-buy",
+      "pnl": 0,
+      "account": "WILD"
     },
     {
       "side": "buy",
@@ -187,7 +193,9 @@
       "price": "0.3112",
       "value": "37.87",
       "date": "2026-05-04 08:40",
-      "type": "manual"
+      "type": "manual",
+      "pnl": 0,
+      "account": "WILD"
     },
     {
       "side": "buy",
@@ -197,7 +205,8 @@
       "value": "27.44",
       "date": "2026-05-04 08:40",
       "type": "manual",
-      "account": "JOAKO"
+      "account": "JOAKO",
+      "pnl": 0
     },
     {
       "side": "sell",
@@ -206,11 +215,9 @@
       "price": "0.0408",
       "value": "38.95",
       "date": "2026-05-04 19:02",
-      "type": "stop-loss"
+      "type": "stop-loss",
+      "pnl": 0,
+      "account": "WILD"
     }
-  ],
-  "btc": {
-    "price": 80563.6,
-    "change": 0.65
-  }
+  ]
 }
