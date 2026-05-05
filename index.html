@@ -31,7 +31,9 @@ canvas{width:100%!important;height:160px;display:block}
 .resize-v:hover,.resizing-v .resize-v{background:rgba(129,140,248,0.3)}
 .edit-mode .c{border-color:rgba(129,140,248,0.3);border-style:dashed;position:relative}
 .edit-mode .c:hover{border-color:#818cf8}
-#editBtn{position:fixed;bottom:10px;right:10px;z-index:999;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;white-space:nowrap}
+#botBtns{position:fixed;bottom:10px;right:10px;z-index:999;display:flex;gap:4px}
+#editBtn,#pauseBtn{background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;white-space:nowrap}
+#pauseBtn.paused{background:#f87171;border-color:#f87171;color:#0f0f1a;font-weight:700}
 #editBtn.active{background:#818cf8;color:#0f0f1a;font-weight:600}
 .sort-ghost{opacity:0.3;background:rgba(129,140,248,0.1)!important}
 #layoutWrap{min-height:200px}
@@ -396,6 +398,97 @@ btn.onclick=function(){
 };
 
 render();fetchAllCoins();
+
+
+// Pause toggle — uses a simple local file via dashboard script
+async function togglePause(){
+  try{
+    var r=await fetch('https://wildbot2026.github.io/raven-trading/pause?'+Date.now());
+    // fallback
+  }catch(e){}
+  var btn=document.getElementById('pauseBtn');
+  var paused=localStorage.getItem('ravenPause')==='1';
+  if(paused){
+    localStorage.removeItem('ravenPause');
+    btn.textContent='⏸';
+    btn.className='';
+    try{
+      var x=new XMLHttpRequest();
+      x.open('GET','http://localhost:4333/api/pause?_='+Date.now(),true);
+      x.send();
+    }catch(e2){}
+  } else {
+    localStorage.setItem('ravenPause','1');
+    btn.textContent='▶';
+    btn.className='paused';
+    try{
+      var x=new XMLHttpRequest();
+      x.open('GET','http://localhost:4333/api/pause?_='+Date.now(),true);
+      x.send();
+    }catch(e2){}
+  }
+}
+// Poll pause status from local API
+setInterval(async function(){
+  try{
+    var d=await new Promise(function(r2,rj2){
+      var x=new XMLHttpRequest();
+      x.open('GET','http://localhost:4333/api/pause/status?_='+Date.now(),true);
+      x.onload=function(){try{r2(JSON.parse(x.responseText));}catch(e){r2({paused:false})}};
+      x.onerror=function(){rj2('no')};
+      x.send();
+      setTimeout(function(){rj2('timeout');},2000);
+    });
+    var btn=document.getElementById('pauseBtn');
+    if(d.paused){
+      btn.textContent='▶';
+      btn.className='paused';
+    } else {
+      btn.textContent='⏸';
+      btn.className='';
+    }
+  }catch(e){}
+},15000);
+
+// Also check on load
+setTimeout(function(){
+  try{
+    var x=new XMLHttpRequest();
+    x.open('GET','http://localhost:4333/api/pause/status?_='+Date.now(),true);
+    x.onload=function(){
+      try{
+        var d=JSON.parse(x.responseText);
+        var btn=document.getElementById('pauseBtn');
+        if(d.paused){btn.textContent='▶';btn.className='paused';}
+      }catch(e){}
+    };
+    x.send();
+  }catch(e){}
+},1000);
+ause toggle
+async function togglePause(){
+  try{
+    var r=await fetch('/api/pause?'+Date.now());
+    var j=await r.json();
+    document.getElementById('pauseBtn').textContent=j.paused?'▶':'⏸';
+    document.getElementById('pauseBtn').className=j.paused?'paused':'';
+  }catch(e){
+    // Try writing directly
+    var x=new XMLHttpRequest();
+    x.open('GET','/api/pause?_='+Date.now(),true);
+    x.send();
+    document.getElementById('pauseBtn').textContent=document.getElementById('pauseBtn').textContent==='⏸'?'▶':'⏸';
+    document.getElementById('pauseBtn').className=document.getElementById('pauseBtn').textContent==='▶'?'paused':'';
+  }
+}
+setInterval(async function(){
+  try{
+    var r=await fetch('/api/pause?'+Date.now());
+    var j=await r.json();
+    document.getElementById('pauseBtn').textContent=j.paused?'▶':'⏸';
+    document.getElementById('pauseBtn').className=j.paused?'paused':'';
+  }catch(e){}
+},10000);
 })();
 </script>
 </body>
