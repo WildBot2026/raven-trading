@@ -416,7 +416,7 @@ async function fetchData() {
   // 1. Cargar JSON estático primero (fallback si API falla)
   let d;
   try {
-    const r = await fetch('data.json?_=' + Date.now());
+    const r = await fetch('https://raw.githubusercontent.com/WildBot2026/raven-trading/main/data.json?_=' + Date.now());
     d = await r.json();
   } catch(e) {
     return null;
