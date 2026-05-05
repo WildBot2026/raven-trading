@@ -89,11 +89,12 @@ h+='<div class="h">';
 h+='<div><div class="c" style="padding:4px 6px"><span class="h3">Posiciones ('+d.pos.length+')</span>';
 d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
 for(var i=0;i<d.pos.length;i++){
-  var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100;
-  h+='<div class="pc" style="padding:3px 5px"><div class="f b a">';
-  h+='<span style="font-size:12px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span class="'+(pct>=0?'g':'r')+'" style="font-size:10px;font-weight:600">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</span>';
-  h+='</div><div class="x" style="color:#64748b">E:'+$(p.e)+' Q:'+q(p.q)+' A:'+$(lp)+'</div>';
-  h+='<div class="tg2">S:<span class="r" style="font-weight:600">'+$(p.st)+'</span> T:<s>'+$(p.t8)+'</s> <s>'+$(p.t15)+'</s> <s>'+$(p.t25)+'</s></div>';
+  var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
+  var pctStr=(a>=0?'+':'')+a+'%';
+  h+='<div class="pc" style="padding:3px 5px">';
+  h+='<span style="font-size:12px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:10px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+pctStr+'</span>';
+  h+='<div class="x" style="color:#64748b">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
+  h+='<div class="tg2">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
   h+='</div>';
 }
 h+='</div></div>';
