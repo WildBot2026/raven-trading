@@ -11,7 +11,6 @@ body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-s
 .h3{color:#64748b;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .v{font-size:15px;font-weight:800}
 .g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:10px}
-.f{display:flex}.b{justify-content:space-between}.a{align-items:center}
 .pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:5px 7px;margin-bottom:4px}
 .tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
 .tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
@@ -72,61 +71,54 @@ function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:7
 // ===== RENDER =====
 var h='';
 
-// COMPACT HEADER: 3 boxes — Total | WILD | JOAKO
+// 3 BIG BOXES: Total | WILD | JOAKO
 h+='<div class="t">';
-
-// Total
 h+='<div class="c" style="padding:8px;text-align:center">';
 h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">TOTAL</div>';
 h+='<div class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:28px">'+$(d.cap)+'</div>';
 h+='<div style="font-size:12px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</div>';
 h+='</div>';
-
-// WILD
 var wa=d.acc.WILD,wap=wa.c-wa.s;
 h+='<div class="c" style="padding:8px;text-align:center">';
 h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">WILD</div>';
 h+='<div class="v '+(wap>=0?'g':'r')+'" style="font-size:28px">'+$(wa.c)+'</div>';
 h+='<div style="font-size:12px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</div>';
 h+='</div>';
-
-// JOAKO
 var ja=d.acc.JOAKO,jap=ja.c-ja.s;
 h+='<div class="c" style="padding:8px;text-align:center">';
 h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">JOAKO</div>';
 h+='<div class="v '+(jap>=0?'g':'r')+'" style="font-size:28px">'+$(ja.c)+'</div>';
 h+='<div style="font-size:12px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</div>';
 h+='</div>';
-
 h+='</div>';
 
-// TWO-COLUMN: positions + chart
+// TWO-COLUMN: positions + charts
 h+='<div class="h">';
-// LEFT: Positions compact
-h+='<div><div class="c" style="padding:4px 6px"><span class="h3">Posiciones ('+d.pos.length+')</span>';
+
+// LEFT: Positions bigger
+h+='<div><div class="c" style="padding:6px 8px"><span class="h3" style="font-size:10px">📌 Posiciones ('+d.pos.length+')</span>';
 d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
 for(var i=0;i<d.pos.length;i++){
   var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
   var pctStr=(a>=0?'+':'')+a+'%';
-  h+='<div class="pc" style="padding:3px 5px">';
-  h+='<span style="font-size:12px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:10px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+pctStr+'</span>';
-  h+='<div class="x" style="color:#64748b">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
-  h+='<div class="tg2">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
+  h+='<div class="pc" style="padding:4px 6px">';
+  h+='<span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:12px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+pctStr+'</span>';
+  h+='<div style="font-size:12px;color:#64748b;margin-top:2px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
+  h+='<div class="tg2" style="font-size:10px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
   h+='</div>';
 }
 h+='</div></div>';
 
-// RIGHT: Capital chart + BTC candlestick
+// RIGHT: BTC + ETH candlestick (bigger)
 h+='<div>';
-h+='<div class="c" style="padding:4px 6px"><div class="h3">Capital</div><canvas id="capChart" style="width:100%;height:100px"></canvas></div>';
-h+='<div class="c" style="padding:4px 6px"><div class="h3">BTC 15m</div><canvas id="btcChart" style="width:100%;height:100px"></canvas></div>';
-h+='<div class="c" style="padding:4px 6px"><div class="h3">ETH 15m</div><canvas id="ethChart" style="width:100%;height:100px"></canvas></div>';
+h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:10px">🕯 BTC 15m</div><canvas id="btcChart" style="width:100%;height:180px"></canvas></div>';
+h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:10px">🕯 ETH 15m</div><canvas id="ethChart" style="width:100%;height:180px"></canvas></div>';
 h+='</div>';
 
 h+='</div>';
 
 // TRADES
-h+='<div class="c" style="padding:4px 6px"><span class="h3">Trades ('+d.tr.length+')</span>';
+h+='<div class="c" style="padding:4px 6px"><span class="h3">📜 Trades ('+d.tr.length+')</span>';
 if(d.tr.length){
   h+='<table><thead><tr><th>Fecha</th><th>Sim</th><th>T</th><th style="text-align:right">Pr.</th><th style="text-align:right">Q</th><th>Cuenta</th></tr></thead><tbody>';
   for(var i=d.tr.length-1;i>=0;i--){
@@ -139,61 +131,9 @@ h+='</div>';
 
 document.getElementById('a').innerHTML=h;
 
-// ===== DRAW CHARTS with Canvas =====
-drawLineChart('capChart',d.ch,'total');
+// ===== DRAW CANDLESTICK CHARTS =====
 fetchAndDrawCandles('btcChart','BTCUSDT');
 fetchAndDrawCandles('ethChart','ETHUSDT');
-
-function drawLineChart(id,data,key){
-  var can=document.getElementById(id);
-  if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=100;
-  can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
-  ctx.scale(2,2);
-  var pad={t:10,b:12,l:30,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
-  var max=-1e9,min=1e9;
-  for(var i=0;i<data.length;i++){
-    var v=data[i].to;
-    if(v>max)max=v;if(v<min)min=v;
-  }
-  var range=max-min||1;min-=range*0.1;max+=range*0.1;range=max-min;
-  
-  // Grid
-  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
-  for(var y=0;y<=3;y++){
-    var yy=pad.t+(ch/3)*y;
-    ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
-    ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
-    ctx.fillText('$'+(max-(range/3)*y).toFixed(1),pad.l-3,yy+2);
-  }
-  
-  // Gradient fill
-  var grad=ctx.createLinearGradient(0,pad.t,0,he-pad.b);
-  grad.addColorStop(0,'rgba(74,222,128,0.08)');grad.addColorStop(1,'rgba(74,222,128,0.01)');
-  
-  ctx.beginPath();
-  for(var i=0;i<data.length;i++){
-    var x=pad.l+(cw/(data.length-1))*i;
-    var y=pad.t+ch-((data[i].to-min)/range)*ch;
-    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-  }
-  ctx.lineTo(pad.l+(cw/(data.length-1))*(data.length-1),he-pad.b);
-  ctx.lineTo(pad.l,he-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
-  
-  ctx.beginPath();
-  for(var i=0;i<data.length;i++){
-    var x=pad.l+(cw/(data.length-1))*i;
-    var y=pad.t+ch-((data[i].to-min)/range)*ch;
-    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle='#4ade80';ctx.lineWidth=1.5;ctx.stroke();
-  
-  for(var i=0;i<data.length;i++){
-    var x=pad.l+(cw/(data.length-1))*i;
-    var y=pad.t+ch-((data[i].to-min)/range)*ch;
-    ctx.beginPath();ctx.arc(x,y,1.5,0,Math.PI*2);ctx.fillStyle='#4ade80';ctx.fill();
-  }
-}
 
 async function fetchAndDrawCandles(id,symbol){
   var can=document.getElementById(id);
@@ -210,12 +150,11 @@ async function fetchAndDrawCandles(id,symbol){
 function drawCandles(id,data){
   var can=document.getElementById(id);
   if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=100;
+  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=180;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
-  var pad={t:8,b:10,l:30,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
+  var pad={t:10,b:12,l:32,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
   
-  // Parse
   var o=[],h=[],l=[],c=[];
   for(var i=0;i<data.length;i++){
     o.push(parseFloat(data[i][1]));h.push(parseFloat(data[i][2]));
@@ -233,8 +172,8 @@ function drawCandles(id,data){
     var yy=pad.t+(ch/3)*y;
     ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
     ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
-    ctx.fillText(max.toFixed(0),pad.l-3,yy+2);
-    max-=range/3;
+    var tmp=max-(range/3)*y;
+    ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-2,yy+2);
   }
   
   var candleW=Math.max(1,cw/data.length-1);
@@ -246,16 +185,11 @@ function drawCandles(id,data){
     var yL=pad.t+ch-((l[i]-min)/range)*ch;
     var isGreen=c[i]>=o[i];
     var color=isGreen?'#4ade80':'#f87171';
-    
-    // Wick
     ctx.strokeStyle=color;ctx.lineWidth=0.8;
     ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();
-    
-    // Body
     var top=Math.min(yO,yC),bot=Math.max(yO,yC);
-    var bodyH=Math.max(1,bot-top);
     ctx.fillStyle=color;
-    ctx.fillRect(x-candleW/2,top,candleW,bodyH);
+    ctx.fillRect(x-candleW/2,top,candleW,Math.max(1,bot-top));
   }
 }
 })();
