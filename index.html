@@ -6,23 +6,23 @@
 <title>Raven 🦅</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:8px;overflow-x:hidden}
-.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:6px 8px;margin-bottom:5px}
-.h3{color:#64748b;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:6px;overflow-x:hidden}
+.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:5px 7px;margin-bottom:4px}
+.h3{color:#64748b;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
 .v{font-size:15px;font-weight:800}
 .g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}.x{font-size:10px}
-.pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:5px 7px;margin-bottom:4px}
+.pc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:4px 6px;margin-bottom:3px}
 .tg{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:600;display:inline-block}
 .tw{background:rgba(129,140,248,0.15);color:#818cf8}.tj{background:rgba(52,211,153,0.15);color:#34d399}
 .tg2{font-size:9px;color:#64748b}.tg2 s{color:#4ade80;font-weight:600}
-table{width:100%;font-size:10px;border-collapse:collapse}
-th{color:#64748b;font-weight:500;text-align:left;padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255,0.03)}
-.h{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.t{display:grid;grid-template-columns:1fr auto auto;gap:4px}
-select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 4px;font-size:10px;margin-left:4px}
-select:focus{outline:none;border-color:#818cf8}
-@media(max-width:700px){.h{grid-template-columns:1fr}.t{grid-template-columns:1fr}}
+table{width:100%;font-size:9px;border-collapse:collapse}
+th{color:#64748b;font-weight:500;text-align:left;padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.h{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.t{display:grid;grid-template-columns:auto auto 1fr;gap:3px}
+select{background:#1a1a2e;color:#e2e8f0;border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 3px;font-size:9px;max-width:90px}
+canvas{width:100%!important;height:110px!important}
+@media(max-width:700px){.h{grid-template-columns:1fr}.t{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
@@ -46,7 +46,8 @@ var d = {
     {d:"05-04 08:40",s:"ONDO",sd:"buy",q:121.7,p:0.3112,v:37.87,pl:0,ac:"WILD"},
     {d:"05-04 08:40",s:"ONDO",sd:"buy",q:88.16,p:0.3112,v:27.44,pl:0,ac:"JOAKO"},
     {d:"05-04 19:02",s:"BILL",sd:"sell",q:954.6,p:0.0408,v:38.95,pl:0,ac:"WILD"}
-  ]
+  ],
+  allCoins: [] // filled async
 };
 
 function $(n){
@@ -62,73 +63,135 @@ function q(n){
 function at(a){return a==='WILD'?'<span class="tg tw">W</span>':'<span class="tg tj">J</span>';}
 function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:700;font-size:9px">B</span>':'<span class="r" style="font-weight:700;font-size:9px">S</span>';}
 
-var h='';
-
-// HEADER: TOTAL right | WILD | JOAKO
-h+='<div class="t">';
-h+='<div class="c" style="padding:5px 10px;text-align:right">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span>';
-h+=' <span style="font-size:11px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span>';
-h+='</div>';
-var wa=d.acc.WILD,wap=wa.c-wa.s;
-h+='<div class="c" style="padding:5px 10px;text-align:center">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span>';
-h+=' <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
-var ja=d.acc.JOAKO,jap=ja.c-ja.s;
-h+='<div class="c" style="padding:5px 10px;text-align:center">';
-h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span>';
-h+=' <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
-h+='</div>';
-
-// TWO COLUMNS
-h+='<div class="h">';
-
-// LEFT: Positions bigger text
-h+='<div>';
-h+='<div class="c" style="padding:6px 8px"><div class="h3" style="font-size:11px">📌 Posiciones ('+d.pos.length+')</div>';
-d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
-for(var i=0;i<d.pos.length;i++){
-  var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
-  h+='<div class="pc" style="padding:5px 7px">';
-  h+='<span style="font-size:15px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:13px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
-  h+='<div style="font-size:13px;color:#64748b;margin-top:2px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Actual: <span style="color:#cbd5e1">'+$(lp)+'</span> | Qty: '+q(p.q)+'</div>';
-  h+='<div class="tg2" style="font-size:11px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
-  h+='</div>';
+// ===== FETCH ALL COINS =====
+async function fetchAllCoins(){
+  try{
+    var r=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
+    var j=await r.json();
+    if(j.retCode!==0||!j.result||!j.result.list)return;
+    var raw=j.result.list;
+    // Filter: min $100k volume, pair ends with USDT
+    var coins=[];
+    for(var i=0;i<raw.length;i++){
+      var t=raw[i];
+      if(t.symbol.indexOf('USDT')===-1)continue;
+      if(parseFloat(t.volume24h||0)<100000)continue;
+      coins.push({s:t.symbol,pct:parseFloat(t.price24hPcnt||0)});
+    }
+    // Sort alphabetically
+    coins.sort(function(a,b){return a.s.localeCompare(b.s);});
+    d.allCoins=coins.map(function(c){return c.s;});
+    // Now populate selects
+    populateSelects(d.allCoins);
+    render();
+    loadAllCharts();
+  }catch(e){render();}
 }
-h+='</div></div>';
 
-// RIGHT: Chart with selector + time buttons
-h+='<div>';
-h+='<div class="c" style="padding:6px 8px">';
-h+='<div class="h3" style="font-size:11px">🕯 <select id="chartCoin"><option value="BTCUSDT">BTC</option><option value="ETHUSDT">ETH</option></select> <select id="chartTF"><option value="15">15m</option><option value="60">1h</option><option value="240">4h</option><option value="D">1d</option></select></div>';
-h+='<canvas id="mainChart" style="width:100%;height:200px"></canvas></div>';
-h+='</div>';
-
-h+='</div>';
-
-// TRADES bigger
-h+='<div class="c" style="padding:5px 8px"><span class="h3" style="font-size:11px">📜 Trades ('+d.tr.length+')</span>';
-if(d.tr.length){
-  h+='<table><thead><tr><th style="font-size:11px">Fecha</th><th style="font-size:11px">Sim</th><th style="font-size:11px">T</th><th style="text-align:right;font-size:11px">Pr.</th><th style="text-align:right;font-size:11px">Q</th><th style="font-size:11px">Cuenta</th></tr></thead><tbody>';
-  for(var i=d.tr.length-1;i>=0;i--){
-    var t=d.tr[i];
-    h+='<tr><td class="gr" style="font-size:11px">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600;font-size:11px">'+t.s+'</td><td style="font-size:11px">'+sb(t.sd)+'</td><td style="text-align:right;font-size:11px">'+$(t.p)+'</td><td style="text-align:right;font-size:11px">'+q(t.q)+'</td><td style="font-size:11px">'+at(t.ac)+'</td></tr>';
+function populateSelects(coins){
+  var cur=['BTCUSDT','ETHUSDT'];
+  for(var ci=0;ci<3;ci++){
+    var sel=document.getElementById('coin'+ci);
+    if(!sel)continue;
+    // First add current selected value
+    var curVal=sel.value||'BTCUSDT';
+    sel.innerHTML='';
+    // Start with top coins + our positions + current coins
+    var top=['BTCUSDT','ETHUSDT','SOLUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','TONUSDT','LINKUSDT','SUIUSDT','AVAXUSDT','TRXUSDT','DOTUSDT','MATICUSDT','UNIUSDT','PEPEUSDT','SHIBUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','TIAUSDT','SEIUSDT','WIFUSDT','BONKUSDT','NOTUSDT','PENGUUSDT','DOGSUSDT','LUNCUSDT','FTTUSDT','FHEUSDT'];
+    // Add positions
+    for(var i=0;i<d.pos.length;i++){
+      var sym=d.pos[i].s+'USDT';
+      if(top.indexOf(sym)===-1)top.push(sym);
+    }
+    // Merge with allCoins
+    var merged=[];
+    for(var i=0;i<top.length;i++){if(coins.indexOf(top[i])!==-1)merged.push(top[i]);}
+    for(var i=0;i<coins.length;i++){if(merged.indexOf(coins[i])===-1)merged.push(coins[i]);}
+    for(var i=0;i<merged.length;i++){
+      var opt=document.createElement('option');
+      opt.value=merged[i];opt.textContent=merged[i].replace('USDT','');
+      if(merged[i]===curVal)opt.selected=true;
+      sel.appendChild(opt);
+    }
   }
-  h+='</tbody></table>';
 }
-h+='</div>';
 
-document.getElementById('a').innerHTML=h;
+function render(){
+  var h='';
 
-// ===== CHART LOADING =====
-loadChart();
-document.getElementById('chartCoin').onchange=loadChart;
-document.getElementById('chartTF').onchange=loadChart;
+  // HEADER: WILD | JOAKO | TOTAL right
+  h+='<div class="t">';
+  var wa=d.acc.WILD,wap=wa.c-wa.s;
+  h+='<div class="c" style="padding:5px 8px;text-align:center">';
+  h+='<span class="x gr" style="font-size:9px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:18px">'+$(wa.c)+'</span>';
+  h+=' <span style="font-size:10px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span></div>';
+  var ja=d.acc.JOAKO,jap=ja.c-ja.s;
+  h+='<div class="c" style="padding:5px 8px;text-align:center">';
+  h+='<span class="x gr" style="font-size:9px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:18px">'+$(ja.c)+'</span>';
+  h+=' <span style="font-size:10px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span></div>';
+  h+='<div class="c" style="padding:5px 12px;text-align:right">';
+  h+='<span class="x gr" style="font-size:9px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:22px">'+$(d.cap)+'</span>';
+  h+=' <span style="font-size:10px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span>';
+  h+='</div></div>';
 
-function loadChart(){
-  var coin=document.getElementById('chartCoin').value;
-  var tf=document.getElementById('chartTF').value;
-  fetchAndDrawCandles('mainChart',coin,tf);
+  // TWO COLUMNS
+  h+='<div class="h">';
+
+  // LEFT: Positions
+  h+='<div>';
+  h+='<div class="c" style="padding:5px 7px"><div class="h3" style="font-size:10px">📌 Posiciones ('+d.pos.length+')</div>';
+  d.pos.sort(function(a,b){return a.s.localeCompare(b.s);});
+  for(var i=0;i<d.pos.length;i++){
+    var p=d.pos[i],lp=p.pr||0,pct=((lp/p.e)-1)*100,a=Math.round(pct);
+    h+='<div class="pc" style="padding:4px 6px">';
+    h+='<span style="font-size:14px;font-weight:700;color:#f1f5f9">'+p.s+'</span> '+at(p.a)+' <span style="font-size:12px;font-weight:700" class="'+(pct>=0?'g':'r')+'">'+(a>=0?'+':'')+a+'%</span>';
+    h+='<div style="font-size:12px;color:#64748b;margin-top:1px">Entry: <span style="color:#cbd5e1">'+$(p.e)+'</span> | Act: <span style="color:#cbd5e1">'+$(lp)+'</span> | '+q(p.q)+'</div>';
+    h+='<div class="tg2" style="font-size:10px">Stop: <span class="r" style="font-weight:600">'+$(p.st)+'</span> | +8% <s>'+$(p.t8)+'</s> +15% <s>'+$(p.t15)+'</s> +25% <s>'+$(p.t25)+'</s></div>';
+    h+='</div>';
+  }
+  h+='</div></div>';
+
+  // RIGHT: 3 charts stacked
+  h+='<div>';
+  var tfOpts='<select class="tfSel" id="tf0"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select>';
+  h+='<div class="c" style="padding:4px 6px"><div class="h3" style="font-size:9px">🕯 <select id="coin0" class="coinSel"></select> '+tfOpts+'</div><canvas id="chart0"></canvas></div>';
+  h+='<div class="c" style="padding:4px 6px"><div class="h3" style="font-size:9px">🕯 <select id="coin1" class="coinSel"></select> <select class="tfSel" id="tf1"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart1"></canvas></div>';
+  h+='<div class="c" style="padding:4px 6px"><div class="h3" style="font-size:9px">🕯 <select id="coin2" class="coinSel"></select> <select class="tfSel" id="tf2"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart2"></canvas></div>';
+  h+='</div>';
+
+  h+='</div>';
+
+  // TRADES
+  h+='<div class="c" style="padding:4px 7px"><span class="h3" style="font-size:10px">📜 Trades ('+d.tr.length+')</span>';
+  if(d.tr.length){
+    h+='<table><thead><tr><th style="font-size:10px">Fecha</th><th style="font-size:10px">Sim</th><th style="font-size:10px">T</th><th style="text-align:right;font-size:10px">Pr.</th><th style="text-align:right;font-size:10px">Q</th><th style="font-size:10px">Cta</th></tr></thead><tbody>';
+    for(var i=d.tr.length-1;i>=0;i--){
+      var t=d.tr[i];
+      h+='<tr><td class="gr" style="font-size:10px">'+(t.d||'—').substring(0,11)+'</td><td style="font-weight:600;font-size:10px">'+t.s+'</td><td style="font-size:10px">'+sb(t.sd)+'</td><td style="text-align:right;font-size:10px">'+$(t.p)+'</td><td style="text-align:right;font-size:10px">'+q(t.q)+'</td><td style="font-size:10px">'+at(t.ac)+'</td></tr>';
+    }
+    h+='</tbody></table>';
+  }
+  h+='</div>';
+
+  document.getElementById('a').innerHTML=h;
+
+  // Bind chart controls
+  for(var ci=0;ci<3;ci++){
+    var coinSel=document.getElementById('coin'+ci);
+    var tfSel=document.getElementById('tf'+ci);
+    if(coinSel)coinSel.onchange=(function(i){return function(){loadChart(i);};})(ci);
+    if(tfSel)tfSel.onchange=(function(i){return function(){loadChart(i);};})(ci);
+  }
+}
+
+function loadChart(idx){
+  var coin=document.getElementById('coin'+idx).value;
+  var tf=document.getElementById('tf'+idx).value;
+  fetchAndDrawCandles('chart'+idx,coin,tf);
+}
+
+function loadAllCharts(){
+  for(var i=0;i<3;i++)loadChart(i);
 }
 
 async function fetchAndDrawCandles(id,symbol,tf){
@@ -145,47 +208,46 @@ async function fetchAndDrawCandles(id,symbol,tf){
 function drawCandles(id,data){
   var can=document.getElementById(id);
   if(!can||!data||data.length<2)return;
-  var ctx=can.getContext('2d'),w=can.offsetWidth||300,he=200;
+  var ctx=can.getContext('2d'),w=can.parentElement.offsetWidth||280,he=110;
   can.width=w*2;can.height=he*2;can.style.width=w+'px';can.style.height=he+'px';
   ctx.scale(2,2);
-  var pad={t:12,b:14,l:35,r:5},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
+  var pad={t:10,b:12,l:30,r:3},cw=w-pad.l-pad.r,ch=he-pad.t-pad.b;
   
   var o=[],h=[],l=[],c=[];
   for(var i=0;i<data.length;i++){
     o.push(parseFloat(data[i][1]));h.push(parseFloat(data[i][2]));
     l.push(parseFloat(data[i][3]));c.push(parseFloat(data[i][4]));
   }
-  var max=-1e9,min=1e9;
-  for(var i=0;i<data.length;i++){
-    if(h[i]>max)max=h[i];if(l[i]<min)min=l[i];
-  }
-  var range=max-min||1;min-=range*0.04;max+=range*0.04;range=max-min;
+  var mx=-1e9,mn=1e9;
+  for(var i=0;i<data.length;i++){if(h[i]>mx)mx=h[i];if(l[i]<mn)mn=l[i];}
+  var range=mx-mn||1;mn-=range*0.05;mx+=range*0.05;range=mx-mn;
   
   ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;
-  for(var y=0;y<=3;y++){
-    var yy=pad.t+(ch/3)*y;
+  for(var y=0;y<=2;y++){
+    var yy=pad.t+(ch/2)*y;
     ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
-    ctx.fillStyle='#475569';ctx.font='9px sans-serif';ctx.textAlign='right';
-    var tmp=max-(range/3)*y;
-    ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-3,yy+3);
+    ctx.fillStyle='#475569';ctx.font='7px sans-serif';ctx.textAlign='right';
+    var tmp=mx-(range/2)*y;
+    ctx.fillText(tmp.toFixed(tmp>10?0:3),pad.l-2,yy+2);
   }
   
-  var candleW=Math.max(1.5,cw/data.length-2);
+  var cw=Math.max(1,cw/data.length-1);
   for(var i=0;i<data.length;i++){
     var x=pad.l+(cw/data.length)*i;
-    var yO=pad.t+ch-((o[i]-min)/range)*ch;
-    var yC=pad.t+ch-((c[i]-min)/range)*ch;
-    var yH=pad.t+ch-((h[i]-min)/range)*ch;
-    var yL=pad.t+ch-((l[i]-min)/range)*ch;
-    var isGreen=c[i]>=o[i];
-    var color=isGreen?'#4ade80':'#f87171';
-    ctx.strokeStyle=color;ctx.lineWidth=1;
+    var yO=pad.t+ch-((o[i]-mn)/range)*ch;
+    var yC=pad.t+ch-((c[i]-mn)/range)*ch;
+    var yH=pad.t+ch-((h[i]-mn)/range)*ch;
+    var yL=pad.t+ch-((l[i]-mn)/range)*ch;
+    var isG=c[i]>=o[i],col=isG?'#4ade80':'#f87171';
+    ctx.strokeStyle=col;ctx.lineWidth=0.7;
     ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();
-    var top=Math.min(yO,yC),bot=Math.max(yO,yC);
-    ctx.fillStyle=color;
-    ctx.fillRect(x-candleW/2,top,candleW,Math.max(1.5,bot-top));
+    var tp=Math.min(yO,yC),bt=Math.max(yO,yC);
+    ctx.fillStyle=col;ctx.fillRect(x-cw/2,tp,cw,Math.max(1,bt-tp));
   }
 }
+
+// Start — fetch coins then render
+fetchAllCoins();
 })();
 </script>
 </body>
