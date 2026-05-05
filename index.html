@@ -137,37 +137,57 @@
       
   <!-- MINI CHARTS: Candlestick -->
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow" id="chartWrap1">
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase" id="chartLabel1">--</span>
-          <span class="text-[10px] font-medium text-green-400" id="chartMiniPrice1">—</span>
+        <div class="flex items-center gap-1.5">
+          <select id="chartSelect1" onchange="switchChart1(this.value)" class="text-[10px] font-semibold bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-gray-200 outline-none cursor-pointer">
+            <option value="ONDO">ONDO</option>
+            <option value="BILL">BILL</option>
+            <option value="BTC">BTC</option>
+            <option value="ZEN">ZEN</option>
+            <option value="PENDLE">PENDLE</option>
+            <option value="WLFI">WLFI</option>
+            <option value="CHILLGUY">CHILLGUY</option>
+            <option value="AXL">AXL</option>
+            <option value="ZEREBRO">ZEREBRO</option>
+          </select>
+          <span class="text-[10px] font-medium text-indigo-300" id="chartPrice1">—</span>
         </div>
-        <div class="flex gap-1" id="chartBtns1">
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="1">1m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART1" data-int="3">3m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="15">15m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="60">1h</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="D">1d</button>
+        <div class="flex gap-1">
+          <button onclick="switchInterval('CHART1','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="1">1m</button>
+          <button onclick="switchInterval('CHART1','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART1" data-int="3">3m</button>
+          <button onclick="switchInterval('CHART1','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="15">15m</button>
+          <button onclick="switchInterval('CHART1','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="60">1h</button>
+          <button onclick="switchInterval('CHART1','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART1" data-int="D">1d</button>
         </div>
       </div>
-      <div id="chartCont1" class="h-20"></div>
+      <div id="chartCont1" class="h-20 cursor-pointer" onclick="enlargeChart('CHART1')"></div>
     </div>
-    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow" id="chartWrap2">
+    <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-semibold text-gray-300 uppercase" id="chartLabel2">--</span>
-          <span class="text-[10px] font-medium text-green-400" id="chartMiniPrice2">—</span>
+        <div class="flex items-center gap-1.5">
+          <select id="chartSelect2" onchange="switchChart2(this.value)" class="text-[10px] font-semibold bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-gray-200 outline-none cursor-pointer">
+            <option value="ONDO">ONDO</option>
+            <option value="BILL">BILL</option>
+            <option value="BTC">BTC</option>
+            <option value="ZEN">ZEN</option>
+            <option value="PENDLE">PENDLE</option>
+            <option value="WLFI">WLFI</option>
+            <option value="CHILLGUY">CHILLGUY</option>
+            <option value="AXL">AXL</option>
+            <option value="ZEREBRO">ZEREBRO</option>
+          </select>
+          <span class="text-[10px] font-medium text-indigo-300" id="chartPrice2">—</span>
         </div>
-        <div class="flex gap-1" id="chartBtns2">
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="1">1m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART2" data-int="3">3m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="15">15m</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="60">1h</button>
-          <button class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="D">1d</button>
+        <div class="flex gap-1">
+          <button onclick="switchInterval('CHART2','1')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="1">1m</button>
+          <button onclick="switchInterval('CHART2','3')" class="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active" data-sym="CHART2" data-int="3">3m</button>
+          <button onclick="switchInterval('CHART2','15')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="15">15m</button>
+          <button onclick="switchInterval('CHART2','60')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="60">1h</button>
+          <button onclick="switchInterval('CHART2','D')" class="text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn" data-sym="CHART2" data-int="D">1d</button>
         </div>
       </div>
-      <div id="chartCont2" class="h-20"></div>
+      <div id="chartCont2" class="h-20 cursor-pointer" onclick="enlargeChart('CHART2')"></div>
     </div>
     <div class="rounded-xl bg-gray-900/70 border border-gray-800 p-2.5 card-glow">
       <div class="flex items-center justify-between mb-1.5">
@@ -770,7 +790,6 @@ setTimeout(function() { switchThirdChart('BTC'); }, 500);
 
 // Chart state
 var chartState = { THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} } };
-var chartAllocs = { 1: { sym: null, loaded: false }, 2: { sym: null, loaded: false } };
 
 async function updateDynamicCharts(data) {
   if (!data) return;
@@ -884,7 +903,8 @@ async function loadCandles(sym, interval, containerId, isModal) {
     if (!isModal && chart) {
       // Update price display
       var last = candles[candles.length - 1];
-      var priceEl = document.getElementById(sym.toLowerCase() + 'MiniPrice');
+      var priceId = sym === 'CHART1' ? 'chartPrice1' : sym === 'CHART2' ? 'chartPrice2' : sym.toLowerCase() + 'MiniPrice';
+      var priceEl = document.getElementById(priceId);
       if (priceEl) {
         priceEl.textContent = '$' + last.close.toFixed(sym === 'BTC' ? 0 : (last.close < 0.1 ? 5 : 4));
       }
@@ -918,6 +938,28 @@ async function switchInterval(sym, interval) {
   }
 }
 
+async function switchChart1(val) {
+  chartState.CHART1.symbol = symMap[val] || val + 'USDT';
+  chartState.CHART1.interval = '3';
+  document.getElementById('chartPrice1').textContent = '—';
+  var btns = document.querySelectorAll('.interval-btn[data-sym="CHART1"]');
+  btns.forEach(function(b) {
+    b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn';
+    if (b.getAttribute('data-int') === '3') b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active';
+  });
+  loadCandles('CHART1', '3', 'chartCont1', false);
+}
+async function switchChart2(val) {
+  chartState.CHART2.symbol = symMap[val] || val + 'USDT';
+  chartState.CHART2.interval = '3';
+  document.getElementById('chartPrice2').textContent = '—';
+  var btns = document.querySelectorAll('.interval-btn[data-sym="CHART2"]');
+  btns.forEach(function(b) {
+    b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 hover:text-indigo-300 interval-btn';
+    if (b.getAttribute('data-int') === '3') b.className = 'text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 interval-btn active';
+  });
+  loadCandles('CHART2', '3', 'chartCont2', false);
+}
 async function switchThirdChart(sym) {
   var symMap = {
     'BTC': 'BTCUSDT', 'ZEN': 'ZENUSDT', 'PENDLE': 'PENDLEUSDT',
@@ -988,8 +1030,7 @@ function closeChartModal(e) {
 
 async function updateMiniCharts() {
   await Promise.all([
-    // Dynamic charts loaded by updateDynamicCharts
-    loadCandles('THIRD', chartState.THIRD.interval, 'thirdChartContainer', false),
+loadCandles('THIRD', chartState.THIRD.interval, 'thirdChartContainer', false),
   ]);
 }
 
@@ -1025,7 +1066,6 @@ async function refresh() {
     updateAccountCards(d);
     updateWallets(d);
     await updatePositions(d);
-    await updateDynamicCharts(d);
     updateStrategy(d);
     updateTrades(d);
     updateWatch(d);
