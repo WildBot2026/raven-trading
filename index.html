@@ -112,10 +112,11 @@ async function fetchAllCoins(){
 
 function populateSelects(){
   var coins=d.allCoins;if(!coins||!coins.length)return;
-  var top=['BTCUSDT','ETHUSDT','SOLUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','TONUSDT','LINKUSDT','SUIUSDT','AVAXUSDT','TRXUSDT','DOTUSDT','UNIUSDT','PEPEUSDT','SHIBUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','TIAUSDT','SEIUSDT','WIFUSDT','BONKUSDT','NOTUSDT','PENGUUSDT','DOGSUSDT','LUNCUSDT','FTTUSDT','FHEUSDT'];
+  var top=['BTCUSDT','ETHUSDT','SOLUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','TONUSDT','LINKUSDT','SUIUSDT','AVAXUSDT','TRXUSDT','DOTUSDT','UNIUSDT','PEPEUSDT','SHIBUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','TIAUSDT','SEIUSDT','WIFUSDT','BONKUSDT','NOTUSDT','PENGUUSDT','DOGSUSDT','LUNCUSDT','FTTUSDT','FHEUSDT','ONDOUSDT','BLENDUSDT'];
   for(var i=0;i<d.pos.length;i++){var sym=d.pos[i].s+'USDT';if(top.indexOf(sym)===-1)top.push(sym);}
   var merged=[];for(var i=0;i<top.length;i++){if(coins.indexOf(top[i])!==-1)merged.push(top[i]);}
   for(var i=0;i<coins.length;i++){if(merged.indexOf(coins[i])===-1)merged.push(coins[i]);}
+  var saved=null;try{saved=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
   for(var ci=0;ci<3;ci++){
     var sel=document.getElementById('coin'+ci);
     if(!sel)continue;
@@ -123,9 +124,16 @@ function populateSelects(){
     for(var i=0;i<merged.length;i++){
       var opt=document.createElement('option');
       opt.value=merged[i];opt.textContent=merged[i].replace('USDT','');
-      if((ci===0&&merged[i]==='BTCUSDT')||(ci===1&&merged[i]==='ETHUSDT')||(ci===2&&merged[i]==='ADAUSDT'))opt.selected=true;
+      if(saved&&saved['c'+ci]===merged[i])opt.selected=true;
+      else if(!saved&&((ci===0&&merged[i]==='BTCUSDT')||(ci===1&&merged[i]==='ETHUSDT')||(ci===2&&merged[i]==='ADAUSDT')))opt.selected=true;
       sel.appendChild(opt);
     }
+    sel.onchange=(function(i){return function(){
+      loadChart(i);
+      var ch={};try{ch=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+      ch['c'+i]=this.value;
+      try{localStorage.setItem('ravenCharts',JSON.stringify(ch));}catch(e){}
+    };})(ci);
   }
 }
 
@@ -172,7 +180,16 @@ function render(){
   h+='</div></div>';
   h+='<div class="col" id="colRight" style="flex:'+rw+'">';
   for(var ci=0;ci<3;ci++){
-    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="15">15m</option><option value="60" selected>1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
+    h+='<div class="c" style="padding:3px 5px"><div class="h3" style="font-size:9px"><span class="sort-handle">⠿</span>🕯 <select id="coin'+ci+'" class="coinSel"></select> <select id="tf'+ci+'" class="tfSel"><option value="15">15m</option><option value="60">1h</option><option value="240">4h</option><option value="D">1d</option></select></div><canvas id="chart'+ci+'"></canvas></div>';
+  }
+  // Apply saved chart selections (timeframes)
+  var chSaved=null;try{chSaved=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+  if(chSaved){
+    for(var sci=0;sci<3;sci++){
+      var tfs=document.getElementById('tf'+sci);
+      if(tfs&&chSaved['tf'+sci])tfs.value=chSaved['tf'+sci];
+    }
+  }
   }
   h+='</div>';
   h+='</div></div>';
@@ -204,12 +221,14 @@ function render(){
     }
   }
 
-  // Bind charts
+  // Bind tf onchange (coin is bound in populateSelects)
   for(var ci=0;ci<3;ci++){
-    var cs=document.getElementById('coin'+ci);
     var ts=document.getElementById('tf'+ci);
-    if(cs)cs.onchange=(function(i){return function(){loadChart(i);};})(ci);
-    if(ts)ts.onchange=(function(i){return function(){loadChart(i);};})(ci);
+    if(ts)ts.onchange=(function(i){return function(){loadChart(i);
+      var ch={};try{ch=JSON.parse(localStorage.getItem('ravenCharts'))||{};}catch(e){}
+      ch['tf'+i]=this.value;
+      try{localStorage.setItem('ravenCharts',JSON.stringify(ch));}catch(e){}
+    };})(ci);
   }
 
   initAllResize();
