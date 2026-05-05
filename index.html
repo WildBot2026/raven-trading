@@ -775,8 +775,15 @@ var chartAllocs = { 1: { sym: null, loaded: false }, 2: { sym: null, loaded: fal
 async function updateDynamicCharts(data) {
   if (!data) return;
   
-  // Get positions sorted by value (non-USDT)
-  var pos = (data.positions || []).filter(function(p) { return p.symbol !== 'USDT' && p.symbol !== undefined; });
+  // Aggregate positions by symbol (deduplicate across accounts)
+  var symMap = {};
+  (data.positions || []).forEach(function(p) {
+    if (p.symbol === 'USDT' || p.symbol === undefined) return;
+    if (!symMap[p.symbol]) symMap[p.symbol] = { symbol: p.symbol, value: 0, qty: 0, entryPrice: p.entryPrice || 0 };
+    symMap[p.symbol].value += (p.value || 0);
+    symMap[p.symbol].qty += (p.qty || 0);
+  });
+  var pos = Object.values(symMap);
   pos.sort(function(a,b) { return (b.value||0) - (a.value||0); });
   
   for (var i = 0; i < 2; i++) {
