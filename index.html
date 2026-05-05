@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raven 🦅</title>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script>
+// SortableJS shim (lite) - no external CDN dependency
+var Sortable = {create:function(){return {destroy:function(){}}};};
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:4px;overflow-x:hidden}
@@ -398,6 +401,7 @@ btn.onclick=function(){
   }
 };
 
+render();
 fetchAllCoins();
 })();
 </script>
