@@ -83,15 +83,22 @@ async function fetchAllCoins(){
     var r=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
     var j=await r.json();
     if(j.retCode!==0||!j.result||!j.result.list)return;
-    var raw=j.result.list,coins=[];
+    var raw=j.result.list,tickers={},coins=[];
     for(var i=0;i<raw.length;i++){
       var t=raw[i];
       if(t.symbol.indexOf('USDT')===-1)continue;
       if(parseFloat(t.volume24h||0)<100000)continue;
       coins.push(t.symbol);
+      tickers[t.symbol]=parseFloat(t.lastPrice);
     }
     coins.sort(function(a,b){return a.localeCompare(b);});
     d.allCoins=coins;
+    // Update positions with live prices
+    d.bc=tickers['BTCUSDT']||d.bc;
+    for(var i=0;i<d.pos.length;i++){
+      var sym=d.pos[i].s+'USDT';
+      if(tickers[sym])d.pos[i].pr=tickers[sym];
+    }
     render();
   }catch(e){render();}
 }
