@@ -19,7 +19,7 @@ table{width:100%;font-size:9px;border-collapse:collapse}
 th{color:#64748b;font-weight:500;text-align:left;padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.06)}
 td{padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.03)}
 .h{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.t{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.t{display:grid;grid-template-columns:1fr auto auto;gap:4px}
 @media(max-width:700px){.h{grid-template-columns:1fr}.t{grid-template-columns:1fr}}
 </style>
 </head>
@@ -71,24 +71,24 @@ function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:7
 // ===== RENDER =====
 var h='';
 
-// 3 BIG BOXES: Total | WILD | JOAKO
+// 3 BIG BOXES: Total right-aligned, WILD/JOAKO left
 h+='<div class="t">';
-h+='<div class="c" style="padding:8px;text-align:center">';
-h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">TOTAL</div>';
-h+='<div class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:28px">'+$(d.cap)+'</div>';
-h+='<div style="font-size:12px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</div>';
+// Total — right side
+h+='<div class="c" style="padding:6px 10px;text-align:right">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">TOTAL</span> <span class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:24px">'+$(d.cap)+'</span>';
+h+=' <span style="font-size:11px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</span>';
 h+='</div>';
+// WILD
 var wa=d.acc.WILD,wap=wa.c-wa.s;
-h+='<div class="c" style="padding:8px;text-align:center">';
-h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">WILD</div>';
-h+='<div class="v '+(wap>=0?'g':'r')+'" style="font-size:28px">'+$(wa.c)+'</div>';
-h+='<div style="font-size:12px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</div>';
+h+='<div class="c" style="padding:6px 10px;text-align:center">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">WILD</span> <span class="v '+(wap>=0?'g':'r')+'" style="font-size:20px">'+$(wa.c)+'</span>';
+h+=' <span style="font-size:11px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</span>';
 h+='</div>';
+// JOAKO
 var ja=d.acc.JOAKO,jap=ja.c-ja.s;
-h+='<div class="c" style="padding:8px;text-align:center">';
-h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">JOAKO</div>';
-h+='<div class="v '+(jap>=0?'g':'r')+'" style="font-size:28px">'+$(ja.c)+'</div>';
-h+='<div style="font-size:12px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</div>';
+h+='<div class="c" style="padding:6px 10px;text-align:center">';
+h+='<span class="x gr" style="font-size:10px;letter-spacing:1px">JOAKO</span> <span class="v '+(jap>=0?'g':'r')+'" style="font-size:20px">'+$(ja.c)+'</span>';
+h+=' <span style="font-size:11px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</span>';
 h+='</div>';
 h+='</div>';
 
