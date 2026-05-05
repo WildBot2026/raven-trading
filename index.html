@@ -88,24 +88,22 @@ function render(d){
   const pnl = d.pnlCycle || 0;
   let h = '';
 
-  // ===== HEADER =====
+  // ===== ONE-LINE HEADER =====
   h+='<div class="card"><div class="flex justify-between items-center">';
-  h+='<div><div class="text-xs gray">Capital Total</div><div class="val '+(pnl>=0?'green':'red')+'">'+fmt$(d.totalCapital)+'</div></div>';
-  h+='<div style="text-align:right"><div class="text-xs gray">PNL Ciclo</div><div class="val '+(pnl>=0?'green':'red')+'">'+(pnl>=0?'+':'')+fmt$(pnl)+'</div></div>';
-  h+='</div>';
-  if(d.btc) h+='<div class="text-xs gray mt-1">Inicio: '+fmt$(d.startCapital)+' · BTC <span class="'+(d.btc.change>=0?'green':'red')+'">'+fmt$(d.btc.price)+' ('+(d.btc.change>=0?'+':'')+d.btc.change.toFixed(2)+'%)</span></div>';
-  h+='</div>';
+  h+='<div><span class="text-xs gray">Capital</span> <span class="val '+(pnl>=0?'green':'red')+'">'+fmt$(d.totalCapital)+'</span></div>';
+  h+='<div><span class="text-xs gray">PNL</span> <span class="val '+(pnl>=0?'green':'red')+'">'+(pnl>=0?'+':'')+fmt$(pnl)+'</span></div>';
+  if(d.btc) h+='<div><span class="text-xs gray">BTC</span> <span class="val '+(d.btc.change>=0?'green':'red')+'">'+fmt$(d.btc.price)+'</span> <span class="text-sm '+(d.btc.change>=0?'green':'red')+'">('+(d.btc.change>=0?'+':'')+d.btc.change.toFixed(2)+'%)</span></div>';
+  h+='</div></div>';}]}
 
-  // ===== ACCOUNTS =====
+  // ===== ACCOUNTS ONE-LINE =====
   if(d.accounts){
-    h+='<div class="grid-2">';
+    h+='<div class="card"><div class="flex justify-between items-center">';
     for(const a of ['WILD','JOAKO']){
       const ac=d.accounts[a]; if(!ac)continue;
       const ap=ac.capital-ac.startCapital;
-      h+='<div class="card"><h3>'+a+'</h3><div class="val '+(ap>=0?'green':'red')+'">'+fmt$(ac.capital)+'</div>';
-      h+='<div class="text-xs mt-1">PNL: <span class="'+(ap>=0?'green':'red')+'">'+(ap>=0?'+':'')+fmt$(ap)+'</span></div></div>';
+      h+='<div><span class="text-xs gray">'+a+'</span> <span class="val '+(ap>=0?'green':'red')+'">'+fmt$(ac.capital)+'</span> <span class="text-xs '+(ap>=0?'green':'red')+'">('+(ap>=0?'+':'')+fmt$(ap)+')</span></div>';
     }
-    h+='</div>';
+    h+='</div></div>';
   }
 
   // ===== TWO-COLUMN: POSITIONS (left) + CHART (right) =====
