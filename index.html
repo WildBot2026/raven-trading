@@ -1216,7 +1216,11 @@ async function refresh() {
 setInterval(refresh, 15000);
 // Initial load
 refresh();
-setTimeout(function() { switchThirdChart('BTC'); }, 500);
+setTimeout(function() {
+  switchThirdChart('BTC');
+  switchChart1(document.getElementById('chartSelect1').value);
+  switchChart2(document.getElementById('chartSelect2').value);
+}, 500);
 </script>
 </body>
 </html>
