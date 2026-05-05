@@ -930,56 +930,11 @@ setTimeout(function() { switchThirdChart('BTC'); }, 500);
 }
 
 // Chart state
-var chartState = { THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} } };
-
-async function updateDynamicCharts(data) {
-  if (!data) return;
-  
-  // Aggregate positions by symbol (deduplicate across accounts)
-  var symMap = {};
-  (data.positions || []).forEach(function(p) {
-    if (p.symbol === 'USDT' || p.symbol === undefined) return;
-    if (!symMap[p.symbol]) symMap[p.symbol] = { symbol: p.symbol, value: 0, qty: 0, entryPrice: p.entryPrice || 0 };
-    symMap[p.symbol].value += (p.value || 0);
-    symMap[p.symbol].qty += (p.qty || 0);
-  });
-  var pos = Object.values(symMap);
-  pos.sort(function(a,b) { return (b.value||0) - (a.value||0); });
-  
-  for (var i = 0; i < 2; i++) {
-    var label = document.getElementById('chartLabel' + (i+1));
-    var cont = document.getElementById('chartCont' + (i+1));
-    if (!cont) continue;
-    
-    if (pos[i] && pos[i].symbol) {
-      var sym = pos[i].symbol;
-      label.textContent = sym;
-      document.getElementById('chartMiniPrice' + (i+1)).textContent = window.livePrices[sym] ? '$' + fmtPrice(window.livePrices[sym]) : '—';
-      
-      if (!chartState[sym]) {
-        chartState[sym] = { interval: '3', symbol: sym + 'USDT', charts: {} };
-        
-        // Wire up buttons in this slot
-        var btns = document.getElementById('chartBtns' + (i+1)).querySelectorAll('.interval-btn');
-        btns.forEach(function(b) {
-          b.onclick = function() { switchInterval(sym, b.getAttribute('data-int')); };
-          b.setAttribute('data-sym', sym);
-        });
-        
-        // Wire up click-to-enlarge
-        cont.onclick = function() { enlargeChart(sym); };
-        cont.style.cursor = 'pointer';
-        
-        await loadCandles(sym, '3', 'chartCont' + (i+1), false);
-      }
-      chartAllocs[i+1] = { sym: sym, loaded: chartAllocs[i+1] ? chartAllocs[i+1].loaded : true };
-    } else {
-      label.textContent = '--';
-      document.getElementById('chartMiniPrice' + (i+1)).textContent = '—';
-      cont.innerHTML = '<div class="text-center text-gray-600 text-xs mt-6">Sin posición</div>';
-    }
-  }
-}
+var chartState = {
+  CHART1: { interval: '3', symbol: 'ONDOUSDT', charts: {} },
+  CHART2: { interval: '3', symbol: 'BILLUSDT', charts: {} },
+  THIRD: { interval: '3', symbol: 'BTCUSDT', charts: {} }
+};
 
 function createCandleChart(containerId, candles, isModal) {
   var container = document.getElementById(containerId);
@@ -1069,7 +1024,7 @@ async function switchInterval(sym, interval) {
     }
   });
   
-  var containerId = sym.toLowerCase() + 'ChartContainer';
+  var containerId = sym === 'CHART1' ? 'chartCont1' : sym === 'CHART2' ? 'chartCont2' : sym.toLowerCase() + 'ChartContainer';
   await loadCandles(sym, interval, containerId, false);
   
   // Also update modal if it's showing this symbol
