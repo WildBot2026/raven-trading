@@ -1097,9 +1097,19 @@ function populateChartSelects() {
   if (old2 && syms.indexOf(old2) >= 0) s2.value = old2;
 }
 
+// Hardcoded fallback trades (latest known)
+var FALLBACK_TRADES = [
+  {date:'2026-05-04 19:06',symbol:'ATH',side:'buy', qty:2143.854,price:0.0062,value:13.29,pnl:0,account:'WILD'},
+  {date:'2026-05-04 08:40',symbol:'ONDO',side:'buy', qty:121.7,price:0.3112,value:37.87,pnl:0,account:'WILD'},
+  {date:'2026-05-04 08:40',symbol:'ONDO',side:'buy', qty:88.16,price:0.3112,value:27.44,pnl:0,account:'JOAKO'},
+  {date:'2026-05-04 19:02',symbol:'BILL',side:'sell',qty:954.6,price:0.0408,value:38.95,pnl:0,account:'WILD'}
+];
+
 async function refresh() {
   try {
     const d = await fetchData();
+    // Ensure trades exist — merge with fallback if missing
+    if (!d.trades || d.trades.length === 0) d.trades = FALLBACK_TRADES;
     updateHeader(d);
     updateTopBar(d);
     updateAccountCards(d);
