@@ -72,16 +72,33 @@ function sb(s){return s==='buy'||s==='Buy'?'<span class="g" style="font-weight:7
 // ===== RENDER =====
 var h='';
 
-// COMPACT HEADER: Capital | PNL | BTC | WILD | JOAKO
-h+='<div class="c"><div class="f b a" style="font-size:11px">';
-h+='<b>Cap</b> <span class="'+(d.pnl>=0?'g':'r')+'">'+$(d.cap)+'</span>';
-h+=' <span class="gr">|</span> <b>PNL</b> <span class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+'</span>';
-h+=' <span class="gr">|</span> <b>BTC</b> <span class="'+(d.btcc>=0?'g':'r')+'">'+$(d.btc)+'</span><span class="x '+(d.btcc>=0?'g':'r')+'">('+(d.btcc>=0?'+':'')+d.btcc.toFixed(2)+'%)</span>';
-for(var a in d.acc){
-  var ac=d.acc[a],ap=ac.c-ac.s;
-  h+=' <span class="gr">|</span> <b>'+a+'</b> <span class="'+(ap>=0?'g':'r')+'">'+$(ac.c)+'</span> <span class="x '+(ap>=0?'g':'r')+'">('+(ap>=0?'+':'')+$(ap)+')</span>';
-}
-h+='</div></div>';
+// COMPACT HEADER: 3 boxes — Total | WILD | JOAKO
+h+='<div class="t">';
+
+// Total
+h+='<div class="c" style="padding:8px;text-align:center">';
+h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">TOTAL</div>';
+h+='<div class="v '+(d.pnl>=0?'g':'r')+'" style="font-size:28px">'+$(d.cap)+'</div>';
+h+='<div style="font-size:12px" class="'+(d.pnl>=0?'g':'r')+'">'+(d.pnl>=0?'+':'')+$(d.pnl)+' ('+(d.pnl>=0?'+':'')+d.pnlp+'%)</div>';
+h+='</div>';
+
+// WILD
+var wa=d.acc.WILD,wap=wa.c-wa.s;
+h+='<div class="c" style="padding:8px;text-align:center">';
+h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">WILD</div>';
+h+='<div class="v '+(wap>=0?'g':'r')+'" style="font-size:28px">'+$(wa.c)+'</div>';
+h+='<div style="font-size:12px" class="'+(wap>=0?'g':'r')+'">'+(wap>=0?'+':'')+$(wap)+'</div>';
+h+='</div>';
+
+// JOAKO
+var ja=d.acc.JOAKO,jap=ja.c-ja.s;
+h+='<div class="c" style="padding:8px;text-align:center">';
+h+='<div class="x gr" style="font-size:11px;letter-spacing:1px">JOAKO</div>';
+h+='<div class="v '+(jap>=0?'g':'r')+'" style="font-size:28px">'+$(ja.c)+'</div>';
+h+='<div style="font-size:12px" class="'+(jap>=0?'g':'r')+'">'+(jap>=0?'+':'')+$(jap)+'</div>';
+h+='</div>';
+
+h+='</div>';
 
 // TWO-COLUMN: positions + chart
 h+='<div class="h">';
