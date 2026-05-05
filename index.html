@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -541,7 +544,7 @@ async function updatePositions(d) {
   } catch(e) { /* WS file not available, fall through */ }
   
   // Fallback to REST if WS didn't have all prices
-  var missing = d.positions.filter(function(p) { return livePrices[p.symbol] === undefined; });
+  var missing = d.positions.filter(function(p) { return window.livePrices[p.symbol] === undefined; });
   if (missing.length > 0) {
     try {
       var r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
@@ -549,7 +552,7 @@ async function updatePositions(d) {
       if (j.retCode === 0 && j.result && j.result.list) {
         j.result.list.forEach(function(t) {
           var sym = t.symbol.replace('USDT', '');
-          if (livePrices[sym] === undefined && missing.some(function(p) { return p.symbol === sym; })) {
+          if (window.livePrices[sym] === undefined && missing.some(function(p) { return p.symbol === sym; })) {
             window.livePrices[sym] = parseFloat(t.lastPrice);
           }
         });
@@ -559,7 +562,7 @@ async function updatePositions(d) {
 
   var html = '<div class="space-y-2 scroll-table-sm max-h-[280px]">';
   d.positions.forEach(function(p) {
-    var livePrice = (livePrices[p.symbol] !== undefined) ? livePrices[p.symbol] : (p.currentPrice || 0);
+    var livePrice = (window.livePrices[p.symbol] !== undefined) ? window.livePrices[p.symbol] : (p.currentPrice || 0);
     var livePnl = (livePrice - p.entryPrice) * p.qty;
     var livePnlPct = p.entryPrice > 0 ? ((livePrice / p.entryPrice - 1) * 100) : 0;
     
