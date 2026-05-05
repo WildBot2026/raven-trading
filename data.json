@@ -174,27 +174,27 @@
     {
       "side": "buy",
       "symbol": "ATH",
-      "qty": 2143.854,
-      "price": 0.0062,
-      "value": 13.29,
+      "qty": "2143.854",
+      "price": "0.0062",
+      "value": "13.29",
       "date": "2026-05-04 19:06",
       "type": "auto-buy"
     },
     {
       "side": "buy",
       "symbol": "ONDO",
-      "qty": 121.7,
-      "price": 0.3112,
-      "value": 37.87,
+      "qty": "121.7",
+      "price": "0.3112",
+      "value": "37.87",
       "date": "2026-05-04 08:40",
       "type": "manual"
     },
     {
       "side": "buy",
       "symbol": "ONDO",
-      "qty": 88.16,
-      "price": 0.3112,
-      "value": 27.44,
+      "qty": "88.16",
+      "price": "0.3112",
+      "value": "27.44",
       "date": "2026-05-04 08:40",
       "type": "manual",
       "account": "JOAKO"
@@ -202,11 +202,15 @@
     {
       "side": "sell",
       "symbol": "BILL",
-      "qty": 954.6,
-      "price": 0.0408,
-      "value": 38.95,
+      "qty": "954.6",
+      "price": "0.0408",
+      "value": "38.95",
       "date": "2026-05-04 19:02",
       "type": "stop-loss"
     }
-  ]
+  ],
+  "btc": {
+    "price": 80563.6,
+    "change": 0.65
+  }
 }
