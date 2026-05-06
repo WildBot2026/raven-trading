@@ -423,12 +423,8 @@ async function syncFromBybit(){
       let totalPosVal=pos.reduce((s,p)=>s+p.usdValue,0);
       let totalUsdt=(d.positions.find(p=>p.account===w&&p.coin==='USDT')||{}).usdValue||0;
       if(hdr){
-        let cntTxt=' — <span style="color:#eab308;font-size:14px;font-weight:600">'+pos.length+' monedas ~$'+(totalPosVal+totalUsdt).toFixed(2)+'</span>';
-        if(!hdr.querySelector('span[style*="#eab308"]')){
-          hdr.innerHTML='🐺 Wallet '+w+' '+cntTxt;
-        } else {
-          hdr.innerHTML='🐺 Wallet '+w+' '+cntTxt;
-        }
+        let cntTxt=' — '+pos.length+' monedas ~$'+(totalPosVal+totalUsdt).toFixed(2);
+        hdr.innerHTML='🐺 Wallet '+w+' '+cntTxt;
       }
       
       // Get prices for P&L
