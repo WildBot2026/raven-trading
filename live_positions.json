@@ -14,12 +14,6 @@
     },
     {
       "account": "WILD",
-      "coin": "BSB",
-      "qty": 0.0731,
-      "usdValue": 0.04270721
-    },
-    {
-      "account": "WILD",
       "coin": "PENGU",
       "qty": 853.146,
       "usdValue": 9.43332063
@@ -29,18 +23,6 @@
       "coin": "TON",
       "qty": 8.79209057,
       "usdValue": 18.63813299
-    },
-    {
-      "account": "WILD",
-      "coin": "ADA",
-      "qty": 0.00778,
-      "usdValue": 0.00204985
-    },
-    {
-      "account": "WILD",
-      "coin": "ZK",
-      "qty": 0.00502,
-      "usdValue": 0.00008745
     },
     {
       "account": "JOAKO",
@@ -68,9 +50,9 @@
     },
     {
       "account": "JOAKO",
-      "coin": "ZK",
-      "qty": 0.00313,
-      "usdValue": 0.00005453
+      "coin": "RENDER",
+      "qty": 13.42656,
+      "usdValue": 25.67820201
     }
   ],
   "trades": [
@@ -255,5 +237,5 @@
       "time": "1778011614176"
     }
   ],
-  "updated": "2026-05-06T05:50:00.410Z"
+  "updated": "2026-05-06T05:50:28.316Z"
 }
