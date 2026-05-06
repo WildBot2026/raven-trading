@@ -277,15 +277,15 @@ async function syncFromBybit(){
     // Determine proxy host
     let proxyHost=window.location.hostname;
     // If on external domain (GitHub Pages), use the tunnel URL
+    // On external domain (GitHub Pages), use Cloudflare tunnel
     if(proxyHost.includes('github')||proxyHost.includes('netlify')){
-      proxyHost='6c8a1c0daaba6b.lhr.life';
-      // The tunnel provides HTTPS, so use https protocol
+      proxyHost='api.tradingia.cloud';
       var proto='https';
     } else {
       var proto='http';
     }
-    // The tunnel already includes the port, no need for :3377 when using tunnel
-    let proxyAddr=proxyHost.includes('lhr.life')?proxyHost:(proxyHost+':3377');
+    // The tunnel already includes the port, no need for :3377 when using cloudflare
+    let proxyAddr=proxyHost.includes('tradingia.cloud')?proxyHost:(proxyHost+':3377');
     
     // Fetch both wallets from proxy
     let wildUrl=proto+'://'+proxyAddr+'/?user=wild&pass=Steelers'+ds+'*';
