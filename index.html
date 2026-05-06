@@ -413,9 +413,9 @@ async function syncFromBybit(){
     for(let w of ['WILD','JOAKO']){
       let cont=wallets[w];
       if(!cont)continue;
-      let pos=d.positions.filter(p=>p.account===w&&p.coin!=='USDT'&&p.coin!=='ZK'&&p.coin!=='ADA'&&p.qty>0.001);
-      // Skip dust
-      pos=pos.filter(p=>p.coin==='PEPE'||p.coin==='BSB'||p.coin==='PENGU'||p.coin==='TON'||p.coin==='MON');
+      let pos=d.positions.filter(p=>p.account===w&&p.coin!=='USDT'&&p.qty>0.001);
+      pos.sort((a,b)=>b.usdValue-a.usdValue);
+      pos=pos.slice(0,4);
       
       // Get prices for P&L
       let pr=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
