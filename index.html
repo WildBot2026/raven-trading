@@ -434,30 +434,52 @@ setInterval(syncFromBybit,10000);
   <h2 style="color:#eab308;font-size:14px;margin-bottom:6px">📋 Reglas del Bot</h2>
   
   <div style="background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
-    <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🎯 Targets de Venta</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;font-size:12px">
-      <span style="color:#4ade80">+3% → vende 25% de la posición</span>
-      <span style="color:#4ade80">+6% → vende 33% de la posición</span>
-      <span style="color:#4ade80">+10% → vende 50% de la posición</span>
-      <span style="color:#4ade80">+15% → vende 100% de la posición</span>
+    <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🎯 Targets Dinámicos (según momentum)</div>
+    <div style="font-size:12px;color:#64748b;margin-bottom:4px">🚀 Momentum fuerte → targets x1.5 | ⚠️ Debilitándose → targets x0.8 | 💀 Crash → salida inmediata</div>
+    <div style="background:rgba(129,140,248,0.1);border-radius:3px;padding:4px 6px;margin-bottom:4px">
+      <span style="color:#818cf8;font-size:11px;font-weight:600">MOMENTUM FUERTE (vel &gt; +2%/30s):</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:11px;margin-top:2px">
+        <span style="color:#4ade80">+4.5% → 25%</span>
+        <span style="color:#4ade80">+9% → 33%</span>
+        <span style="color:#4ade80">+15% → 50%</span>
+        <span style="color:#4ade80">+22.5% → 100%</span>
+      </div>
+    </div>
+    <div style="background:rgba(234,179,8,0.08);border-radius:3px;padding:4px 6px;margin-bottom:4px">
+      <span style="color:#eab308;font-size:11px;font-weight:600">MOMENTO NORMAL:</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:11px;margin-top:2px">
+        <span style="color:#4ade80">+3% → 25%</span>
+        <span style="color:#4ade80">+6% → 33%</span>
+        <span style="color:#4ade80">+10% → 50%</span>
+        <span style="color:#4ade80">+15% → 100%</span>
+      </div>
+    </div>
+    <div style="background:rgba(248,113,113,0.08);border-radius:3px;padding:4px 6px;margin-bottom:4px">
+      <span style="color:#f87171;font-size:11px;font-weight:600">DEBILITÁNDOSE / CRASH:</span>
+      <div style="font-size:11px;margin-top:2px">
+        <span style="color:#f87171">Si momentum baja y PnL &gt; +3% → vende 50% inmediato</span><br>
+        <span style="color:#f87171">Si crash detectado + PnL &gt; +1% → vende 100% inmediato</span><br>
+        <span style="color:#f87171">Targets reducidos: +2.4%, +4.8%, +8%, +12%</span>
+      </div>
     </div>
   </div>
   
   <div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
-    <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Stop Loss</div>
+    <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Stop Loss Inteligente</div>
     <div style="font-size:12px;color:#e2e8f0">
-      <span style="color:#f87171">-4% → vende 100% de la posición</span> — salida total en pérdida
+      <span style="color:#f87171">Trailing: -4% desde el precio máximo alcanzado</span> — se mueve hacia arriba con el precio<br>
+      <span style="color:#64748b">Hard stop: -4% desde entry</span> — red de seguridad por si el trailing no alcanza
     </div>
   </div>
   
   <div style="background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.15);border-radius:4px;padding:6px 8px">
     <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">🔍 Criterios de Compra</div>
     <ul style="font-size:12px;color:#cbd5e1;margin:0;padding-left:14px;line-height:1.5">
-      <li>Monedas con <strong style="color:#4ade80">pump de +3% a +50%</strong> en 5m</li>
+      <li>Monedas con <strong style="color:#4ade80">pump de +3% a +50%</strong> en 24h</li>
       <li>Volumen mínimo <strong style="color:#818cf8">$100,000</strong> en el par</li>
       <li>Precio máximo por moneda: <strong style="color:#eab308">&lt; $10</strong></li>
-      <li>Prioriza <strong style="color:#4ade80">top gainers</strong> del día</li>
-      <li>Distribuye el capital disponible entre monedas detectadas</li>
+      <li>Prioriza <strong style="color:#4ade80">top gainers</strong> del día con momentum positivo</li>
+      <li><strong style="color:#f87171">NO compra si el momentum ya se está debilitando</strong> — evita picos vueltos</li>
       <li>Máximo 4 posiciones activas por wallet</li>
     </ul>
   </div>
