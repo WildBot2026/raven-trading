@@ -3,77 +3,122 @@
     {
       "account": "WILD",
       "coin": "USDT",
-      "qty": 2.99804475,
-      "usdValue": 2.99780791
+      "qty": 0.00009286,
+      "usdValue": 0.00009285
     },
     {
       "account": "WILD",
       "coin": "PEPE",
       "qty": 7336406.25,
-      "usdValue": 30.93102239
+      "usdValue": 30.7729962
     },
     {
       "account": "WILD",
       "coin": "BSB",
-      "qty": 26.8731,
-      "usdValue": 15.95598374
+      "qty": 0.0731,
+      "usdValue": 0.04228484
     },
     {
       "account": "WILD",
       "coin": "PENGU",
       "qty": 853.146,
-      "usdValue": 9.46565487
+      "usdValue": 9.4173668
     },
     {
       "account": "WILD",
       "coin": "TON",
-      "qty": 0.00321,
-      "usdValue": 0.00676925
+      "qty": 8.79209057,
+      "usdValue": 19.31841221
     },
     {
       "account": "WILD",
       "coin": "ADA",
       "qty": 0.00778,
-      "usdValue": 0.00205462
+      "usdValue": 0.00204512
     },
     {
       "account": "WILD",
       "coin": "ZK",
       "qty": 0.00502,
-      "usdValue": 0.0000876
+      "usdValue": 0.00008729
     },
     {
       "account": "JOAKO",
       "coin": "USDT",
       "qty": 3.00979938,
-      "usdValue": 3.00954656
+      "usdValue": 3.00956763
     },
     {
       "account": "JOAKO",
       "coin": "PEPE",
       "qty": 4680410.904,
-      "usdValue": 19.7273235
+      "usdValue": 19.62894126
     },
     {
       "account": "JOAKO",
       "coin": "TON",
       "qty": 0.00754,
-      "usdValue": 0.01579878
+      "usdValue": 0.01657669
     },
     {
       "account": "JOAKO",
       "coin": "MON",
       "qty": 215.3844,
-      "usdValue": 6.73649172
+      "usdValue": 6.68475639
     },
     {
       "account": "JOAKO",
       "coin": "ZK",
       "qty": 0.00313,
-      "usdValue": 0.00005466
+      "usdValue": 0.00005443
     }
   ],
   "trades": [
+    {
+      "account": "WILD",
+      "symbol": "TONUSDT",
+      "side": "Buy",
+      "qty": 1.38,
+      "price": 2.157,
+      "usd": 2.97666,
+      "time": "1778041646848"
+    },
+    {
+      "account": "WILD",
+      "symbol": "TONUSDT",
+      "side": "Buy",
+      "qty": 1.38,
+      "price": 2.148,
+      "usd": 2.9642399999999998,
+      "time": "1778041606924"
+    },
+    {
+      "account": "WILD",
+      "symbol": "TONUSDT",
+      "side": "Buy",
+      "qty": 3.24,
+      "price": 2.142,
+      "usd": 6.94008,
+      "time": "1778041541814"
+    },
+    {
+      "account": "WILD",
+      "symbol": "BSBUSDT",
+      "side": "Sell",
+      "qty": 26.8,
+      "price": 0.5911,
+      "usd": 15.841479999999999,
+      "time": "1778041526643"
+    },
+    {
+      "account": "WILD",
+      "symbol": "TONUSDT",
+      "side": "Buy",
+      "qty": 1.38,
+      "price": 2.133,
+      "usd": 2.9435399999999996,
+      "time": "1778041351012"
+    },
     {
       "account": "JOAKO",
       "symbol": "RENDERUSDT",
@@ -165,24 +210,6 @@
       "time": "1778012425221"
     },
     {
-      "account": "WILD",
-      "symbol": "FHEUSDT",
-      "side": "Buy",
-      "qty": 125,
-      "price": 0.04252,
-      "usd": 5.315,
-      "time": "1778012425221"
-    },
-    {
-      "account": "WILD",
-      "symbol": "TONUSDT",
-      "side": "Sell",
-      "qty": 16.77,
-      "price": 1.88,
-      "usd": 31.527599999999996,
-      "time": "1778012421802"
-    },
-    {
       "account": "JOAKO",
       "symbol": "FHEUSDT",
       "side": "Buy",
@@ -219,33 +246,6 @@
       "time": "1778012263103"
     },
     {
-      "account": "WILD",
-      "symbol": "PENGUUSDT",
-      "side": "Buy",
-      "qty": 259,
-      "price": 0.011368,
-      "usd": 2.944312,
-      "time": "1778011834249"
-    },
-    {
-      "account": "WILD",
-      "symbol": "PENGUUSDT",
-      "side": "Buy",
-      "qty": 595,
-      "price": 0.011325,
-      "usd": 6.738375,
-      "time": "1778011693921"
-    },
-    {
-      "account": "WILD",
-      "symbol": "ONDOUSDT",
-      "side": "Sell",
-      "qty": 30.41,
-      "price": 0.3145,
-      "usd": 9.563945,
-      "time": "1778011690312"
-    },
-    {
       "account": "JOAKO",
       "symbol": "MONUSDT",
       "side": "Buy",
@@ -255,5 +255,5 @@
       "time": "1778011614176"
     }
   ],
-  "updated": "2026-05-06T04:20:13.979Z"
+  "updated": "2026-05-06T04:55:45.938Z"
 }

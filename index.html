@@ -284,14 +284,7 @@ async function syncFromBybit(){
       pos.sort((a,b)=>b.usdValue-a.usdValue);
       pos=pos.slice(0,4);
       
-      // Update wallet header with count + total
-      let hdr=cont.parentNode.querySelector('h2');
-      let totalPosVal=pos.reduce((s,p)=>s+p.usdValue,0);
-      let totalUsdt=(d.positions.find(p=>p.account===w&&p.coin==='USDT')||{}).usdValue||0;
-      if(hdr){
-        let cntTxt=' — '+pos.length+' monedas ~$'+(totalPosVal+totalUsdt).toFixed(2);
-        hdr.innerHTML='🐺 Wallet '+w+' '+cntTxt;
-      }
+      // Wallet headers stay static — no overwrite
       
       // Get prices for P&L
       let pr=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
