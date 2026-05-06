@@ -307,14 +307,46 @@ async function syncFromBybit(){
     (rd.trades||[]).forEach(t=>allTrades.push({...t,account:'JOAKO'}));
     allTrades.sort((a,b)=>b.time-a.time);
     
-    // Merge entry prices from proxy
-    if(wd.entries){Object.keys(wd.entries).forEach(k=>{if(k.startsWith('WILD:'))entryPrices[k.replace('WILD:','')+'USDT']=wd.entries[k].ep;});}
-    if(rd.entries){Object.keys(rd.entries).forEach(k=>{if(k.startsWith('JOAKO:'))entryPrices[k.replace('JOAKO:','')+'USDT']=rd.entries[k].ep;});}
+    // Merge entry prices from proxy (per-wallet: WILD:COIN and JOAKO:COIN)
+    let wEntries={};
+    if(wd.entries){Object.keys(wd.entries).forEach(k=>wEntries[k+'USDT']=wd.entries[k]);}
+    if(rd.entries){Object.keys(rd.entries).forEach(k=>{if(entryPrices[k+'USDT']===undefined)entryPrices[k+'USDT']=rd.entries[k];});}
+    
+    // Update entryPrices with proxy data (only if entry exists, don't override saved DOM values)
+    let acctEntries={WILD:wEntries,JOAKO:{}};
+    if(rd.entries){Object.keys(rd.entries).forEach(k=>acctEntries.JOAKO[k+'USDT']=rd.entries[k]);}
+    
+    // Merge proxy entries into entryPrices (keep existing DOM values as priority)
+    for(let a of ['WILD','JOAKO']){
+      let ae=acctEntries[a];
+      if(!ae)continue;
+      Object.keys(ae).forEach(k=>{
+        if(entryPrices[k]===undefined||entryPrices[k]===0)entryPrices[k]=ae[k];
+      });
+    }
     
     // Build price lookup
     let prices={};
     if(wd.prices){Object.keys(wd.prices).forEach(k=>prices[k]=wd.prices[k]);}
     if(rd.prices){Object.keys(rd.prices).forEach(k=>prices[k]=rd.prices[k]);}
+    
+    // Helper: calculate decimals dynamically based on price
+    function getDec(price){
+      if(price>=1)return 4;
+      if(price>=0.01)return 5;
+      if(price>=0.0001)return 6;
+      if(price>=0.000001)return 8;
+      return 10;
+    }
+    
+    // Helper: format qty without decimals for large counts
+    function fmtQty(qty,coin){
+      if(coin==='PEPE'||coin==='SHIB'||coin==='FLOKI')return qty.toFixed(0);
+      if(qty>=1000)return qty.toFixed(0);
+      if(qty>=100)return qty.toFixed(1);
+      if(qty>=1)return qty.toFixed(2);
+      return qty.toFixed(4);
+    }
     
     // Rebuild position divs per wallet
     let wallets={'WILD':document.getElementById('wildPos'),'JOAKO':document.getElementById('joakoPos')};
@@ -337,23 +369,24 @@ async function syncFromBybit(){
         let cp=prices[coinSym]||p.usdValue/(p.qty||1);
         let entry=entryPrices[coinSym]||cp;
         let chg=((cp-entry)/entry*100);
-        let dec=p.coin==='PEPE'?8:p.coin==='PENGU'?5:p.coin==='MON'?6:4;
+        let dec=getDec(cp);
         let chgCls=chg>=0?'g':'r';
         let p3=entry*1.03, p8=entry*1.08, p15=entry*1.15, stop=entry*0.96;
+        let tDec=getDec(entry);
         html+='<div class="p" data-coin="'+p.coin+'">';
         html+='<div style="display:flex;justify-content:space-between">';
         html+='<span class="pn">'+p.coin+'</span>';
         html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
         html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
-        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(dec)+'</span></span>';
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(tDec)+'</span></span>';
         html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.coin+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
         html+='<span data-pct="'+p.coin+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
         html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+3% $'+p3.toFixed(dec)+'</span>';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+8% $'+p8.toFixed(dec)+'</span>';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+15% $'+p15.toFixed(dec)+'</span>';
-        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop $'+stop.toFixed(dec)+'</span></div>';
-        html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+p.qty.toFixed(p.coin==='PEPE'?0:2)+' tok · <span style="color:#818cf8;font-weight:600">$'+p.usdValue.toFixed(2)+'</span></div>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+3% $'+p3.toFixed(tDec)+'</span>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+8% $'+p8.toFixed(tDec)+'</span>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+15% $'+p15.toFixed(tDec)+'</span>';
+        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop $'+stop.toFixed(tDec)+'</span></div>';
+        html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+fmtQty(p.qty,p.coin)+' tok · <span style="color:#818cf8;font-weight:600">$'+p.usdValue.toFixed(2)+'</span></div>';
         html+='</div>';
       }
       html+='<div class="p" data-coin=""><div style="display:flex;justify-content:space-between"><span class="pn" style="color:#818cf8">USDT</span><span style="font-size:14px;font-weight:600;color:#818cf8">$'+totUsdt.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;align-items:baseline"><span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="font-size:16px;font-weight:700;color:#64748b">---</span></div><div style="font-size:11px;color:#475569">Disponible</div></div>';
