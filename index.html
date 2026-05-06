@@ -274,9 +274,22 @@ async function syncFromBybit(){
     let d=new Date();
     let ds=('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
     
+    // Determine proxy host
+    let proxyHost=window.location.hostname;
+    // If on external domain (GitHub Pages), use the tunnel URL
+    if(proxyHost.includes('github')||proxyHost.includes('netlify')){
+      proxyHost='6c8a1c0daaba6b.lhr.life';
+      // The tunnel provides HTTPS, so use https protocol
+      var proto='https';
+    } else {
+      var proto='http';
+    }
+    // The tunnel already includes the port, no need for :3377 when using tunnel
+    let proxyAddr=proxyHost.includes('lhr.life')?proxyHost:(proxyHost+':3377');
+    
     // Fetch both wallets from proxy
-    let wildUrl='http://'+window.location.hostname+':3377/?user=wild&pass=Steelers'+ds+'*';
-    let ravUrl='http://'+window.location.hostname+':3377/?user=ravens&pass=Ravens'+ds+'*';
+    let wildUrl=proto+'://'+proxyAddr+'/?user=wild&pass=Steelers'+ds+'*';
+    let ravUrl=proto+'://'+proxyAddr+'/?user=ravens&pass=Ravens'+ds+'*';
     
     let wildR=await fetch(wildUrl);
     let ravR=await fetch(ravUrl);
