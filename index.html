@@ -331,6 +331,18 @@ async function syncFromBybit(){
     if(rd.prices){Object.keys(rd.prices).forEach(k=>prices[k]=rd.prices[k]);}
     
     // Helper: calculate decimals dynamically based on price
+    // Get momentum label for a coin based on PnL and volume data
+    function getMomLabel(coinSym, pnl){
+      let T = (lbl, bg, fg) => '<span style="background:'+bg+';color:'+fg+';font-size:9px;padding:1px 4px;border-radius:3px;font-weight:600;vertical-align:middle">'+lbl+'</span>';
+      let tk=prices[coinSym];
+      if(!tk)return T('⚪NEW','#1e1e3a','#818cf8');
+      if(pnl>5)return T('🟢FUERTE','rgba(74,222,128,0.15)','#4ade80');
+      if(pnl>2)return T('🟢NORMAL','rgba(74,222,128,0.1)','#4ade80');
+      if(pnl>-0.5)return T('🟡OBSERV','rgba(234,179,8,0.1)','#eab308');
+      if(pnl<=-0.5)return T('🔴ESTANCA','rgba(248,113,113,0.1)','#f87171');
+      return T('⚪NEW','#1e1e3a','#818cf8');
+    }
+    
     function getDec(price){
       if(price>=1)return 4;
       if(price>=0.01)return 5;
@@ -375,7 +387,7 @@ async function syncFromBybit(){
         let tDec=getDec(entry);
         html+='<div class="p" data-coin="'+p.coin+'">';
         html+='<div style="display:flex;justify-content:space-between">';
-        html+='<span class="pn">'+p.coin+'</span>';
+        html+='<span class="pn">'+p.coin+' '+getMomLabel(coinSym,chg)+'</span>';
         html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
         html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
         html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(tDec)+'</span></span>';
@@ -484,7 +496,17 @@ setInterval(syncFromBybit,10000);
       <li>Máximo 4 posiciones activas por wallet</li>
     </ul>
   </div>
-</div>
+  
+  <div class="c">
+    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Estados de Momentum</div>
+    <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
+      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟢FUERTE</span> vel&gt;+2%/30s targets x1.5<br>
+      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟢NORMAL</span> estable, targets base<br>
+      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟡OBSERV</span> debilitándose, targets reducidos<br>
+      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🔴ESTANCA</span> sin movimiento, Time Stop candidata<br>
+      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">⚪NEW</span> recién comprada, sin data aún
+    </div>
+  </div>
 
 </body>
 </html>
