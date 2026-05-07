@@ -333,14 +333,14 @@ async function syncFromBybit(){
     // Helper: calculate decimals dynamically based on price
     // Get momentum label for a coin based on PnL and volume data
     function getMomLabel(coinSym, pnl){
-      let T = (lbl, bg, fg) => '<span style="background:'+bg+';color:'+fg+';font-size:9px;padding:1px 4px;border-radius:3px;font-weight:600;vertical-align:middle">'+lbl+'</span>';
+      let B = (d, bg, fg) => '<span style="background:'+bg+';color:'+fg+';font-size:10px;padding:0 3px;border-radius:3px;font-weight:700;vertical-align:middle;letter-spacing:1px">'+d+'</span>';
       let tk=prices[coinSym];
-      if(!tk)return T('⚪NEW','#1e1e3a','#818cf8');
-      if(pnl>5)return T('🟢FUERTE','rgba(74,222,128,0.15)','#4ade80');
-      if(pnl>2)return T('🟢NORMAL','rgba(74,222,128,0.1)','#4ade80');
-      if(pnl>-0.5)return T('🟡OBSERV','rgba(234,179,8,0.1)','#eab308');
-      if(pnl<=-0.5)return T('🔴ESTANCA','rgba(248,113,113,0.1)','#f87171');
-      return T('⚪NEW','#1e1e3a','#818cf8');
+      if(!tk)return B('○','#1e1e3a','#818cf8');
+      if(pnl>5)return B('● ●','rgba(74,222,128,0.15)','#4ade80');
+      if(pnl>2)return B('●','rgba(74,222,128,0.1)','#4ade80');
+      if(pnl>-0.5)return B('●','rgba(234,179,8,0.1)','#eab308');
+      if(pnl<=-0.5)return B('●','rgba(248,113,113,0.1)','#f87171');
+      return B('○','#1e1e3a','#818cf8');
     }
     
     function getDec(price){
@@ -500,11 +500,11 @@ setInterval(syncFromBybit,10000);
   <div class="c">
     <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Estados de Momentum</div>
     <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
-      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟢FUERTE</span> vel&gt;+2%/30s targets x1.5<br>
-      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟢NORMAL</span> estable, targets base<br>
-      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🟡OBSERV</span> debilitándose, targets reducidos<br>
-      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">🔴ESTANCA</span> sin movimiento, Time Stop candidata<br>
-      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600">⚪NEW</span> recién comprada, sin data aún
+      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">● ●</span> <strong>FUERTE</strong> vel&gt;+2%/30s · targets x1.5<br>
+      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>NORMAL</strong> estable · targets base<br>
+      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>OBSERV</strong> debilitándose · targets reducidos<br>
+      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>ESTANCA</strong> sin movimiento · Time Stop candidata<br>
+      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">○</span> <strong>NEW</strong> recién comprada
     </div>
   </div>
 
