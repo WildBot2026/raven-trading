@@ -205,6 +205,90 @@ table{width:100%;border-collapse:collapse}
 // Entry prices: symbol -> entry_price (read from DOM)
 const entryPrices = {};
 
+// Render from static data.json (GitHub Pages mode)
+function renderFromData(data){
+  if(!data || !data.wallets) return;
+  
+  // Update capital
+  let tc=document.getElementById('totalCap');
+  let pc=document.getElementById('pnlCap');
+  if(tc) tc.textContent='$'+data.totalCapital.toFixed(2);
+  if(pc){
+    let pnl=data.totalCapital-(data.startCapital||100);
+    let pnlPct=((data.totalCapital/(data.startCapital||100))-1)*100;
+    pc.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pnlPct>=0?'+':'')+pnlPct.toFixed(1)+'%)';
+    pc.style.color=pnl>=0?'#4ade80':'#f87171';
+  }
+  
+  // Update BTC
+  if(data.btc){
+    document.getElementById('btcP').textContent='$'+data.btc.price.toLocaleString();
+    let pc2=document.getElementById('btcC');
+    if(pc2){
+      pc2.textContent=(data.btc.change>=0?'+':'')+data.btc.change.toFixed(2)+'%';
+      pc2.className=data.btc.change>=0?'sm g':'sm r';
+    }
+  }
+  
+  // Build positions per wallet
+  let wPos={'WILD':[],'JOAKO':[]};
+  let wUsdt={'WILD':0,'JOAKO':0};
+  for(let w of data.wallets||[]){
+    let a=w.account||'WILD';
+    if(w.symbol==='USDT') wUsdt[a]=w.value||0;
+    else if((w.value||0)>1) wPos[a].push(w);
+  }
+  
+  // Sort by value descending, limit 4
+  for(let a of ['WILD','JOAKO']){
+    wPos[a].sort((a,b)=>b.value-a.value);
+    wPos[a]=wPos[a].slice(0,4);
+  }
+  
+  // Build position divs
+  let wallets={'WILD':document.getElementById('wildPos'),'JOAKO':document.getElementById('joakoPos')};
+  for(let w of ['WILD','JOAKO']){
+    let cont=wallets[w];
+    if(!cont) continue;
+    let pos=wPos[w];
+    let totalV=pos.reduce((s,p)=>s+(p.value||0),0);
+    let totUsdt=wUsdt[w]||0;
+    let wt=cont.nextElementSibling;
+    if(wt&&wt.style&&wt.style.fontWeight==='700') wt.textContent='$'+(totalV+totUsdt).toFixed(2);
+    
+    let html='';
+    for(let p of pos){
+      let entry=p.entryPrice||p.price||0;
+      let cp=p.price||0;
+      let chg=entry>0?((cp-entry)/entry*100):0;
+      let dec=cp>=1?4:cp>=0.01?5:cp>=0.0001?6:cp>=0.000001?8:10;
+      let chgCls=chg>=0?'g':'r';
+      
+      html+='<div class="p" data-coin="'+p.symbol+'">';
+      html+='<div style="display:flex;justify-content:space-between">';
+      html+='<span class="pn">'+p.symbol+'</span>';
+      html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
+      html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
+      if(entry>0){
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+p.symbol+'USDT" style="font-size:13px;font-weight:600">'+entry.toFixed(dec)+'</span></span>';
+      }
+      html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.symbol+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
+      html+='<span data-pct="'+p.symbol+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
+      if(p.stop){
+        html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
+        if(p.target8) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+8% $'+p.target8.toFixed(dec)+'</span>';
+        if(p.target15) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+15% $'+p.target15.toFixed(dec)+'</span>';
+        if(p.target25) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+25% $'+p.target25.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop $'+p.stop.toFixed(dec)+'</span></div>';
+      }
+      html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+(p.quantity||p.qty||'0')+' tok · <span style="color:#818cf8;font-weight:600">$'+(p.value||0).toFixed(2)+'</span></div>';
+      html+='</div>';
+    }
+    html+='<div class="p" data-coin=""><div style="display:flex;justify-content:space-between"><span class="pn" style="color:#818cf8">USDT</span><span style="font-size:14px;font-weight:600;color:#818cf8">$'+totUsdt.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;align-items:baseline"><span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="font-size:16px;font-weight:700;color:#64748b">---</span></div><div style="font-size:11px;color:#475569">Disponible</div></div>';
+    cont.innerHTML=html;
+  }
+}
+
 function initEntryPrices(){
   let entries=document.querySelectorAll('[data-entry]');
   entries.forEach(function(e){
@@ -276,16 +360,19 @@ async function syncFromBybit(){
     
     // Determine proxy host
     let proxyHost=window.location.hostname;
-    // If on external domain (GitHub Pages), use the tunnel URL
-    // On external domain (GitHub Pages), use Cloudflare tunnel
+    // On external domain (GitHub Pages), load from data.json
     if(proxyHost.includes('github')||proxyHost.includes('netlify')){
-      proxyHost='api.tradingia.cloud';
-      var proto='https';
-    } else {
-      var proto='http';
+      try{
+        let dataR=await fetch('data.json');
+        let data=await dataR.json();
+        renderFromData(data);
+      }catch(e){console.log('data.json load error',e);}
+      return;
     }
-    // The tunnel already includes the port, no need for :3377 when using cloudflare
-    let proxyAddr=proxyHost.includes('tradingia.cloud')?proxyHost:(proxyHost+':3377');
+    
+    // Local: use proxy directly
+    let proxyAddr=proxyHost+':3377';
+    var proto='http';
     
     // Fetch both wallets from proxy
     let wildUrl=proto+'://'+proxyAddr+'/?user=wild&pass=Steelers'+ds+'*';

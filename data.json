@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-09T20:51:40-06:00",
+  "timestamp": "2026-05-09T21:08:40-06:00",
   "totalCapital": 121.44,
   "startCapital": 100,
   "startDate": {
@@ -65,8 +65,8 @@
   },
   "openPositions": 0,
   "btc": {
-    "price": 80767.3,
-    "change": 0.48
+    "price": 80762.8,
+    "change": 0.42
   },
   "positions": [],
   "usdtBalances": [
@@ -130,6 +130,12 @@
     },
     {
       "timestamp": "2026-05-09T20:51:40-06:00",
+      "total": 121.44,
+      "wild": 73.16,
+      "joako": 48.28
+    },
+    {
+      "timestamp": "2026-05-09T21:08:40-06:00",
       "total": 121.44,
       "wild": 73.16,
       "joako": 48.28
