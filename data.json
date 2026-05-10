@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-09T21:12:33-06:00",
+  "timestamp": "2026-05-09T21:14:19-06:00",
   "totalCapital": 121.45,
   "startCapital": 100,
   "startDate": {
@@ -33,7 +33,7 @@
       "account": "WILD",
       "symbol": "WIF",
       "quantity": 0.0001,
-      "price": 0.2244,
+      "price": 0.2246,
       "value": 2.9e-05,
       "entryPrice": 0.2208,
       "qty": 0.0001,
@@ -72,8 +72,8 @@
       "account": "WILD",
       "symbol": "OP",
       "quantity": 0.0615,
-      "price": 0.1627,
-      "value": 0.01,
+      "price": 0.1628,
+      "value": 0.010006,
       "entryPrice": 0.1467,
       "qty": 0.0615,
       "stop": 0.1400985,
@@ -92,7 +92,7 @@
       "account": "JOAKO",
       "symbol": "CPOOL",
       "quantity": 0.0027,
-      "price": 0.03545,
+      "price": 0.03546,
       "value": 9.5e-05,
       "entryPrice": 0.03577,
       "qty": 0.0027,
@@ -130,15 +130,15 @@
   },
   "openPositions": 5,
   "btc": {
-    "price": 80767.3,
-    "change": 0.41000000000000003
+    "price": 80778.5,
+    "change": 0.38
   },
   "positions": [
     {
       "account": "WILD",
       "symbol": "WIF",
       "quantity": 0.0001,
-      "price": 0.2244,
+      "price": 0.2246,
       "value": 2.9e-05,
       "entryPrice": 0.2208,
       "qty": 0.0001,
@@ -177,8 +177,8 @@
       "account": "WILD",
       "symbol": "OP",
       "quantity": 0.0615,
-      "price": 0.1627,
-      "value": 0.01,
+      "price": 0.1628,
+      "value": 0.010006,
       "entryPrice": 0.1467,
       "qty": 0.0615,
       "stop": 0.1400985,
@@ -190,7 +190,7 @@
       "account": "JOAKO",
       "symbol": "CPOOL",
       "quantity": 0.0027,
-      "price": 0.03545,
+      "price": 0.03546,
       "value": 9.5e-05,
       "entryPrice": 0.03577,
       "qty": 0.0027,
@@ -285,6 +285,12 @@
     },
     {
       "timestamp": "2026-05-09T21:12:33-06:00",
+      "total": 121.45,
+      "wild": 73.18,
+      "joako": 48.28
+    },
+    {
+      "timestamp": "2026-05-09T21:14:19-06:00",
       "total": 121.45,
       "wild": 73.18,
       "joako": 48.28
