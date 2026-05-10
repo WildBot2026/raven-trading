@@ -1,118 +1,40 @@
 {
-  "timestamp": "2026-05-05T10:37:30-06:00",
-  "totalCapital": 107.03,
+  "timestamp": "2026-05-09T20:51:40-06:00",
+  "totalCapital": 121.44,
   "startCapital": 100,
   "startDate": {
     "WILD": "2026-05-04"
   },
-  "pnlCycle": 7.03,
-  "pnlPercent": "7.03",
+  "pnlCycle": 21.44,
+  "pnlPercent": "21.44",
   "accounts": {
     "WILD": {
-      "capital": 55.93,
+      "capital": 73.16,
       "startCapital": 60,
       "startDate": "2026-04-01",
-      "pnl": -4.07
+      "pnl": 13.16
     },
     "JOAKO": {
-      "capital": 51.1,
+      "capital": 48.28,
       "startCapital": 40,
       "startDate": "2026-04-01",
-      "pnl": 11.1
+      "pnl": 8.28
     }
   },
   "wallets": [
     {
       "account": "WILD",
       "symbol": "USDT",
-      "quantity": 0.0454,
+      "quantity": 73.1558,
       "price": 1.0,
-      "value": 0.05
-    },
-    {
-      "account": "WILD",
-      "symbol": "TON",
-      "quantity": 16.7732,
-      "price": 1.806,
-      "value": 30.29,
-      "entryPrice": 1.823,
-      "qty": 16.7732,
-      "stop": 1.740965,
-      "target8": 1.96884,
-      "target15": 2.09645,
-      "target25": 2.27875
-    },
-    {
-      "account": "WILD",
-      "symbol": "ONDO",
-      "quantity": 30.4182,
-      "price": 0.3173,
-      "value": 9.65,
-      "entryPrice": 0.3215,
-      "qty": 30.4182,
-      "stop": 0.3070325,
-      "target8": 0.34722,
-      "target15": 0.369725,
-      "target25": 0.401875
-    },
-    {
-      "account": "WILD",
-      "symbol": "ADA",
-      "quantity": 62.1578,
-      "price": 0.2565,
-      "value": 15.94,
-      "entryPrice": 0.2585,
-      "qty": 62.1578,
-      "stop": 0.2468675,
-      "target8": 0.27918,
-      "target15": 0.297275,
-      "target25": 0.323125
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "BLEND",
-      "quantity": 149.2114,
-      "price": 0.12478,
-      "value": 18.62,
-      "entryPrice": 0.12757,
-      "qty": 149.2114,
-      "stop": 0.12182935,
-      "target8": 0.1377756,
-      "target15": 0.1467055,
-      "target25": 0.1594625
+      "value": 73.16
     },
     {
       "account": "JOAKO",
       "symbol": "USDT",
-      "quantity": 3.0125,
+      "quantity": 48.2767,
       "price": 1.0,
-      "value": 3.01
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "TON",
-      "quantity": 12.4475,
-      "price": 1.805,
-      "value": 22.47,
-      "entryPrice": 1.823,
-      "qty": 12.4475,
-      "stop": 1.740965,
-      "target8": 1.96884,
-      "target15": 2.09645,
-      "target25": 2.27875
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 22.0418,
-      "price": 0.3175,
-      "value": 7.0,
-      "entryPrice": 0.3215,
-      "qty": 22.0418,
-      "stop": 0.3070325,
-      "target8": 0.34722,
-      "target15": 0.369725,
-      "target25": 0.401875
+      "value": 48.28
     }
   ],
   "strategy": {
@@ -141,105 +63,26 @@
     ],
     "notes": "Scalping con momentum. Rotaci\u00f3n autom\u00e1tica sin preguntar."
   },
-  "openPositions": 6,
+  "openPositions": 0,
   "btc": {
-    "price": 81166.2,
-    "change": 1.06
+    "price": 80767.3,
+    "change": 0.48
   },
-  "positions": [
-    {
-      "account": "WILD",
-      "symbol": "TON",
-      "quantity": 16.7732,
-      "price": 1.806,
-      "value": 30.29,
-      "entryPrice": 1.823,
-      "qty": 16.7732,
-      "stop": 1.740965,
-      "target8": 1.96884,
-      "target15": 2.09645,
-      "target25": 2.27875
-    },
-    {
-      "account": "WILD",
-      "symbol": "ONDO",
-      "quantity": 30.4182,
-      "price": 0.3173,
-      "value": 9.65,
-      "entryPrice": 0.3215,
-      "qty": 30.4182,
-      "stop": 0.3070325,
-      "target8": 0.34722,
-      "target15": 0.369725,
-      "target25": 0.401875
-    },
-    {
-      "account": "WILD",
-      "symbol": "ADA",
-      "quantity": 62.1578,
-      "price": 0.2565,
-      "value": 15.94,
-      "entryPrice": 0.2585,
-      "qty": 62.1578,
-      "stop": 0.2468675,
-      "target8": 0.27918,
-      "target15": 0.297275,
-      "target25": 0.323125
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "BLEND",
-      "quantity": 149.2114,
-      "price": 0.12478,
-      "value": 18.62,
-      "entryPrice": 0.12757,
-      "qty": 149.2114,
-      "stop": 0.12182935,
-      "target8": 0.1377756,
-      "target15": 0.1467055,
-      "target25": 0.1594625
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "TON",
-      "quantity": 12.4475,
-      "price": 1.805,
-      "value": 22.47,
-      "entryPrice": 1.823,
-      "qty": 12.4475,
-      "stop": 1.740965,
-      "target8": 1.96884,
-      "target15": 2.09645,
-      "target25": 2.27875
-    },
-    {
-      "account": "JOAKO",
-      "symbol": "ONDO",
-      "quantity": 22.0418,
-      "price": 0.3175,
-      "value": 7.0,
-      "entryPrice": 0.3215,
-      "qty": 22.0418,
-      "stop": 0.3070325,
-      "target8": 0.34722,
-      "target15": 0.369725,
-      "target25": 0.401875
-    }
-  ],
+  "positions": [],
   "usdtBalances": [
     {
       "account": "WILD",
       "symbol": "USDT",
-      "quantity": 0.0454,
+      "quantity": 73.1558,
       "price": 1.0,
-      "value": 0.05
+      "value": 73.16
     },
     {
       "account": "JOAKO",
       "symbol": "USDT",
-      "quantity": 3.0125,
+      "quantity": 48.2767,
       "price": 1.0,
-      "value": 3.01
+      "value": 48.28
     }
   ],
   "capitalHistory": [
@@ -284,6 +127,12 @@
       "total": 107.03,
       "wild": 55.93,
       "joako": 51.1
+    },
+    {
+      "timestamp": "2026-05-09T20:51:40-06:00",
+      "total": 121.44,
+      "wild": 73.16,
+      "joako": 48.28
     }
   ],
   "trades": [

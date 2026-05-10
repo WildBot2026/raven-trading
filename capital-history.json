@@ -1,37 +1,50 @@
 [
   {
-    "date": "2026-04-25",
-    "capital": 108.33,
-    "note": "Inicio ciclo (post pérdidas TAC/BB)"
+    "timestamp": "2026-05-04T20:08:48-06:00",
+    "total": 105.21,
+    "wild": 55.72,
+    "joako": 49.49
   },
   {
-    "date": "2026-04-26",
-    "capital": 116.06,
-    "note": "Cierre ZEREBRO + BLEND + BIO + DYDX"
+    "timestamp": "2026-05-05T05:50:32-06:00",
+    "total": 108.43,
+    "wild": 56.56,
+    "joako": 51.87
   },
   {
-    "date": "2026-04-27",
-    "capital": 118.18,
-    "note": "Sin trades, monitoreando",
-    "wildCapital": 62.46,
-    "joakoCapital": 55.72
+    "timestamp": "2026-05-05T05:50:49-06:00",
+    "total": 108.41,
+    "wild": 56.56,
+    "joako": 51.85
   },
   {
-    "date": "2026-04-28",
-    "capital": 118.18,
-    "wildCapital": 62.46,
-    "joakoCapital": 55.72
+    "timestamp": "2026-05-05T07:23:21-06:00",
+    "total": 108.95,
+    "wild": 56.87,
+    "joako": 52.08
   },
   {
-    "date": "2026-04-29",
-    "capital": 118.18,
-    "wildCapital": 62.46,
-    "joakoCapital": 55.72
+    "timestamp": "2026-05-05T08:38:02-06:00",
+    "total": 107.84,
+    "wild": 55.84,
+    "joako": 52.0
   },
   {
-    "date": "2026-04-30",
-    "capital": 118.18,
-    "wildCapital": 62.46,
-    "joakoCapital": 55.72
+    "timestamp": "2026-05-05T10:11:34-06:00",
+    "total": 106.79,
+    "wild": 55.83,
+    "joako": 50.96
+  },
+  {
+    "timestamp": "2026-05-05T10:37:30-06:00",
+    "total": 107.03,
+    "wild": 55.93,
+    "joako": 51.1
+  },
+  {
+    "timestamp": "2026-05-09T20:51:40-06:00",
+    "total": 121.44,
+    "wild": 73.16,
+    "joako": 48.28
   }
 ]
