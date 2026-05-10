@@ -273,12 +273,25 @@ function renderFromData(data){
       }
       html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.symbol+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
       html+='<span data-pct="'+p.symbol+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
-      if(p.stop){
+      if(p.stop||p.hardStop||p.trailingStop){
+        // Dynamic targets matching bot logic
+        let tMul=chg>5?1.5:(chg>2?1:0.8);
+        let t1Pct=Math.round(tMul*3);
+        let t2Pct=Math.round(tMul*6);
+        let t3Pct=Math.round(tMul*10);
+        let t4Pct=Math.round(tMul*15);
+        let t1Price=entry*(1+t1Pct/100);
+        let t2Price=entry*(1+t2Pct/100);
+        let t3Price=entry*(1+t3Pct/100);
+        let t4Price=entry*(1+t4Pct/100);
+        let sPrice=p.trailingStop||p.hardStop||p.stop||entry*0.96;
+        let sPct=Math.round((1-sPrice/entry)*100);
         html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
-        if(p.target8) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+8% $'+p.target8.toFixed(dec)+'</span>';
-        if(p.target15) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+15% $'+p.target15.toFixed(dec)+'</span>';
-        if(p.target25) html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+25% $'+p.target25.toFixed(dec)+'</span>';
-        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop $'+p.stop.toFixed(dec)+'</span></div>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t1Pct+'% $'+t1Price.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t2Pct+'% $'+t2Price.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t3Pct+'% $'+t3Price.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t4Pct+'% $'+t4Price.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+sPct+'% $'+sPrice.toFixed(dec)+'</span></div>';
       }
       html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+(p.quantity||p.qty||'0')+' tok · <span style="color:#818cf8;font-weight:600">$'+(p.value||0).toFixed(2)+'</span></div>';
       html+='</div>';
@@ -581,7 +594,8 @@ setInterval(syncFromBybit,10000);
         <span style="color:#f87171">Si momentum baja y PnL &gt; +3% → vende 50% inmediato</span><br>
         <span style="color:#f87171">Si crash detectado + PnL &gt; +1% → vende 100% inmediato</span><br>
         <span style="color:#f87171">🧱 Absorción: precio estancado + alto volumen → salida total inmediata</span><br>
-        <span style="color:#f87171">Targets reducidos: +2.4%, +4.8%, +8%, +12%</span>
+        <span style="color:#f87171">⏰ Time Stop: 8h sin pegar targets → vende todo</span><br>
+        <span style="color:#f87171">Targets reducidos (x0.8): +2.4%, +4.8%, +8%, +12%</span>
       </div>
     </div>
   </div>
@@ -590,7 +604,10 @@ setInterval(syncFromBybit,10000);
     <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Stop Loss Inteligente</div>
     <div style="font-size:12px;color:#e2e8f0">
       <span style="color:#f87171">Trailing: -4% desde el precio máximo alcanzado</span> — se mueve hacia arriba con el precio<br>
-      <span style="color:#64748b">Hard stop: -4% desde entry</span> — red de seguridad por si el trailing no alcanza
+      <span style="color:#64748b">Hard stop: -4% desde entry</span> — red de seguridad por si el trailing no alcanza<br>
+      <span style="color:#eab308">⏰ Time Stop: 8h sin targets</span> — vende para liberar capital si no hay movimiento<br>
+      <span style="color:#818cf8">🧱 Absorción: precio estancado + alto volumen</span> — distribución detectada → salida total<br>
+      <span style="color:#f87171">💥 Crash: caída brusca + PnL &gt; +1%</span> — salida total inmediata
     </div>
   </div>
   
@@ -610,9 +627,9 @@ setInterval(syncFromBybit,10000);
     <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Estados de Momentum</div>
     <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
       <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">● ●</span> <strong>FUERTE</strong> vel&gt;+2%/30s · targets x1.5 · stop -4% desde high<br>
-      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>NORMAL</strong> estable · targets base · stop -3% desde high<br>
-      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>OBSERV</strong> debilitándose · targets x0.8 · stop -2% desde high<br>
-      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>ESTANCA</strong> sin movimiento · targets x0.8 · stop -2%<br>
+      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>NORMAL</strong> estable · targets base · stop -4% desde high<br>
+      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>WEAK</strong> debilitándose · targets x0.8 · stop -4% desde entry<br>
+      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>CRASH</strong> caída brusca · salida inmediata si PnL&gt;+1%<br>
       <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">○</span> <strong>NEW</strong> recién comprada
     </div>
   </div>

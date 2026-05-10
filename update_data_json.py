@@ -157,15 +157,17 @@ new_data = {
     },
     'wallets': wallets,
     'strategy': existing.get('strategy', {
-        'name': 'Wave Trading - Raven',
+        'name': 'Wave Trading - Raven v4',
         'rules': [
-            {'at': '+8%', 'action': 'Vender 33% (partial sell)'},
-            {'at': '+15%', 'action': 'Vender 30% de lo que queda'},
-            {'at': '+25%', 'action': 'Vender 20% de lo que queda'},
-            {'at': 'trailing', 'action': 'Stop dinámico 12% desde pico'},
-            {'at': 'stop loss', 'action': 'Stop duro -8% desde entrada'}
+            {'at': '+3%/+6%/+10%/+15%', 'action': 'Targets dinámicos según momentum (x1.5 fuerte, x0.8 débil)'},
+            {'at': 'trailing', 'action': 'Stop dinámico -4% desde pico máximo'},
+            {'at': 'hard stop', 'action': 'Stop duro -4% desde entrada (red seguridad)'},
+            {'at': 'weakening', 'action': 'Si momentum baja + PnL>3% → vende 50%'},
+            {'at': 'absorption', 'action': 'Precio estancado + alto volumen → salida total'},
+            {'at': 'time stop', 'action': 'Sin targets en 8h → vende para liberar capital'},
+            {'at': 'crash', 'action': 'Caída brusca + PnL>1% → salida total inmediata'}
         ],
-        'notes': 'Scalping con momentum. Rotación automática sin preguntar.'
+        'notes': 'Scalping con momentum dinámico. Rotación automática sin preguntar. 3 rutas de detección: 24H Pump, Momentum Catch, Short Surge.'
     }),
     'openPositions': len(positions),
     'btc': btc_data,
@@ -198,10 +200,19 @@ try:
             ep = ts[key]['ep']
             p['entryPrice'] = ep
             p['qty'] = p.get('quantity', 0)
-            p['stop'] = round(ep * 0.955, 10)
-            p['target8'] = round(ep * 1.08, 10)
-            p['target15'] = round(ep * 1.15, 10)
-            p['target25'] = round(ep * 1.25, 10)
+            # Dynamic targets matching bot logic (base +3%/+6%/+10%/+15%)
+            # Multiplier based on momentum from current PnL
+            pnl_pct = ((p.get('price', ep) / ep) - 1) * 100
+            tmul = 1.5 if pnl_pct > 5 else (1.0 if pnl_pct > 2 else 0.8)
+            p['target3'] = round(ep * (1 + 0.03 * tmul), 10)
+            p['target6'] = round(ep * (1 + 0.06 * tmul), 10)
+            p['target10'] = round(ep * (1 + 0.10 * tmul), 10)
+            p['target15'] = round(ep * (1 + 0.15 * tmul), 10)
+            # Stops matching bot: trailing -4% from high, hard -4% from entry
+            high_since_entry = ts[key].get('highSinceEntry', ep)
+            p['trailingStop'] = round(high_since_entry * 0.96, 10)
+            p['hardStop'] = round(ep * 0.96, 10)
+            p['stop'] = round(ep * 0.96, 10)
 except:
     pass
 
