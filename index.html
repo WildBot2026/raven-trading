@@ -320,9 +320,13 @@ async function updateAllPrices(){
     if(j.retCode!==0)return;
     let list=j.result.list;
     let prices={};
+    let tickerData={}; // { SYMBOL: {ch24h, vol, pr} }
     for(let i=0;i<list.length;i++){
-      prices[list[i].symbol]=parseFloat(list[i].lastPrice);
+      let t=list[i];
+      prices[t.symbol]=parseFloat(t.lastPrice);
+      tickerData[t.symbol]={ch24h:parseFloat(t.price24hPcnt||0)*100, vol:parseFloat(t.turnover24h||0), pr:parseFloat(t.lastPrice||0)};
     }
+    window._tickerData=tickerData;
     // Find ALL coin position divs and update dynamically
     let allCoinDivs=document.querySelectorAll('[data-coin]');
     allCoinDivs.forEach(function(div){
@@ -426,16 +430,47 @@ async function syncFromBybit(){
     if(rd.prices){Object.keys(rd.prices).forEach(k=>prices[k]=rd.prices[k]);}
     
     // Helper: calculate decimals dynamically based on price
-    // Get momentum label for a coin based on PnL and volume data
+    // Mom label based on REAL market analysis matching bot logic:
+    // - prices[coinSym] = { prices: [{price,time}...], high: N }
+    // Estrategia A (Masiva): ch24h>15, vel>0.8, vol>100K, price<1
+    // Estrategia B (Estable): ch24h>3, vel>0.3, pricePos<0.85, vol>150K
     function getMomLabel(coinSym, pnl){
-      let B = (d, bg, fg) => '<span style="background:'+bg+';color:'+fg+';font-size:10px;padding:0 3px;border-radius:3px;font-weight:700;vertical-align:middle;letter-spacing:1px">'+d+'</span>';
-      let tk=prices[coinSym];
-      if(!tk)return B('○','#1e1e3a','#818cf8');
-      if(pnl>5)return B('● ●','rgba(74,222,128,0.15)','#4ade80');
-      if(pnl>2)return B('●','rgba(74,222,128,0.1)','#4ade80');
-      if(pnl>-0.5)return B('●','rgba(234,179,8,0.1)','#eab308');
-      if(pnl<=-0.5)return B('●','rgba(248,113,113,0.1)','#f87171');
-      return B('○','#1e1e3a','#818cf8');
+      let B = (d, bg, fg, extra) => '<span style="background:'+bg+';color:'+fg+';font-size:10px;padding:0 3px;border-radius:3px;font-weight:700;vertical-align:middle;letter-spacing:1px"'+(extra||'')+'>'+d+'</span>';
+      let td = (window._tickerData||{})[coinSym];
+      if(!td) return B('○','#1e1e3a','#818cf8');
+      
+      let curPrice = td.pr;
+      let ch24h = td.ch24h;
+      let vol = td.vol;
+      
+      // Velocity from momentum cache (last few ticks)
+      let pk = prices[coinSym];
+      let vel = 0;
+      if(pk && pk.prices && pk.prices.length >= 3) {
+        let arr = pk.prices;
+        let recent = arr.slice(-3);
+        vel = recent.length >= 2 ? ((recent[recent.length-1].price / recent[0].price) - 1) * 100 : 0;
+      }
+      
+      // ESTRATEGIA A: compra masiva (misma que el bot)
+      let esMasiva = ch24h > 15 && vel > 0.8 && vol > 100000 && curPrice < 1;
+      // ESTRATEGIA B: estable (misma que el bot)
+      let esEstable = ch24h > 3 && vel > 0.3 && curPrice < 5 && vol > 150000;
+      
+      // 🚀 EUPHORIA: masiva + pnl fuerte
+      if(esMasiva && pnl > 5) return B('●●','rgba(234,179,8,0.15)','#fbbf24',' title="🚀 EUFORIA: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% vol:$'+(vol/1e6).toFixed(2)+'M"');
+      // ● ● STRONG: masiva en verde
+      if(esMasiva && pnl > 2) return B('●●','rgba(74,222,128,0.15)','#4ade80',' title="🔥 MOMENTUM: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% · ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      if(esMasiva) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="🔥 MOMENTUM: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · en compra masiva"');
+      // ● VERDE: estable positivo
+      if(esEstable && pnl > 2) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="📈 ESTABLE: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      if(esEstable) return B('●','rgba(234,179,8,0.1)','#eab308',' title="📈 ESTABLE: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · potencial"');
+      // ● AMARILLO: plana
+      if(vel > 0.3) return B('●','rgba(234,179,8,0.08)','#eab308',' title="◐ MOVIENDO: vel:'+vel.toFixed(2)+'% ch24h:'+ch24h.toFixed(1)+'%"');
+      // ● ROJO: bajando
+      if(pnl <= -0.5 || vel < -0.3) return B('●','rgba(248,113,113,0.1)','#f87171',' title="🔴 BAJANDO: PnL:'+pnl.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      // ○ GRIS: sin señal
+      return B('○','#1e1e3a','#818cf8',' title="⚪ SIN SEÑAL: PnL:'+pnl.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
     }
     
     function getDec(price){
