@@ -436,15 +436,17 @@ async function syncFromBybit(){
     // Estrategia B (Estable): ch24h>3, vel>0.3, pricePos<0.85, vol>150K
     function getMomLabel(coinSym, pnl){
       let B = (d, bg, fg, extra) => '<span style="background:'+bg+';color:'+fg+';font-size:10px;padding:0 3px;border-radius:3px;font-weight:700;vertical-align:middle;letter-spacing:1px"'+(extra||'')+'>'+d+'</span>';
+      // Try tickerData first (live Bybit endpoint), fallback to momentum cache
       let td = (window._tickerData||{})[coinSym];
-      if(!td) return B('○','#1e1e3a','#818cf8');
+      let pk = prices[coinSym];
       
-      let curPrice = td.pr;
-      let ch24h = td.ch24h;
-      let vol = td.vol;
+      let curPrice = td ? td.pr : (pk ? (pk.lastPrice || (pk.prices && pk.prices.length > 0 ? pk.prices[pk.prices.length-1].price : 0)) : 0);
+      let ch24h = td ? td.ch24h : (pk ? (pk.ch24h || 0) : 0);
+      let vol = td ? td.vol : (pk ? (pk.vol24h || 0) : 0);
+      
+      if(!curPrice && !ch24h && !vol) return B('○','#1e1e3a','#818cf8');
       
       // Velocity from momentum cache (last few ticks)
-      let pk = prices[coinSym];
       let vel = 0;
       if(pk && pk.prices && pk.prices.length >= 3) {
         let arr = pk.prices;
