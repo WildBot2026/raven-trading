@@ -359,26 +359,19 @@ async function syncFromBybit(){
     
     // Determine proxy host
     let proxyHost=window.location.hostname;
-    // On external domain (GitHub Pages), use tunnel for live data
-    if(proxyHost.includes('github')||proxyHost.includes('netlify')){
+    var proto='https';
+    // On external domains, always use tunnel API
+    if(proxyHost.includes('github')||proxyHost.includes('netlify')||proxyHost.includes('tradingia.cloud')){
       proxyHost='api.tradingia.cloud';
-      var proto='https';
     } else {
-      var proto='http';
+      // Local network: use proxy directly
+      proto='http';
       proxyHost=proxyHost+':3377';
     }
     
     // Build auth URLs
     let wildUrl=proto+'://'+proxyHost+'/?user=wild&pass=Steelers'+ds+'*';
     let ravUrl=proto+'://'+proxyHost+'/?user=ravens&pass=Ravens'+ds+'*';
-    
-    // Local: use proxy directly
-    let proxyAddr=proxyHost+':3377';
-    var proto='http';
-    
-    // Fetch both wallets from proxy
-    let wildUrl=proto+'://'+proxyAddr+'/?user=wild&pass=Steelers'+ds+'*';
-    let ravUrl=proto+'://'+proxyAddr+'/?user=ravens&pass=Ravens'+ds+'*';
     
     let wildR=await fetch(wildUrl);
     let ravR=await fetch(ravUrl);
