@@ -496,21 +496,31 @@ async function syncFromBybit(){
         html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(tDec)+'</span></span>';
         html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.coin+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
         html+='<span data-pct="'+p.coin+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
-        let t1Pct=Math.round(tMul*3);
-        let t2Pct=Math.round(tMul*6);
-        let t3Pct=Math.round(tMul*10);
-        let t4Pct=Math.round(tMul*15);
-        let sPct=Math.round((1-sMul)*100);
-        let t1Price=entry*(1+t1Pct/100);
-        let t2Price=entry*(1+t2Pct/100);
-        let t3Price=entry*(1+t3Pct/100);
-        let t4Price=entry*(1+t4Pct/100);
-        html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t1Pct+'% $'+t1Price.toFixed(tDec)+'</span>';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t2Pct+'% $'+t2Price.toFixed(tDec)+'</span>';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t3Pct+'% $'+t3Price.toFixed(tDec)+'</span>';
-        html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t4Pct+'% $'+t4Price.toFixed(tDec)+'</span>';
-        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+sPct+'% $'+stopPrice.toFixed(tDec)+'</span></div>';
+        // 🚀 EUPHORIA: if velocity >5% and accelerating, no targets (let it ride)
+        let euphoria = chg > 3 && cp > entry * 1.03 && (prices[coinSym] && chg > 5);
+        if(euphoria && chg < 15) euphoria = false; // reset - not real euphoria yet
+        
+        if(euphoria && chg > 15) {
+          html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
+          html+='<span style="background:rgba(234,179,8,0.15);color:#fbbf24;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:700">🚀 EUPHORIA — no targets, solo trailing</span>';
+          html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+sPct+'% $'+stopPrice.toFixed(tDec)+'</span></div>';
+        } else {
+          let t1Pct=Math.round(tMul*3);
+          let t2Pct=Math.round(tMul*6);
+          let t3Pct=Math.round(tMul*10);
+          let t4Pct=Math.round(tMul*15);
+          let sPct=Math.round((1-sMul)*100);
+          let t1Price=entry*(1+t1Pct/100);
+          let t2Price=entry*(1+t2Pct/100);
+          let t3Price=entry*(1+t3Pct/100);
+          let t4Price=entry*(1+t4Pct/100);
+          html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t1Pct+'% $'+t1Price.toFixed(tDec)+'</span>';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t2Pct+'% $'+t2Price.toFixed(tDec)+'</span>';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t3Pct+'% $'+t3Price.toFixed(tDec)+'</span>';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+t4Pct+'% $'+t4Price.toFixed(tDec)+'</span>';
+          html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+sPct+'% $'+stopPrice.toFixed(tDec)+'</span></div>';
+        }
         let distFromHigh = chg > 0 ? 0 : chg;
         let distText = '';
         if(chg < 0) {
@@ -570,6 +580,14 @@ setInterval(syncFromBybit,10000);
   <div style="background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
     <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🎯 Targets Dinámicos (según momentum)</div>
     <div style="font-size:12px;color:#64748b;margin-bottom:4px">🚀 Momentum fuerte → targets x1.5 | ⚠️ Debilitándose → targets x0.8 | 💀 Crash → salida inmediata</div>
+    <div style="background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.25);border-radius:3px;padding:4px 6px;margin-bottom:4px">
+      <span style="color:#fbbf24;font-size:11px;font-weight:700">🚀 EUFORIA ACELERANDO (vel &gt; +3%/30s y subiendo):</span>
+      <div style="font-size:11px;margin-top:2px;color:#e2e8f0">
+        <strong style="color:#fbbf24">NO SE VENDEN TARGETS.</strong> Solo trailing stop -4% desde high.<br>
+        La posición vuela libre. Si se rompe la aceleración → vuelve a targets normales.<br>
+        <span style="color:#64748b">Ideal para monedas que pueden subir 10x en horas.</span>
+      </div>
+    </div>
     <div style="background:rgba(129,140,248,0.1);border-radius:3px;padding:4px 6px;margin-bottom:4px">
       <span style="color:#818cf8;font-size:11px;font-weight:600">MOMENTUM FUERTE (vel &gt; +2%/30s):</span>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:11px;margin-top:2px">
@@ -626,6 +644,7 @@ setInterval(syncFromBybit,10000);
   <div class="c">
     <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Estados de Momentum</div>
     <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
+      <span style="background:rgba(251,191,36,0.2);color:#fbbf24;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">🚀</span> <strong>EUFORIA</strong> vel&gt;+3%/30s ACELERANDO · SIN TARGETS · solo trailing -4%<br>
       <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">● ●</span> <strong>FUERTE</strong> vel&gt;+2%/30s · targets x1.5 · stop -4% desde high<br>
       <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>NORMAL</strong> estable · targets base · stop -4% desde high<br>
       <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>WEAK</strong> debilitándose · targets x0.8 · stop -4% desde entry<br>
