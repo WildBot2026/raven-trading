@@ -359,15 +359,18 @@ async function syncFromBybit(){
     
     // Determine proxy host
     let proxyHost=window.location.hostname;
-    // On external domain (GitHub Pages), try tunnel first, fallback to data.json
+    // On external domain (GitHub Pages), use tunnel for live data
     if(proxyHost.includes('github')||proxyHost.includes('netlify')){
-      try{
-        let dataR=await fetch('data.json');
-        let data=await dataR.json();
-        renderFromData(data);
-      }catch(e){console.log('data.json load error',e);}
-      return;
+      proxyHost='api.tradingia.cloud';
+      var proto='https';
+    } else {
+      var proto='http';
+      proxyHost=proxyHost+':3377';
     }
+    
+    // Build auth URLs
+    let wildUrl=proto+'://'+proxyHost+'/?user=wild&pass=Steelers'+ds+'*';
+    let ravUrl=proto+'://'+proxyHost+'/?user=ravens&pass=Ravens'+ds+'*';
     
     // Local: use proxy directly
     let proxyAddr=proxyHost+':3377';
