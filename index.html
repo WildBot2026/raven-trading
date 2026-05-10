@@ -359,7 +359,7 @@ async function syncFromBybit(){
     
     // Determine proxy host
     let proxyHost=window.location.hostname;
-    // On external domain (GitHub Pages), load from data.json
+    // On external domain (GitHub Pages), try tunnel first, fallback to data.json
     if(proxyHost.includes('github')||proxyHost.includes('netlify')){
       try{
         let dataR=await fetch('data.json');
