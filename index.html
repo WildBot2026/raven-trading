@@ -622,81 +622,60 @@ setInterval(syncFromBybit,10000);
 
 <!-- REGLAS DEL BOT -->
 <div class="c" style="margin-top:8px;border-color:rgba(234,179,8,0.3)">
-  <h2 style="color:#eab308;font-size:14px;margin-bottom:6px">📋 Reglas del Bot</h2>
+  <h2 style="color:#eab308;font-size:14px;margin-bottom:6px">📋 Reglas Reales del Bot</h2>
+  
+  <div style="background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#4ade80;font-size:13px;margin-bottom:3px">🚀 Estrategia A — Compras Masivas</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      Monedas con pump agresivo: <strong style="color:#4ade80">ch24h &gt; 15%</strong> + <strong style="color:#4ade80">velocidad &gt; 0.8%/30s</strong> + <strong style="color:#4ade80">vol &gt; $100K</strong> + <strong style="color:#4ade80">precio &lt; $1</strong><br>
+      Compra rápido, vende cuando el momentum cambie. Ideal para micro-caps como SWEAT, CAMP, etc.<br>
+      <span style="color:#64748b">Si cumple, compra con todo menos $1 de reserva. En el mismo tick.</span>
+    </div>
+  </div>
+  
+  <div style="background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📈 Estrategia B — Estables con Potencial</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      Monedas con menos momentum pero setup limpio: <strong style="color:#818cf8">ch24h &gt; 3%</strong> + <strong style="color:#818cf8">vel &gt; 0.3%/30s</strong> + <strong style="color:#818cf8">vol &gt; $150K</strong> + <strong style="color:#818cf8">precio &lt; $5</strong><br>
+      Precio no en el techo (pricePos &lt; 85%) ni en el suelo (pricePos &gt; 5%).<br>
+      <span style="color:#64748b">Ideal para monedas que ves subir en minutos/horas sin ser pumps violentos.</span>
+    </div>
+  </div>
   
   <div style="background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
-    <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🎯 Targets Dinámicos (según momentum)</div>
-    <div style="font-size:12px;color:#64748b;margin-bottom:4px">🚀 Momentum fuerte → targets x1.5 | ⚠️ Debilitándose → targets x0.8 | 💀 Crash → salida inmediata</div>
-    <div style="background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.25);border-radius:3px;padding:4px 6px;margin-bottom:4px">
-      <span style="color:#fbbf24;font-size:11px;font-weight:700">🚀 EUFORIA ACELERANDO (vel &gt; +3%/30s y subiendo):</span>
-      <div style="font-size:11px;margin-top:2px;color:#e2e8f0">
-        <strong style="color:#fbbf24">NO SE VENDEN TARGETS.</strong> Solo trailing stop -4% desde high.<br>
-        La posición vuela libre. Si se rompe la aceleración → vuelve a targets normales.<br>
-        <span style="color:#64748b">Ideal para monedas que pueden subir 10x en horas.</span>
-      </div>
-    </div>
-    <div style="background:rgba(129,140,248,0.1);border-radius:3px;padding:4px 6px;margin-bottom:4px">
-      <span style="color:#818cf8;font-size:11px;font-weight:600">MOMENTUM FUERTE (vel &gt; +2%/30s):</span>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:11px;margin-top:2px">
-        <span style="color:#4ade80">+4.5% → 25%</span>
-        <span style="color:#4ade80">+9% → 33%</span>
-        <span style="color:#4ade80">+15% → 50%</span>
-        <span style="color:#4ade80">+22.5% → 100%</span>
-      </div>
-    </div>
-    <div style="background:rgba(234,179,8,0.08);border-radius:3px;padding:4px 6px;margin-bottom:4px">
-      <span style="color:#eab308;font-size:11px;font-weight:600">MOMENTO NORMAL:</span>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:11px;margin-top:2px">
-        <span style="color:#4ade80">+3% → 25%</span>
-        <span style="color:#4ade80">+6% → 33%</span>
-        <span style="color:#4ade80">+10% → 50%</span>
-        <span style="color:#4ade80">+15% → 100%</span>
-      </div>
-    </div>
-    <div style="background:rgba(248,113,113,0.08);border-radius:3px;padding:4px 6px;margin-bottom:4px">
-      <span style="color:#f87171;font-size:11px;font-weight:600">DEBILITÁNDOSE / CRASH:</span>
-      <div style="font-size:11px;margin-top:2px">
-        <span style="color:#f87171">Si momentum baja y PnL &gt; +3% → vende 50% inmediato</span><br>
-        <span style="color:#f87171">Si crash detectado + PnL &gt; +1% → vende 100% inmediato</span><br>
-        <span style="color:#f87171">🧱 Absorción: precio estancado + alto volumen → salida total inmediata</span><br>
-        <span style="color:#f87171">⏰ Time Stop: 8h sin pegar targets → vende todo</span><br>
-        <span style="color:#f87171">Targets reducidos (x0.8): +2.4%, +4.8%, +8%, +12%</span>
-      </div>
+    <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🔄 Flujo de Compra</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      1. Lee wallet → USDT disponible en WILD y JOAKO<br>
+      2. Escanea mercado (cada 2 min) contra Estrategia A y B<br>
+      3. Elige la mejor candidata entre ambas estrategias<br>
+      4. Si falta USDT → rota posición más débil de la misma cuenta (la de peor PnL con valor &gt; $6)<br>
+      5. Vuelve a leer wallet de esa cuenta → si ya hay USDT, compra inmediato<br>
+      6. Compra con <strong style="color:#4ade80">todo menos $1 de reserva</strong>, 3 intentos, en el mismo tick<br>
+      <span style="color:#64748b">Sin cooldowns. Sin filtros absurdos. Sin condiciones que se pisen.</span>
     </div>
   </div>
   
   <div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
-    <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Stop Loss Inteligente</div>
+    <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Venta — Trailing + Targets</div>
     <div style="font-size:12px;color:#e2e8f0">
-      <span style="color:#f87171">Trailing: -4% desde el precio máximo alcanzado</span> — se mueve hacia arriba con el precio<br>
-      <span style="color:#64748b">Hard stop: -4% desde entry</span> — red de seguridad por si el trailing no alcanza<br>
-      <span style="color:#eab308">⏰ Time Stop: 8h sin targets</span> — vende para liberar capital si no hay movimiento<br>
-      <span style="color:#818cf8">🧱 Absorción: precio estancado + alto volumen</span> — distribución detectada → salida total<br>
-      <span style="color:#f87171">💥 Crash: caída brusca + PnL &gt; +1%</span> — salida total inmediata
+      <strong style="color:#a78bfa">Trailing stop:</strong> -4% desde el precio más alto alcanzado (se mueve hacia arriba)<br>
+      <strong style="color:#64748b">Hard stop:</strong> -4% desde entry — red de seguridad<br>
+      <strong style="color:#eab308">Time stop:</strong> 8h sin pegar targets → vende todo<br>
+      <strong style="color:#f87171">Crash stop:</strong> si la tendencia es &quot;crash&quot; o &quot;down&quot; → targets reducidos (+2%/+4%)<br>
+      <span style="color:#64748b">No vende posiciones &lt; $6 — esas las manejas tú.</span>
     </div>
   </div>
   
-  <div style="background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.15);border-radius:4px;padding:6px 8px">
-    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">🔍 Criterios de Compra — 3 Rutas</div>
-    <ul style="font-size:12px;color:#cbd5e1;margin:0;padding-left:14px;line-height:1.5">
-      <li><strong style="color:#4ade80">📈 24h Pump:</strong> monedas con pump de +3% a +50% en 24h + momentum positivo</li>
-      <li><strong style="color:#eab308">🔥 Momentum Catch:</strong> monedas que ya subieron &gt;50% en 24h pero <strong style="color:#4ade80">SIGUEN subiendo</strong> con fuerza</li>
-      <li><strong style="color:#818cf8">⚡ Short Surge:</strong> monedas con &lt;10% en 24h que de repente empiezan a subir fuerte AHORA</li>
-      <li>Volumen mínimo <strong style="color:#818cf8">$100,000</strong> — precio &lt; $10</li>
-      <li><strong style="color:#f87171">NO compra si el momentum se está debilitando</strong> — evita picos vueltos</li>
-      <li>Máximo 4 posiciones activas por wallet</li>
-    </ul>
-  </div>
-  
   <div class="c">
-    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Estados de Momentum</div>
+    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Bolitas de Estado (coinciden con lo que ve el bot)</div>
     <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
-      <span style="background:rgba(251,191,36,0.2);color:#fbbf24;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">🚀</span> <strong>EUFORIA</strong> vel&gt;+3%/30s ACELERANDO · SIN TARGETS · solo trailing -4%<br>
-      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">● ●</span> <strong>FUERTE</strong> vel&gt;+2%/30s · targets x1.5 · stop -4% desde high<br>
-      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>NORMAL</strong> estable · targets base · stop -4% desde high<br>
-      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>WEAK</strong> debilitándose · targets x0.8 · stop -4% desde entry<br>
-      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>CRASH</strong> caída brusca · salida inmediata si PnL&gt;+1%<br>
-      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">○</span> <strong>NEW</strong> recién comprada
+      <span style="background:rgba(74,222,128,0.18);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●●●</span> <strong>EUFORIA</strong> Estrategia A (masiva) + PnL &gt; 5%<br>
+      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●●</span> <strong>MOMENTUM</strong> Estrategia A (masiva) + PnL &gt; 2%<br>
+      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>MASIVA</strong> Estrategia A recién comprada o estable en verde<br>
+      <span style="background:rgba(74,222,128,0.08);color:#34d399;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>ESTABLE</strong> Estrategia B — potencial al alza<br>
+      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>MOVIENDO</strong> vel &gt; 0.3%/30s pero sin estrategia clara<br>
+      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>BAJANDO</strong> PnL &lt; -0.5% o vel &lt; -0.3%/30s<br>
+      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">○</span> <strong>SIN SEÑAL</strong> no cumple ningún criterio<br>
     </div>
   </div>
 
