@@ -459,16 +459,16 @@ async function syncFromBybit(){
       // ESTRATEGIA B: estable (misma que el bot)
       let esEstable = ch24h > 3 && vel > 0.3 && curPrice < 5 && vol > 150000;
       
-      // 🚀 EUPHORIA: masiva + pnl fuerte
-      if(esMasiva && pnl > 5) return B('●●','rgba(234,179,8,0.15)','#fbbf24',' title="🚀 EUFORIA: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% vol:$'+(vol/1e6).toFixed(2)+'M"');
-      // ● ● STRONG: masiva en verde
+      // 🚀 EUPHORIA: masiva + pnl fuerte → 3 bolitas verdes
+      if(esMasiva && pnl > 5) return B('●●●','rgba(74,222,128,0.18)','#4ade80',' title="🚀 EUFORIA: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% vol:$'+(vol/1e6).toFixed(2)+'M"');
+      // ●● STRONG: masiva en verde
       if(esMasiva && pnl > 2) return B('●●','rgba(74,222,128,0.15)','#4ade80',' title="🔥 MOMENTUM: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% · ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
       if(esMasiva) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="🔥 MOMENTUM: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · en compra masiva"');
-      // ● VERDE: estable positivo
+      // ESTABLE positivo → verde
       if(esEstable && pnl > 2) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="📈 ESTABLE: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
-      if(esEstable) return B('●','rgba(234,179,8,0.1)','#eab308',' title="📈 ESTABLE: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · potencial"');
-      // ● AMARILLO: plana
-      if(vel > 0.3) return B('●','rgba(234,179,8,0.08)','#eab308',' title="◐ MOVIENDO: vel:'+vel.toFixed(2)+'% ch24h:'+ch24h.toFixed(1)+'%"');
+      if(esEstable) return B('●','rgba(74,222,128,0.08)','#34d399',' title="📈 ESTABLE: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · potencial"');
+      // ● AMARILLO: moviéndose pero sin estrategia clara
+      if(vel > 0.3) return B('●','rgba(234,179,8,0.1)','#eab308',' title="◐ MOVIENDO: vel:'+vel.toFixed(2)+'% ch24h:'+ch24h.toFixed(1)+'%"');
       // ● ROJO: bajando
       if(pnl <= -0.5 || vel < -0.3) return B('●','rgba(248,113,113,0.1)','#f87171',' title="🔴 BAJANDO: PnL:'+pnl.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
       // ○ GRIS: sin señal
