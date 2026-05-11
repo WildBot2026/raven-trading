@@ -184,12 +184,8 @@ table{width:100%;border-collapse:collapse}
   <table>
   <tr><th>Hora</th><th>Par</th><th>Tipo</th><th>Precio</th><th>Cant</th><th>Cuenta</th></tr>
   <tbody id="tradeBody">
-  <tr><td>15:46</td><td>FHE</td><td class="g">SELL</td><td>$0.04590</td><td>704</td><td>WILD</td></tr>
-  <tr><td>15:46</td><td>FHE</td><td class="g">SELL</td><td>$0.04580</td><td>468</td><td>JOAKO</td></tr>
-  <tr><td>14:19</td><td>FHE</td><td class="r">BUY</td><td>$0.04253</td><td>704</td><td>WILD</td></tr>
-  <tr><td>14:17</td><td>FHE</td><td class="r">BUY</td><td>$0.04266</td><td>468</td><td>JOAKO</td></tr>
-  <tr><td>14:17</td><td>BLEND</td><td class="g">SELL</td><td>$0.122</td><td>149</td><td>JOAKO</td></tr>
-  <tr><td>14:01</td><td>PENGU</td><td class="r">BUY</td><td>$0.01105</td><td>594</td><td>WILD</td></tr>
+  <tr><td colspan="6" style="text-align:center;color:#64748b;padding:10px">Cargando trades en vivo...</td></tr>
+  </tbody>
   <tr><td>14:01</td><td>BSB</td><td class="r">BUY</td><td>$0.5913</td><td>26.9</td><td>WILD</td></tr>
   <tr><td>14:01</td><td>MON</td><td class="r">BUY</td><td>$0.03133</td><td>215</td><td>JOAKO</td></tr>
   </table>
@@ -688,12 +684,13 @@ async function proxyUpdate(){
 }
 
 function renderTrades(trades) {
-  let container = document.getElementById('tradesList') || document.getElementById('tradesContainer');
-  if(!container) return;
-  let html = '';
+  let tbody = document.getElementById('tradeBody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
   for(let t of trades) {
     let sym = (t.symbol||'').replace('USDT','');
-    let side = (t.side||'').toLowerCase();
+    let side = (t.side||'');
+    side = side.charAt(0).toUpperCase() + side.slice(1).toLowerCase();
     let qty = parseFloat(t.qty||0);
     let price = parseFloat(t.price||0);
     let acct = t.account||'';
@@ -707,27 +704,22 @@ function renderTrades(trades) {
       } catch(e) { date = ''; }
     }
     
-    let sideCls = side === 'buy' ? 'g' : 'r';
-    let sideLabel = side === 'buy' ? 'BUY' : 'SELL';
+    let cl = side === 'Sell' ? 'g' : 'r';
+    let dec = price < 0.01 ? 6 : price < 1 ? 4 : 2;
+    let qtyDec = sym.includes('PEPE') ? 0 : qty < 1 ? 4 : qty < 10 ? 2 : 0;
     
-    html += '<div class="tr">';
-    html += '<span class="td">'+date+'</span>';
-    html += '<span class="td">'+sym+'</span>';
-    html += '<span class="td '+sideCls+'">'+sideLabel+'</span>';
-    html += '<span class="td">$'+price.toFixed(price < 0.01 ? 6 : price < 1 ? 4 : 2)+'</span>';
-    html += '<span class="td">'+qty.toFixed(qty < 1 ? 4 : qty < 10 ? 2 : 0)+'</span>';
-    html += '<span class="td" style="font-size:10px">'+acct+'</span>';
-    html += '</div>';
+    let row = '<tr><td>'+date+'</td><td>'+sym+'</td><td class="'+cl+'">'+side+'</td><td>$'+price.toFixed(dec)+'</td><td>'+qty.toFixed(qtyDec)+'</td><td>'+acct+'</td></tr>';
+    tbody.innerHTML += row;
   }
-  container.innerHTML = html;
 }
 
 boot();
 setInterval(updateBTC,15000);
 setInterval(updateAllPrices,15000);
 setInterval(proxyUpdate,30000);
-// Also fetch fresh trades immediately after boot
-setTimeout(proxyUpdate, 1000);
+// Fetch fresh trades immediately after load (before GitHub Pages cache delay)
+setTimeout(proxyUpdate, 500);
+setTimeout(proxyUpdate, 3000);
 </script>
 
 <script>function loadChart(n){try{var s=document.getElementById("sel"+n).value;var t=document.getElementById("tf"+n).value;var c=document.getElementById("cv"+n);var ctx=c.getContext("2d");c.width=c.offsetWidth;c.height=160;ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="#0a0a1a";ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Cargando "+s+"...",10,20);fetch("https://api.bybit.com/v5/market/kline?category=spot&symbol="+s+"&interval="+t+"&limit=200").then(r=>r.json()).then(j=>{if(j.retCode!==0||!j.result||!j.result.list){return}var k=j.result.list.map(x=>({t:parseInt(x[0]),o:parseFloat(x[1]),h:parseFloat(x[2]),l:parseFloat(x[3]),c:parseFloat(x[4]),v:parseFloat(x[5])}));var mn=Math.min(...k.map(x=>x.l));var mx=Math.max(...k.map(x=>x.h));var rn=mx-mn||1;var w=c.width;var h=160;ctx.clearRect(0,0,w,h);var gap=4;var bw=(w-gap*(k.length-1))/k.length;bw=Math.max(bw,1);for(var i=0;i<k.length;i++){var x=i*(bw+gap);var open=(k[i].o-mn)/rn*h;var close=(k[i].c-mn)/rn*h;var high=(k[i].h-mn)/rn*h;var low=(k[i].l-mn)/rn*h;var isG=k[i].c>=k[i].o;ctx.strokeStyle=isG?"#4ade80":"#f87171";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x+bw/2,high);ctx.lineTo(x+bw/2,low);ctx.stroke();ctx.fillStyle=isG?"#4ade80":"#f87171";ctx.fillRect(x,Math.min(open,close),bw,Math.abs(close-open));}ctx.fillStyle="#64748b";ctx.font="10px system-ui";ctx.fillText(k[0].t?new Date(k[0].t).toLocaleTimeString():""+" - "+s+" $"+k[k.length-1].c.toFixed(s.includes("PEPE")?8:s.includes("PENGU")?5:4),4,12);}).catch(e=>{ctx.clearRect(0,0,w,h);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Chart error",10,20);});}catch(e){}}loadChart(0);loadChart(1);setTimeout(function(){loadChart(0);loadChart(1);},2000);</script>
