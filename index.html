@@ -628,7 +628,7 @@ async function syncFromBybit(){
   }catch(e){console.log('sync err',e);}
 }
 
-// Startup: try data.json first, then attempt proxy for price updates only
+// Startup: try proxy FIRST (live data), fallback to data.json
 let dataJsonLoaded = false;
 
 async function boot(){
@@ -636,50 +636,94 @@ async function boot(){
   updateBTC();
   updateAllPrices();
   
-  // Try static data.json first (fast, no flicker)
-  try {
-    let r = await fetch('data.json?_=' + Date.now());
-    if(r.ok) {
-      let d = await r.json();
-      if(d && d.wallets) {
-        renderFromData(d);
-        initEntryPrices();
-        updateAllPrices();
-        dataJsonLoaded = true;
-      }
-    }
-  } catch(e) {}
+  // Try proxy first — this has live data, no cache delay
+  await proxyUpdate();
   
-  // Attempt proxy (only for price updates if data.json loaded)
-  proxyUpdate();
+  // If proxy failed, fallback to static data.json
+  if(!dataJsonLoaded) {
+    try {
+      let r = await fetch('data.json?_=' + Date.now());
+      if(r.ok) {
+        let d = await r.json();
+        if(d && d.wallets) {
+          renderFromData(d);
+          initEntryPrices();
+          updateAllPrices();
+          dataJsonLoaded = true;
+        }
+      }
+    } catch(e) {}
+  }
 }
 
 async function proxyUpdate(){
   if(dataJsonLoaded) {
-    // Update entry prices and live prices (no flicker)
+    // Already have data — just update prices and trades (no flicker)
     let curEntries=document.querySelectorAll('[data-entry]');
     curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
     updateAllPrices();
     updateBTC();
-    
-    // Also fetch fresh trades from proxy (without rebuilding DOM)
-    try {
-      let d = new Date();
-      let ds = ('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
-      let r1 = await fetch('https://api.tradingia.cloud/?user=wild&pass=Steelers'+ds+'*');
-      let r2 = await fetch('https://api.tradingia.cloud/?user=ravens&pass=Ravens'+ds+'*');
-      if(r1.ok && r2.ok) {
-        let wd = await r1.json();
-        let rd = await r2.json();
-        let allTrades = [];
-        (wd.trades||[]).forEach(t => allTrades.push({...t, account:'WILD'}));
-        (rd.trades||[]).forEach(t => allTrades.push({...t, account:'JOAKO'}));
-        allTrades.sort((a,b) => (b.time||0) - (a.time||0));
-        renderTrades(allTrades.slice(0, 30));
+  }
+  
+  // Always fetch fresh trades from proxy
+  try {
+    let d = new Date();
+    let ds = ('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
+    let r1 = await fetch('https://api.tradingia.cloud/?user=wild&pass=Steelers'+ds+'*');
+    let r2 = await fetch('https://api.tradingia.cloud/?user=ravens&pass=Ravens'+ds+'*');
+    if(r1.ok && r2.ok) {
+      let wd = await r1.json();
+      let rd = await r2.json();
+      
+      // If first time loading, also render wallets from proxy
+      if(!dataJsonLoaded) {
+        // Build combined data from proxy and render it
+        let wallets = [];
+        (wd.positions||[]).forEach(p => wallets.push({account:'WILD', symbol:p.coin, quantity:parseFloat(p.qty), price:parseFloat(p.price)||0, value:parseFloat(p.usdValue)||0, entryPrice:(wd.entries||{})[p.coin]||parseFloat(p.price)||0}));
+        (rd.positions||[]).forEach(p => wallets.push({account:'JOAKO', symbol:p.coin, quantity:parseFloat(p.qty), price:parseFloat(p.price)||0, value:parseFloat(p.usdValue)||0, entryPrice:(rd.entries||{})[p.coin]||parseFloat(p.price)||0}));
+        
+        let wildCap = wallets.filter(w=>w.account==='WILD').reduce((s,w)=>s+w.value,0);
+        let joakoCap = wallets.filter(w=>w.account==='JOAKO').reduce((s,w)=>s+w.value,0);
+        
+        let fakeData = {
+          totalCapital: wildCap + joakoCap,
+          startCapital: 100,
+          wallets: wallets,
+          btc: { price: 0, change: 0 },
+          accounts: {
+            WILD: { capital: wildCap, startCapital: 60, pnl: wildCap - 60 },
+            JOAKO: { capital: joakoCap, startCapital: 40, pnl: joakoCap - 40 }
+          }
+        };
+        renderFromData(fakeData);
+        initEntryPrices();
+        updateAllPrices();
+        updateBTC();
+        dataJsonLoaded = true;
       }
-    } catch(e) {}
-  } else {
-    await syncFromBybit();
+      
+      let allTrades = [];
+      (wd.trades||[]).forEach(t => allTrades.push({...t, account:'WILD'}));
+      (rd.trades||[]).forEach(t => allTrades.push({...t, account:'JOAKO'}));
+      allTrades.sort((a,b) => (b.time||0) - (a.time||0));
+      renderTrades(allTrades.slice(0, 30));
+    }
+  } catch(e) {
+    // Proxy failed — fallback if nothing loaded yet
+    if(!dataJsonLoaded) {
+      try {
+        let r = await fetch('data.json?_=' + Date.now());
+        if(r.ok) {
+          let d = await r.json();
+          if(d && d.wallets) {
+            renderFromData(d);
+            initEntryPrices();
+            updateAllPrices();
+            dataJsonLoaded = true;
+          }
+        }
+      } catch(e2) {}
+    }
   }
 }
 
@@ -717,9 +761,6 @@ boot();
 setInterval(updateBTC,15000);
 setInterval(updateAllPrices,15000);
 setInterval(proxyUpdate,30000);
-// Fetch fresh trades immediately after load (before GitHub Pages cache delay)
-setTimeout(proxyUpdate, 500);
-setTimeout(proxyUpdate, 3000);
 </script>
 
 <script>function loadChart(n){try{var s=document.getElementById("sel"+n).value;var t=document.getElementById("tf"+n).value;var c=document.getElementById("cv"+n);var ctx=c.getContext("2d");c.width=c.offsetWidth;c.height=160;ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="#0a0a1a";ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Cargando "+s+"...",10,20);fetch("https://api.bybit.com/v5/market/kline?category=spot&symbol="+s+"&interval="+t+"&limit=200").then(r=>r.json()).then(j=>{if(j.retCode!==0||!j.result||!j.result.list){return}var k=j.result.list.map(x=>({t:parseInt(x[0]),o:parseFloat(x[1]),h:parseFloat(x[2]),l:parseFloat(x[3]),c:parseFloat(x[4]),v:parseFloat(x[5])}));var mn=Math.min(...k.map(x=>x.l));var mx=Math.max(...k.map(x=>x.h));var rn=mx-mn||1;var w=c.width;var h=160;ctx.clearRect(0,0,w,h);var gap=4;var bw=(w-gap*(k.length-1))/k.length;bw=Math.max(bw,1);for(var i=0;i<k.length;i++){var x=i*(bw+gap);var open=(k[i].o-mn)/rn*h;var close=(k[i].c-mn)/rn*h;var high=(k[i].h-mn)/rn*h;var low=(k[i].l-mn)/rn*h;var isG=k[i].c>=k[i].o;ctx.strokeStyle=isG?"#4ade80":"#f87171";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x+bw/2,high);ctx.lineTo(x+bw/2,low);ctx.stroke();ctx.fillStyle=isG?"#4ade80":"#f87171";ctx.fillRect(x,Math.min(open,close),bw,Math.abs(close-open));}ctx.fillStyle="#64748b";ctx.font="10px system-ui";ctx.fillText(k[0].t?new Date(k[0].t).toLocaleTimeString():""+" - "+s+" $"+k[k.length-1].c.toFixed(s.includes("PEPE")?8:s.includes("PENGU")?5:4),4,12);}).catch(e=>{ctx.clearRect(0,0,w,h);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Chart error",10,20);});}catch(e){}}loadChart(0);loadChart(1);setTimeout(function(){loadChart(0);loadChart(1);},2000);</script>
