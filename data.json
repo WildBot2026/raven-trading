@@ -7,14 +7,14 @@
       "amount": 88.3497,
       "quantity": 88.3497,
       "qty": 88.3497,
-      "value": 9.998535549,
-      "valueUSDT": 9.998535549,
-      "usdValue": 9.998535549,
-      "price": 0.11317,
+      "value": 9.995001560999999,
+      "valueUSDT": 9.995001560999999,
+      "usdValue": 9.995001560999999,
+      "price": 0.11313,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": -0.1077866339999999,
-      "pnlPct": -1.0665267943002044,
+      "pnl": -0.11132062200000098,
+      "pnlPct": -1.1014948859166096,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -137,14 +137,14 @@
       "amount": 44.1686,
       "quantity": 44.1686,
       "qty": 44.1686,
-      "value": 4.998560462,
-      "valueUSDT": 4.998560462,
-      "usdValue": 4.998560462,
-      "price": 0.11317,
+      "value": 4.996793717999999,
+      "valueUSDT": 4.996793717999999,
+      "usdValue": 4.996793717999999,
+      "price": 0.11313,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": -0.06271941199999959,
-      "pnlPct": -1.2392006283270751,
+      "pnl": -0.06448615600000013,
+      "pnlPct": -1.2741076882799574,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -236,7 +236,7 @@
   ],
   "btc": {
     "price": 79100.7,
-    "change": -2.94
+    "change": -2.96
   },
   "watchCoins": [
     {
@@ -251,17 +251,17 @@
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008755,
+      "price": 0.008758,
       "ch24h": -4.72
     }
   ],
-  "totalCapital": 95.75504266300001,
-  "capital": 95.75504266300001,
-  "wildCapital": 52.667934621,
-  "joakoCapital": 43.087108042000004,
-  "pnl": -12.574957336999987,
+  "totalCapital": 95.749741931,
+  "capital": 95.749741931,
+  "wildCapital": 52.664400633,
+  "joakoCapital": 43.085341298,
+  "pnl": -12.580258068999996,
   "pnlPercent": -11.61,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T21:38:45.751Z"
+  "updated": "2026-05-15T21:39:20.621Z"
 }
