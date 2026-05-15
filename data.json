@@ -7,14 +7,14 @@
       "amount": 88.3497,
       "quantity": 88.3497,
       "qty": 88.3497,
-      "value": 9.997652052,
-      "valueUSDT": 9.997652052,
-      "usdValue": 9.997652052,
-      "price": 0.11316,
+      "value": 9.990584076,
+      "valueUSDT": 9.990584076,
+      "usdValue": 9.990584076,
+      "price": 0.11308,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": -0.10867013100000078,
-      "pnlPct": -1.0752688172043112,
+      "pnl": -0.11573810700000049,
+      "pnlPct": -1.1452050004371106,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -137,14 +137,14 @@
       "amount": 44.1686,
       "quantity": 44.1686,
       "qty": 44.1686,
-      "value": 4.998118775999999,
-      "valueUSDT": 4.998118775999999,
-      "usdValue": 4.998118775999999,
-      "price": 0.11316,
+      "value": 4.994585288,
+      "valueUSDT": 4.994585288,
+      "usdValue": 4.994585288,
+      "price": 0.11308,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": -0.06316109800000003,
-      "pnlPct": -1.2479273933152957,
+      "pnl": -0.06669458599999989,
+      "pnlPct": -1.317741513221049,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -235,8 +235,8 @@
     }
   ],
   "btc": {
-    "price": 79139.4,
-    "change": -2.85
+    "price": 79098.7,
+    "change": -2.8899999999999997
   },
   "watchCoins": [
     {
@@ -252,16 +252,16 @@
     {
       "sym": "PENGUUSDT",
       "price": 0.00877,
-      "ch24h": -4.42
+      "ch24h": -4.390000000000001
     }
   ],
-  "totalCapital": 95.636847886,
-  "capital": 95.636847886,
-  "wildCapital": 52.550226769999995,
-  "joakoCapital": 43.086621116,
-  "pnl": -12.693152114,
-  "pnlPercent": -11.72,
+  "totalCapital": 95.626246422,
+  "capital": 95.626246422,
+  "wildCapital": 52.54315879399999,
+  "joakoCapital": 43.083087628,
+  "pnl": -12.703753578000004,
+  "pnlPercent": -11.73,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T21:45:44.784Z"
+  "updated": "2026-05-15T21:46:19.490Z"
 }
