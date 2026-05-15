@@ -7,14 +7,14 @@
       "amount": 88.3497,
       "quantity": 88.3497,
       "qty": 88.3497,
-      "value": 9.993234567,
-      "valueUSDT": 9.993234567,
-      "usdValue": 9.993234567,
-      "price": 0.11311,
+      "value": 9.991467573,
+      "valueUSDT": 9.991467573,
+      "usdValue": 9.991467573,
+      "price": 0.11309,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": -0.1130876160000003,
-      "pnlPct": -1.1189789317248011,
+      "pnl": -0.11485461000000084,
+      "pnlPct": -1.1364629775330148,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -137,14 +137,14 @@
       "amount": 44.1686,
       "quantity": 44.1686,
       "qty": 44.1686,
-      "value": 4.995910346,
-      "valueUSDT": 4.995910346,
-      "usdValue": 4.995910346,
-      "price": 0.11311,
+      "value": 4.994585288,
+      "valueUSDT": 4.994585288,
+      "usdValue": 4.994585288,
+      "price": 0.11308,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": -0.06536952799999979,
-      "pnlPct": -1.2915612182563874,
+      "pnl": -0.06669458599999989,
+      "pnlPct": -1.317741513221049,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -235,8 +235,8 @@
     }
   ],
   "btc": {
-    "price": 79058.4,
-    "change": -2.92
+    "price": 79065.6,
+    "change": -2.88
   },
   "watchCoins": [
     {
@@ -252,16 +252,16 @@
     {
       "sym": "PENGUUSDT",
       "price": 0.00877,
-      "ch24h": -4.38
+      "ch24h": -4.37
     }
   ],
-  "totalCapital": 95.652696901,
-  "capital": 95.652696901,
-  "wildCapital": 52.568275514999996,
-  "joakoCapital": 43.084421386,
-  "pnl": -12.677303099,
-  "pnlPercent": -11.7,
+  "totalCapital": 95.64960484900001,
+  "capital": 95.64960484900001,
+  "wildCapital": 52.566508521,
+  "joakoCapital": 43.083096328,
+  "pnl": -12.680395150999985,
+  "pnlPercent": -11.71,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T21:48:39.611Z"
+  "updated": "2026-05-15T21:49:14.877Z"
 }
