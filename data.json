@@ -1,44 +1,118 @@
 {
-  "timestamp": "2026-05-13T03:55:10.000Z",
-  "totalCapital": 50.98,
-  "startCapital": 100,
-  "pnlCycle": -49.02,
-  "pnlPercent": -49.02,
+  "timestamp": "2026-05-14T23:05:46-06:00",
+  "totalCapital": 97.09,
+  "startCapital": 105,
+  "startDate": "2026-04-24",
+  "pnlCycle": -7.91,
+  "pnlPercent": "-7.54",
   "accounts": {
     "WILD": {
-      "capital": 50.98,
-      "startCapital": 60,
-      "pnl": -9.02
+      "capital": 53.02,
+      "startCapital": 55,
+      "startDate": "2026-04-24",
+      "pnl": -1.98
     },
     "JOAKO": {
-      "capital": 0,
-      "startCapital": 40,
-      "pnl": -40
+      "capital": 44.07,
+      "startCapital": 50,
+      "startDate": "2026-04-24",
+      "pnl": -5.93
     }
   },
   "wallets": [
     {
       "account": "WILD",
       "symbol": "USDT",
-      "quantity": 8.22,
-      "price": 1,
-      "value": 8.22
+      "quantity": 52.9818,
+      "price": 1.0,
+      "value": 52.981818
     },
     {
       "account": "WILD",
-      "symbol": "PIEVERSE",
-      "quantity": 13.3866,
-      "price": 0.9044,
-      "value": 12.1,
-      "entryPrice": 0.9055
+      "symbol": "SWEAT",
+      "quantity": 0.0361,
+      "price": 1.0,
+      "value": 0.03613
     },
     {
-      "account": "WILD",
-      "symbol": "NEAR",
-      "quantity": 18.2877,
-      "price": 1.678,
-      "value": 30.66,
-      "entryPrice": 1.678
+      "account": "JOAKO",
+      "symbol": "USDT",
+      "quantity": 44.0675,
+      "price": 1.0,
+      "value": 44.067518
     }
-  ]
+  ],
+  "strategy": {
+    "name": "Wave Trading - Raven v4",
+    "rules": [
+      {
+        "at": "+3%/+6%/+10%/+15%",
+        "action": "Targets din\u00e1micos seg\u00fan momentum (x1.5 fuerte, x0.8 d\u00e9bil)"
+      },
+      {
+        "at": "trailing",
+        "action": "Stop din\u00e1mico -4% desde pico m\u00e1ximo"
+      },
+      {
+        "at": "hard stop",
+        "action": "Stop duro -4% desde entrada (red seguridad)"
+      },
+      {
+        "at": "weakening",
+        "action": "Si momentum baja + PnL>3% \u2192 vende 50%"
+      },
+      {
+        "at": "absorption",
+        "action": "Precio estancado + alto volumen \u2192 salida total"
+      },
+      {
+        "at": "time stop",
+        "action": "Sin targets en 8h \u2192 vende para liberar capital"
+      },
+      {
+        "at": "crash",
+        "action": "Ca\u00edda brusca + PnL>1% \u2192 salida total inmediata"
+      }
+    ],
+    "notes": "Scalping con momentum din\u00e1mico. Rotaci\u00f3n autom\u00e1tica sin preguntar. 3 rutas de detecci\u00f3n: 24H Pump, Momentum Catch, Short Surge."
+  },
+  "openPositions": 1,
+  "btc": {
+    "price": 80848.1,
+    "change": 1.7399999999999998
+  },
+  "positions": [
+    {
+      "account": "WILD",
+      "symbol": "SWEAT",
+      "quantity": 0.0361,
+      "price": 1.0,
+      "value": 0.03613
+    }
+  ],
+  "usdtBalances": [
+    {
+      "account": "WILD",
+      "symbol": "USDT",
+      "quantity": 52.9818,
+      "price": 1.0,
+      "value": 52.981818
+    },
+    {
+      "account": "JOAKO",
+      "symbol": "USDT",
+      "quantity": 44.0675,
+      "price": 1.0,
+      "value": 44.067518
+    }
+  ],
+  "capitalHistory": [
+    {
+      "timestamp": "2026-05-14T23:05:46-06:00",
+      "total": 97.09,
+      "wild": 53.02,
+      "joako": 44.07
+    }
+  ],
+  "trades": []
 }
