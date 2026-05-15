@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-05-14T23:05:46-06:00",
+  "timestamp": "2026-05-15T05:07:23.362952+00:00",
   "totalCapital": 97.09,
-  "startCapital": 105,
+  "startCapital": 105.0,
   "startDate": "2026-04-24",
   "pnlCycle": -7.91,
   "pnlPercent": "-7.54",
   "accounts": {
     "WILD": {
-      "capital": 53.02,
-      "startCapital": 55,
+      "capital": 52.98,
+      "startCapital": 55.0,
       "startDate": "2026-04-24",
-      "pnl": -1.98
+      "pnl": -2.02
     },
     "JOAKO": {
       "capital": 44.07,
-      "startCapital": 50,
+      "startCapital": 50.0,
       "startDate": "2026-04-24",
       "pnl": -5.93
     }
@@ -23,27 +23,61 @@
     {
       "account": "WILD",
       "symbol": "USDT",
-      "quantity": 52.9818,
+      "quantity": 52.98,
       "price": 1.0,
-      "value": 52.981818
-    },
-    {
-      "account": "WILD",
-      "symbol": "SWEAT",
-      "quantity": 0.0361,
-      "price": 1.0,
-      "value": 0.03613
+      "value": 52.98
     },
     {
       "account": "JOAKO",
       "symbol": "USDT",
-      "quantity": 44.0675,
+      "quantity": 44.07,
       "price": 1.0,
-      "value": 44.067518
+      "value": 44.07
     }
   ],
+  "positions": [
+    {
+      "account": "WILD",
+      "symbol": "USDT",
+      "quantity": 52.98,
+      "price": 1.0,
+      "value": 52.98,
+      "pnl": 0,
+      "pnlPct": 0
+    },
+    {
+      "account": "JOAKO",
+      "symbol": "USDT",
+      "quantity": 44.07,
+      "price": 1.0,
+      "value": 44.07,
+      "pnl": 0,
+      "pnlPct": 0
+    }
+  ],
+  "usdtBalances": [
+    {
+      "account": "WILD",
+      "symbol": "USDT",
+      "quantity": 52.98,
+      "price": 1.0,
+      "value": 52.98
+    },
+    {
+      "account": "JOAKO",
+      "symbol": "USDT",
+      "quantity": 44.07,
+      "price": 1.0,
+      "value": 44.07
+    }
+  ],
+  "openPositions": 0,
+  "btc": {
+    "price": 80848.1,
+    "change": 1.74
+  },
   "strategy": {
-    "name": "Wave Trading - Raven v4",
+    "name": "Raven v4 \u2014 Wave Trading",
     "rules": [
       {
         "at": "+3%/+6%/+10%/+15%",
@@ -55,64 +89,180 @@
       },
       {
         "at": "hard stop",
-        "action": "Stop duro -4% desde entrada (red seguridad)"
+        "action": "Stop duro -4% desde entrada"
       },
       {
         "at": "weakening",
         "action": "Si momentum baja + PnL>3% \u2192 vende 50%"
       },
       {
-        "at": "absorption",
-        "action": "Precio estancado + alto volumen \u2192 salida total"
-      },
-      {
         "at": "time stop",
-        "action": "Sin targets en 8h \u2192 vende para liberar capital"
+        "action": "Sin targets en 8h \u2192 vende todo"
       },
       {
         "at": "crash",
-        "action": "Ca\u00edda brusca + PnL>1% \u2192 salida total inmediata"
+        "action": "Ca\u00edda brusca + PnL>1% \u2192 salida total"
       }
-    ],
-    "notes": "Scalping con momentum din\u00e1mico. Rotaci\u00f3n autom\u00e1tica sin preguntar. 3 rutas de detecci\u00f3n: 24H Pump, Momentum Catch, Short Surge."
+    ]
   },
-  "openPositions": 1,
-  "btc": {
-    "price": 80848.1,
-    "change": 1.7399999999999998
-  },
-  "positions": [
+  "tradeHistory": [
     {
-      "account": "WILD",
-      "symbol": "SWEAT",
-      "quantity": 0.0361,
-      "price": 1.0,
-      "value": 0.03613
-    }
-  ],
-  "usdtBalances": [
-    {
-      "account": "WILD",
-      "symbol": "USDT",
-      "quantity": 52.9818,
-      "price": 1.0,
-      "value": 52.981818
+      "date": "2026-04-26",
+      "symbol": "ZEREBRO",
+      "side": "Sell",
+      "price": 0.0178,
+      "qty": 1500,
+      "pnl": 5.33,
+      "account": "WILD"
     },
     {
-      "account": "JOAKO",
-      "symbol": "USDT",
-      "quantity": 44.0675,
-      "price": 1.0,
-      "value": 44.067518
+      "date": "2026-04-26",
+      "symbol": "ZEREBRO",
+      "side": "Sell",
+      "price": 0.01246,
+      "qty": 2500,
+      "pnl": 2.31,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-25",
+      "symbol": "BLEND",
+      "side": "Sell",
+      "price": 0.13619,
+      "qty": 400,
+      "pnl": 2.88,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-25",
+      "symbol": "BLEND",
+      "side": "Sell",
+      "price": 0.13768,
+      "qty": 360,
+      "pnl": 1.73,
+      "account": "JOAKO"
+    },
+    {
+      "date": "2026-04-25",
+      "symbol": "BIO",
+      "side": "Sell",
+      "price": 1.25,
+      "qty": 8,
+      "pnl": 1.95,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-24",
+      "symbol": "DYDX",
+      "side": "Sell",
+      "price": 1.82,
+      "qty": 5,
+      "pnl": 0.7,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-24",
+      "symbol": "BB",
+      "side": "Sell",
+      "price": 0.42,
+      "qty": 20,
+      "pnl": -1.5,
+      "account": "WILD"
+    },
+    {
+      "date": "2026-04-24",
+      "symbol": "TAC",
+      "side": "Sell",
+      "price": 0.00914,
+      "qty": 800,
+      "pnl": -3.36,
+      "account": "WILD"
     }
   ],
+  "tradeSummary": {
+    "total": 8,
+    "wild": 6,
+    "joako": 2,
+    "pnl": 10.04
+  },
   "capitalHistory": [
     {
-      "timestamp": "2026-05-14T23:05:46-06:00",
+      "timestamp": "2026-05-04T20:08:48-06:00",
+      "total": 105.21,
+      "wild": 55.72,
+      "joako": 49.49
+    },
+    {
+      "timestamp": "2026-05-05T05:50:32-06:00",
+      "total": 108.43,
+      "wild": 56.56,
+      "joako": 51.87
+    },
+    {
+      "timestamp": "2026-05-05T05:50:49-06:00",
+      "total": 108.41,
+      "wild": 56.56,
+      "joako": 51.85
+    },
+    {
+      "timestamp": "2026-05-05T07:23:21-06:00",
+      "total": 108.95,
+      "wild": 56.87,
+      "joako": 52.08
+    },
+    {
+      "timestamp": "2026-05-05T08:38:02-06:00",
+      "total": 107.84,
+      "wild": 55.84,
+      "joako": 52
+    },
+    {
+      "timestamp": "2026-05-05T10:11:34-06:00",
+      "total": 106.79,
+      "wild": 55.83,
+      "joako": 50.96
+    },
+    {
+      "timestamp": "2026-05-05T10:37:30-06:00",
+      "total": 107.03,
+      "wild": 55.93,
+      "joako": 51.1
+    },
+    {
+      "timestamp": "2026-05-09T20:51:40-06:00",
+      "total": 121.44,
+      "wild": 73.16,
+      "joako": 48.28
+    },
+    {
+      "timestamp": "2026-05-11T10:37:27.506Z",
+      "total": 101.532968727,
+      "wild": 53.8733050183,
+      "joako": 47.659663708699995
+    },
+    {
+      "timestamp": "2026-05-11T10:38:27.547Z",
+      "total": 101.53303926289999,
+      "wild": 53.8733481678,
+      "joako": 47.659691095099994
+    },
+    {
+      "timestamp": "2026-05-11T13:11:03.530Z",
+      "total": 105.5720789434,
+      "wild": 57.9122348654,
+      "joako": 47.659844078
+    },
+    {
+      "timestamp": "2026-05-11T13:12:04.066Z",
+      "total": 105.6612703031,
+      "wild": 58.001458393899995,
+      "joako": 47.659811909199995
+    },
+    {
+      "timestamp": "2026-05-15T05:07:23.362952+00:00",
       "total": 97.09,
-      "wild": 53.02,
+      "wild": 52.98,
       "joako": 44.07
     }
-  ],
-  "trades": []
+  ]
 }

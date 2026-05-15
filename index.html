@@ -628,7 +628,7 @@ async function syncFromBybit(){
   }catch(e){console.log('sync err',e);}
 }
 
-// Startup: try proxy FIRST (live data), fallback to data.json
+// Startup: load data.json FIRST for portfolio view
 let dataJsonLoaded = false;
 
 async function boot(){
@@ -636,36 +636,39 @@ async function boot(){
   updateBTC();
   updateAllPrices();
   
-  // Try proxy first — this has live data, no cache delay
-  await proxyUpdate();
+  // Load data.json immediately — no waiting for proxy
+  try {
+    let r = await fetch('data.json?_=' + Date.now());
+    if(r.ok) {
+      let d = await r.json();
+      if(d && d.wallets) {
+        renderFromData(d);
+        initEntryPrices();
+        updateAllPrices();
+        dataJsonLoaded = true;
+      }
+    }
+  } catch(e) {}
   
-  // If proxy failed, fallback to static data.json
-  if(!dataJsonLoaded) {
+  // Also try to load trades from data.json
+  if(dataJsonLoaded) {
     try {
       let r = await fetch('data.json?_=' + Date.now());
       if(r.ok) {
         let d = await r.json();
-        if(d && d.wallets) {
-          renderFromData(d);
-          initEntryPrices();
-          updateAllPrices();
-          dataJsonLoaded = true;
+        if(d && d.tradeHistory && d.tradeHistory.length > 0) {
+          let allTrades = d.tradeHistory.sort((a,b) => new Date(b.date) - new Date(a.date));
+          renderTrades(allTrades.slice(0, 30));
         }
       }
     } catch(e) {}
   }
+  
+  // Try proxy in background for live price updates
+  proxyUpdateBg();
 }
 
-async function proxyUpdate(){
-  if(dataJsonLoaded) {
-    // Already have data — just update prices and trades (no flicker)
-    let curEntries=document.querySelectorAll('[data-entry]');
-    curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
-    updateAllPrices();
-    updateBTC();
-  }
-  
-  // Always fetch fresh trades from proxy
+async function proxyUpdateBg(){
   try {
     let d = new Date();
     let ds = ('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
@@ -675,55 +678,20 @@ async function proxyUpdate(){
       let wd = await r1.json();
       let rd = await r2.json();
       
-      // If first time loading, also render wallets from proxy
-      if(!dataJsonLoaded) {
-        // Build combined data from proxy and render it
-        let wallets = [];
-        (wd.positions||[]).forEach(p => wallets.push({account:'WILD', symbol:p.coin, quantity:parseFloat(p.qty), price:parseFloat(p.price)||0, value:parseFloat(p.usdValue)||0, entryPrice:(wd.entries||{})[p.coin]||parseFloat(p.price)||0}));
-        (rd.positions||[]).forEach(p => wallets.push({account:'JOAKO', symbol:p.coin, quantity:parseFloat(p.qty), price:parseFloat(p.price)||0, value:parseFloat(p.usdValue)||0, entryPrice:(rd.entries||{})[p.coin]||parseFloat(p.price)||0}));
-        
-        let wildCap = wallets.filter(w=>w.account==='WILD').reduce((s,w)=>s+w.value,0);
-        let joakoCap = wallets.filter(w=>w.account==='JOAKO').reduce((s,w)=>s+w.value,0);
-        
-        let fakeData = {
-          totalCapital: wildCap + joakoCap,
-          startCapital: 100,
-          wallets: wallets,
-          btc: { price: 0, change: 0 },
-          accounts: {
-            WILD: { capital: wildCap, startCapital: 60, pnl: wildCap - 60 },
-            JOAKO: { capital: joakoCap, startCapital: 40, pnl: joakoCap - 40 }
-          }
-        };
-        renderFromData(fakeData);
-        initEntryPrices();
-        updateAllPrices();
-        updateBTC();
-        dataJsonLoaded = true;
-      }
+      // Update prices from proxy if we got them
+      let curEntries=document.querySelectorAll('[data-entry]');
+      curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
+      updateAllPrices();
+      updateBTC();
       
       let allTrades = [];
       (wd.trades||[]).forEach(t => allTrades.push({...t, account:'WILD'}));
       (rd.trades||[]).forEach(t => allTrades.push({...t, account:'JOAKO'}));
       allTrades.sort((a,b) => (b.time||0) - (a.time||0));
-      renderTrades(allTrades.slice(0, 30));
+      if(allTrades.length > 0) renderTrades(allTrades.slice(0, 30));
     }
   } catch(e) {
-    // Proxy failed — fallback if nothing loaded yet
-    if(!dataJsonLoaded) {
-      try {
-        let r = await fetch('data.json?_=' + Date.now());
-        if(r.ok) {
-          let d = await r.json();
-          if(d && d.wallets) {
-            renderFromData(d);
-            initEntryPrices();
-            updateAllPrices();
-            dataJsonLoaded = true;
-          }
-        }
-      } catch(e2) {}
-    }
+    // Proxy unavailable — data.json is already loaded
   }
 }
 
