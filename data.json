@@ -50,9 +50,9 @@
       "amount": 0.03613,
       "quantity": 0.03613,
       "qty": 0.03613,
-      "value": 0.00007057,
-      "valueUSDT": 0.00007057,
-      "usdValue": 0.00007057,
+      "value": 0.00007058,
+      "valueUSDT": 0.00007058,
+      "usdValue": 0.00007058,
       "price": 0,
       "note": "active",
       "entryPrice": 0.00224,
@@ -154,33 +154,33 @@
     }
   ],
   "btc": {
-    "price": 79264.9,
-    "change": -2.8400000000000003
+    "price": 79275.7,
+    "change": -2.83
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15467,
-      "ch24h": 3.3300000000000005
+      "price": 0.15517,
+      "ch24h": 3.4000000000000004
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2581,
-      "ch24h": -8.82
+      "price": 0.2577,
+      "ch24h": -9.2
     },
     {
       "sym": "PENGUUSDT",
       "price": 0.008839,
-      "ch24h": -4.63
+      "ch24h": -4.73
     }
   ],
-  "totalCapital": 95.84305079800001,
-  "capital": 95.84305079800001,
-  "wildCapital": 52.719550202,
+  "totalCapital": 95.84305080799999,
+  "capital": 95.84305080799999,
+  "wildCapital": 52.719550211999994,
   "joakoCapital": 43.123500596,
-  "pnl": -12.486949201999991,
+  "pnl": -12.486949192000012,
   "pnlPercent": -11.53,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T19:00:44.474Z"
+  "updated": "2026-05-15T19:01:18.671Z"
 }
