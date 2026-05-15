@@ -58,11 +58,11 @@
       "entryPrice": 0.0885,
       "pnl": 0.1755255840000022,
       "pnlPct": 0.5875706214689247,
-      "highSinceEntry": 0.08896,
+      "highSinceEntry": 0.08902,
       "pctSold": 0,
-      "trailingStop": 0.0854016,
+      "trailingStop": 0.0854592,
       "hardStop": 0.08496,
-      "stop": 0.0854016,
+      "stop": 0.0854592,
       "targets": [
         {
           "at": "+4%",
@@ -235,14 +235,14 @@
     }
   ],
   "btc": {
-    "price": 79098,
-    "change": -2.59
+    "price": 79087.2,
+    "change": -2.6
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15689,
-      "ch24h": 6.84
+      "price": 0.15681,
+      "ch24h": 6.79
     },
     {
       "sym": "OPGUSDT",
@@ -263,5 +263,5 @@
   "pnlPercent": -11.48,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T23:24:20.360Z"
+  "updated": "2026-05-15T23:24:55.104Z"
 }
