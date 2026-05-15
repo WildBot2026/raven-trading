@@ -7,14 +7,14 @@
       "amount": 88.3497,
       "quantity": 88.3497,
       "qty": 88.3497,
-      "value": 9.990584076,
-      "valueUSDT": 9.990584076,
-      "usdValue": 9.990584076,
-      "price": 0.11308,
+      "value": 9.994118064,
+      "valueUSDT": 9.994118064,
+      "usdValue": 9.994118064,
+      "price": 0.11312,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": -0.11573810700000049,
-      "pnlPct": -1.1452050004371106,
+      "pnl": -0.11220411900000064,
+      "pnlPct": -1.1102369088207054,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -137,14 +137,14 @@
       "amount": 44.1686,
       "quantity": 44.1686,
       "qty": 44.1686,
-      "value": 4.994585288,
-      "valueUSDT": 4.994585288,
-      "usdValue": 4.994585288,
-      "price": 0.11308,
+      "value": 4.996352032,
+      "valueUSDT": 4.996352032,
+      "usdValue": 4.996352032,
+      "price": 0.11312,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": -0.06669458599999989,
-      "pnlPct": -1.317741513221049,
+      "pnl": -0.06492784199999996,
+      "pnlPct": -1.282834453268178,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -235,14 +235,14 @@
     }
   ],
   "btc": {
-    "price": 79098.7,
-    "change": -2.8899999999999997
+    "price": 79089,
+    "change": -2.9000000000000004
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
       "price": 0.15269,
-      "ch24h": 2.15
+      "ch24h": 2.1999999999999997
     },
     {
       "sym": "OPGUSDT",
@@ -255,13 +255,13 @@
       "ch24h": -4.390000000000001
     }
   ],
-  "totalCapital": 95.626246422,
-  "capital": 95.626246422,
-  "wildCapital": 52.54315879399999,
-  "joakoCapital": 43.083087628,
-  "pnl": -12.703753578000004,
-  "pnlPercent": -11.73,
+  "totalCapital": 95.631547154,
+  "capital": 95.631547154,
+  "wildCapital": 52.546692781999994,
+  "joakoCapital": 43.084854372,
+  "pnl": -12.698452845999995,
+  "pnlPercent": -11.72,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T21:46:19.490Z"
+  "updated": "2026-05-15T21:46:54.398Z"
 }
