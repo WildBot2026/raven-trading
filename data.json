@@ -154,14 +154,14 @@
     }
   ],
   "btc": {
-    "price": 79134.1,
-    "change": -2.8899999999999997
+    "price": 79109.1,
+    "change": -2.96
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15369,
-      "ch24h": 3.29
+      "price": 0.15373,
+      "ch24h": 3.34
     },
     {
       "sym": "OPGUSDT",
@@ -182,5 +182,5 @@
   "pnlPercent": -11.53,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T19:17:33.643Z"
+  "updated": "2026-05-15T19:18:07.922Z"
 }
