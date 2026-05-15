@@ -257,7 +257,7 @@ function renderFromData(data){ dataJsonLastData = data;
       let entry=p.entryPrice||p.price||0;
       let cp=p.price||0;
       let chg=entry>0?((cp-entry)/entry*100):0;
-      let dec=cp>=1?4:cp>=0.01?5:cp>=0.0001?6:cp>=0.000001?8:10;
+      let dec=6;
       let chgCls=chg>=0?'g':'r';
       
       html+='<div class="p" data-coin="'+p.symbol+'">';
@@ -336,7 +336,7 @@ async function updateAllPrices(){
       // Update actual price
       let actEl=div.querySelector('[data-act]');
       if(actEl){
-        let dec=coinSym.includes('PEPE')?8:coinSym.includes('PENGU')?5:coinSym.includes('MON')?6:coinSym.includes('BSB')?4:3;
+        let dec=6;
         actEl.textContent='$'+p.toFixed(dec);
       }
       // Update percentage
@@ -707,7 +707,7 @@ function renderTrades(trades) {
     }
     
     let cl = side === 'Sell' ? 'g' : 'r';
-    let dec = price < 0.01 ? 6 : price < 1 ? 4 : 2;
+    let dec = 6;
     let qtyDec = sym.includes('PEPE') ? 0 : qty < 1 ? 4 : qty < 10 ? 2 : 0;
     
     let row = '<tr><td>'+date+'</td><td>'+sym+'</td><td class="'+cl+'">'+side+'</td><td>$'+price.toFixed(dec)+'</td><td>'+qty.toFixed(qtyDec)+'</td><td>'+acct+'</td></tr>';
