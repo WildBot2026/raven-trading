@@ -50,14 +50,14 @@
       "amount": 337.5492,
       "quantity": 337.5492,
       "qty": 337.5492,
-      "value": 30.1262661,
-      "valueUSDT": 30.1262661,
-      "usdValue": 30.1262661,
-      "price": 0.08925,
+      "value": 30.133017084,
+      "valueUSDT": 30.133017084,
+      "usdValue": 30.133017084,
+      "price": 0.08927,
       "note": "active",
       "entryPrice": 0.0885,
-      "pnl": 0.2531619000000002,
-      "pnlPct": 0.8474576271186418,
+      "pnl": 0.2599128840000023,
+      "pnlPct": 0.8700564971751534,
       "highSinceEntry": 0.08943,
       "pctSold": 0,
       "trailingStop": 0.08585279999999999,
@@ -180,14 +180,14 @@
       "amount": 0.087,
       "quantity": 0.087,
       "qty": 0.087,
-      "value": 0.007764749999999999,
-      "valueUSDT": 0.007764749999999999,
-      "usdValue": 0.007764749999999999,
-      "price": 0.08925,
+      "value": 0.00776649,
+      "valueUSDT": 0.00776649,
+      "usdValue": 0.00776649,
+      "price": 0.08927,
       "note": "active",
       "entryPrice": 0.08844,
-      "pnl": 0.00007046999999999924,
-      "pnlPct": 0.9158751696064948,
+      "pnl": 0.00007220999999999977,
+      "pnlPct": 0.9384893713251907,
       "highSinceEntry": 0.08844,
       "pctSold": 0,
       "trailingStop": 0.0849024,
@@ -241,8 +241,8 @@
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15805,
-      "ch24h": 8.649999999999999
+      "price": 0.15838,
+      "ch24h": 8.7
     },
     {
       "sym": "OPGUSDT",
@@ -255,13 +255,13 @@
       "ch24h": -2.87
     }
   ],
-  "totalCapital": 95.93159942899999,
-  "capital": 95.93159942899999,
-  "wildCapital": 52.832982320999996,
-  "joakoCapital": 43.098617108,
-  "pnl": -12.39840057100001,
-  "pnlPercent": -11.45,
+  "totalCapital": 95.938352153,
+  "capital": 95.938352153,
+  "wildCapital": 52.839733304999996,
+  "joakoCapital": 43.098618848,
+  "pnl": -12.391647847000002,
+  "pnlPercent": -11.44,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T23:55:10.498Z"
+  "updated": "2026-05-15T23:55:45.242Z"
 }
