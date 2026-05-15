@@ -7,14 +7,14 @@
       "amount": 261.6381,
       "quantity": 261.6381,
       "qty": 261.6381,
-      "value": 30.090997881,
-      "valueUSDT": 30.090997881,
-      "usdValue": 30.090997881,
-      "price": 0.11501,
+      "value": 30.077915976000003,
+      "valueUSDT": 30.077915976000003,
+      "usdValue": 30.077915976000003,
+      "price": 0.11496,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": 0.16221562199999884,
-      "pnlPct": 0.5420054200542035,
+      "pnl": 0.14913371700000028,
+      "pnlPct": 0.4982953055336914,
       "highSinceEntry": 0.1152,
       "pctSold": 0,
       "trailingStop": 0.110592,
@@ -94,14 +94,14 @@
       "amount": 87.1128,
       "quantity": 87.1128,
       "qty": 87.1128,
-      "value": 10.017972,
-      "valueUSDT": 10.017972,
-      "usdValue": 10.017972,
-      "price": 0.115,
+      "value": 10.014487488,
+      "valueUSDT": 10.014487488,
+      "usdValue": 10.014487488,
+      "price": 0.11496,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": 0.03571624800000066,
-      "pnlPct": 0.3577973645169763,
+      "pnl": 0.0322317360000008,
+      "pnlPct": 0.32289030456411627,
       "highSinceEntry": 0.1152,
       "pctSold": 0,
       "trailingStop": 0.110592,
@@ -154,14 +154,14 @@
     }
   ],
   "btc": {
-    "price": 80699.8,
-    "change": 1.21
+    "price": 80720,
+    "change": 1.23
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.14782,
-      "ch24h": 5.489999999999999
+      "price": 0.14796,
+      "ch24h": 5.59
     },
     {
       "sym": "OPGUSDT",
@@ -174,13 +174,13 @@
       "ch24h": 1.29
     }
   ],
-  "totalCapital": 97.128227501,
-  "capital": 97.128227501,
-  "wildCapital": 53.036321531,
-  "joakoCapital": 44.09190597,
-  "pnl": -11.201772499,
-  "pnlPercent": -10.34,
+  "totalCapital": 97.111661084,
+  "capital": 97.111661084,
+  "wildCapital": 53.023239626000006,
+  "joakoCapital": 44.088421458,
+  "pnl": -11.218338915999993,
+  "pnlPercent": -10.36,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T08:09:13.923Z"
+  "updated": "2026-05-15T08:09:48.172Z"
 }
