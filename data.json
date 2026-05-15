@@ -7,14 +7,14 @@
       "amount": 261.6381,
       "quantity": 261.6381,
       "qty": 261.6381,
-      "value": 30.080532357000003,
-      "valueUSDT": 30.080532357000003,
-      "usdValue": 30.080532357000003,
-      "price": 0.11497,
+      "value": 30.077915976000003,
+      "valueUSDT": 30.077915976000003,
+      "usdValue": 30.077915976000003,
+      "price": 0.11496,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": 0.15175009799999928,
-      "pnlPct": 0.5070373284377983,
+      "pnl": 0.14913371700000028,
+      "pnlPct": 0.4982953055336914,
       "highSinceEntry": 0.11515,
       "pctSold": 0,
       "trailingStop": 0.110544,
@@ -94,14 +94,14 @@
       "amount": 87.1128,
       "quantity": 87.1128,
       "qty": 87.1128,
-      "value": 10.015358615999999,
-      "valueUSDT": 10.015358615999999,
-      "usdValue": 10.015358615999999,
-      "price": 0.11497,
+      "value": 10.014487488,
+      "valueUSDT": 10.014487488,
+      "usdValue": 10.014487488,
+      "price": 0.11496,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": 0.03310286400000046,
-      "pnlPct": 0.3316170695523146,
+      "pnl": 0.0322317360000008,
+      "pnlPct": 0.32289030456411627,
       "highSinceEntry": 0.11515,
       "pctSold": 0,
       "trailingStop": 0.110544,
@@ -154,8 +154,8 @@
     }
   ],
   "btc": {
-    "price": 80838.2,
-    "change": 1.1900000000000002
+    "price": 80848.8,
+    "change": 1.2
   },
   "watchCoins": [
     {
@@ -170,17 +170,17 @@
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.009085,
-      "ch24h": 1.18
+      "price": 0.009087,
+      "ch24h": 1.23
     }
   ],
-  "totalCapital": 97.112036333,
-  "capital": 97.112036333,
-  "wildCapital": 53.024363837,
-  "joakoCapital": 44.087672496,
-  "pnl": -11.217963666999992,
+  "totalCapital": 97.108548824,
+  "capital": 97.108548824,
+  "wildCapital": 53.021747456,
+  "joakoCapital": 44.086801368,
+  "pnl": -11.221451176000002,
   "pnlPercent": -10.36,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T07:49:44.335Z"
+  "updated": "2026-05-15T07:50:18.520Z"
 }
