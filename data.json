@@ -7,14 +7,14 @@
       "amount": 261.6381,
       "quantity": 261.6381,
       "qty": 261.6381,
-      "value": 30.067450452,
-      "valueUSDT": 30.067450452,
-      "usdValue": 30.067450452,
-      "price": 0.11492,
+      "value": 30.075299595,
+      "valueUSDT": 30.075299595,
+      "usdValue": 30.075299595,
+      "price": 0.11495,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": 0.13866819299999708,
-      "pnlPct": 0.46332721391728615,
+      "pnl": 0.14651733599999767,
+      "pnlPct": 0.48955328262958453,
       "highSinceEntry": 0.11546,
       "pctSold": 0,
       "trailingStop": 0.11084159999999998,
@@ -94,14 +94,14 @@
       "amount": 87.1128,
       "quantity": 87.1128,
       "qty": 87.1128,
-      "value": 10.011002975999999,
-      "valueUSDT": 10.011002975999999,
-      "usdValue": 10.011002975999999,
-      "price": 0.11492,
+      "value": 10.014487488,
+      "valueUSDT": 10.014487488,
+      "usdValue": 10.014487488,
+      "price": 0.11496,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": 0.028747223999999735,
-      "pnlPct": 0.28798324461121183,
+      "pnl": 0.0322317360000008,
+      "pnlPct": 0.32289030456411627,
       "highSinceEntry": 0.11546,
       "pctSold": 0,
       "trailingStop": 0.11084159999999998,
@@ -154,7 +154,7 @@
     }
   ],
   "btc": {
-    "price": 80591.9,
+    "price": 80592.9,
     "change": 0.97
   },
   "watchCoins": [
@@ -170,17 +170,17 @@
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.009015,
-      "ch24h": 0.5599999999999999
+      "price": 0.009,
+      "ch24h": 0.38999999999999996
     }
   ],
-  "totalCapital": 97.09771104800001,
-  "capital": 97.09771104800001,
-  "wildCapital": 53.012774102,
-  "joakoCapital": 44.084936946,
-  "pnl": -11.23228895199999,
-  "pnlPercent": -10.37,
+  "totalCapital": 97.109044703,
+  "capital": 97.109044703,
+  "wildCapital": 53.020623245,
+  "joakoCapital": 44.088421458,
+  "pnl": -11.220955297000003,
+  "pnlPercent": -10.36,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T08:53:16.524Z"
+  "updated": "2026-05-15T08:53:52.678Z"
 }
