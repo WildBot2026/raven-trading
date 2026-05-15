@@ -7,14 +7,14 @@
       "amount": 88.3497,
       "quantity": 88.3497,
       "qty": 88.3497,
-      "value": 10.038292914,
-      "valueUSDT": 10.038292914,
-      "usdValue": 10.038292914,
-      "price": 0.11362,
+      "value": 10.039176411,
+      "valueUSDT": 10.039176411,
+      "usdValue": 10.039176411,
+      "price": 0.11363,
       "note": "active",
       "entryPrice": 0.11439,
-      "pnl": -0.0680292690000006,
-      "pnlPct": -0.6731357636157065,
+      "pnl": -0.06714577200000094,
+      "pnlPct": -0.6643937407116107,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -137,14 +137,14 @@
       "amount": 44.1686,
       "quantity": 44.1686,
       "qty": 44.1686,
-      "value": 5.018878018,
-      "valueUSDT": 5.018878018,
-      "usdValue": 5.018878018,
-      "price": 0.11363,
+      "value": 5.019319704,
+      "valueUSDT": 5.019319704,
+      "usdValue": 5.019319704,
+      "price": 0.11364,
       "note": "active",
       "entryPrice": 0.11459,
-      "pnl": -0.042401856000000106,
-      "pnlPct": -0.8377694388690182,
+      "pnl": -0.041960169999999665,
+      "pnlPct": -0.8290426738807866,
       "highSinceEntry": 0.11565,
       "pctSold": 0,
       "trailingStop": 0.111024,
@@ -235,14 +235,14 @@
     }
   ],
   "btc": {
-    "price": 79050,
-    "change": -2.93
+    "price": 79064,
+    "change": -2.9000000000000004
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15358,
-      "ch24h": 2.81
+      "price": 0.15369,
+      "ch24h": 2.8899999999999997
     },
     {
       "sym": "OPGUSDT",
@@ -255,13 +255,13 @@
       "ch24h": -4.5
     }
   ],
-  "totalCapital": 95.660099736,
-  "capital": 95.660099736,
-  "wildCapital": 52.552725468,
-  "joakoCapital": 43.107374268,
-  "pnl": -12.669900263999992,
-  "pnlPercent": -11.7,
+  "totalCapital": 95.661424919,
+  "capital": 95.661424919,
+  "wildCapital": 52.553608964999995,
+  "joakoCapital": 43.107815954,
+  "pnl": -12.668575081,
+  "pnlPercent": -11.69,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T22:17:49.433Z"
+  "updated": "2026-05-15T22:18:24.235Z"
 }
