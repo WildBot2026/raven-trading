@@ -232,7 +232,7 @@ function renderFromData(data){
   for(let w of data.wallets||[]){
     let a=w.account||'WILD';
     if(w.symbol==='USDT') wUsdt[a]=w.value||0;
-    else if((w.value||0)>1) wPos[a].push(w);
+    else if(w.symbol!=='USDT') wPos[a].push(w); // Show ALL coins regardless of value
   }
   
   // Sort by value descending, show ALL coins
@@ -526,7 +526,7 @@ async function syncFromBybit(){
     for(let w of ['WILD','JOAKO']){
       let cont=wallets[w];
       if(!cont)continue;
-      let pos=allPos.filter(p=>p.account===w&&p.coin!=='USDT'&&p.qty>0.001);
+      let pos=allPos.filter(p=>p.account===w&&p.coin!=='USDT');
       pos.sort((a,b)=>b.usdValue-a.usdValue);
       
       // Update wallet total below positions
