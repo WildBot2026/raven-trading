@@ -50,14 +50,14 @@
       "amount": 224.6622,
       "quantity": 224.6622,
       "qty": 224.6622,
-      "value": 19.812959418000002,
-      "valueUSDT": 19.812959418000002,
-      "usdValue": 19.812959418000002,
-      "price": 0.08819,
+      "value": 19.842165504,
+      "valueUSDT": 19.842165504,
+      "usdValue": 19.842165504,
+      "price": 0.08832,
       "note": "active",
       "entryPrice": 0.089,
-      "pnl": -0.18197638199999805,
-      "pnlPct": -0.9101123595505523,
+      "pnl": -0.15277029600000003,
+      "pnlPct": -0.7640449438202301,
       "highSinceEntry": 0.08919,
       "pctSold": 0,
       "trailingStop": 0.0856224,
@@ -180,14 +180,14 @@
       "amount": 0.087,
       "quantity": 0.087,
       "qty": 0.087,
-      "value": 0.0076725299999999995,
-      "valueUSDT": 0.0076725299999999995,
-      "usdValue": 0.0076725299999999995,
-      "price": 0.08819,
+      "value": 0.007683839999999999,
+      "valueUSDT": 0.007683839999999999,
+      "usdValue": 0.007683839999999999,
+      "price": 0.08832,
       "note": "active",
       "entryPrice": 0.08844,
-      "pnl": -0.000021750000000000017,
-      "pnlPct": -0.28267752148348757,
+      "pnl": -0.000010440000000000781,
+      "pnlPct": -0.13568521031208647,
       "highSinceEntry": 0.08844,
       "pctSold": 0,
       "trailingStop": 0.0849024,
@@ -235,8 +235,8 @@
     }
   ],
   "btc": {
-    "price": 79075.6,
-    "change": -2.92
+    "price": 79068.1,
+    "change": -2.93
   },
   "watchCoins": [
     {
@@ -255,13 +255,13 @@
       "ch24h": -4.41
     }
   ],
-  "totalCapital": 95.627041991,
-  "capital": 95.627041991,
-  "wildCapital": 52.524983615,
-  "joakoCapital": 43.102058376,
-  "pnl": -12.702958009,
-  "pnlPercent": -11.73,
+  "totalCapital": 95.656259387,
+  "capital": 95.656259387,
+  "wildCapital": 52.554189701,
+  "joakoCapital": 43.102069686,
+  "pnl": -12.673740612999993,
+  "pnlPercent": -11.7,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T22:13:07.975Z"
+  "updated": "2026-05-15T22:13:42.942Z"
 }
