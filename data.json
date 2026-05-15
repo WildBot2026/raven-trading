@@ -154,8 +154,8 @@
     }
   ],
   "btc": {
-    "price": 79126.9,
-    "change": -2.82
+    "price": 79118.8,
+    "change": -2.83
   },
   "watchCoins": [
     {
@@ -182,5 +182,5 @@
   "pnlPercent": -11.53,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-15T19:44:18.266Z"
+  "updated": "2026-05-15T19:44:53.253Z"
 }
