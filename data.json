@@ -7,14 +7,14 @@
       "amount": 248489.841,
       "quantity": 248489.841,
       "qty": 248489.841,
-      "value": 20.04567547347,
-      "valueUSDT": 20.04567547347,
-      "usdValue": 20.04567547347,
-      "price": 0.00008067,
+      "value": 20.01834159096,
+      "valueUSDT": 20.01834159096,
+      "usdValue": 20.01834159096,
+      "price": 0.00008056,
       "note": "active",
       "entryPrice": 0.00008019,
-      "pnl": 0.11927512367999885,
-      "pnlPct": 0.5985783763561514,
+      "pnl": 0.09194124116999954,
+      "pnlPct": 0.4614041651078704,
       "highSinceEntry": 0.00008067,
       "pctSold": 0,
       "trailingStop": 0.0000774432,
@@ -93,14 +93,14 @@
       "amount": 359.64,
       "quantity": 359.64,
       "qty": 359.64,
-      "value": 9.7066836,
-      "valueUSDT": 9.7066836,
-      "usdValue": 9.7066836,
-      "price": 0.02699,
+      "value": 9.7030872,
+      "valueUSDT": 9.7030872,
+      "usdValue": 9.7030872,
+      "price": 0.02698,
       "note": "active",
       "entryPrice": 0.0266,
-      "pnl": 0.1402596000000005,
-      "pnlPct": 1.4661654135338376,
+      "pnl": 0.13666320000000068,
+      "pnlPct": 1.4285714285714457,
       "highSinceEntry": 0.02736,
       "pctSold": 0,
       "trailingStop": 0.026265599999999997,
@@ -197,19 +197,19 @@
     }
   ],
   "btc": {
-    "price": 77979.7,
-    "change": -2.7
+    "price": 77979.8,
+    "change": -2.69
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16016,
-      "ch24h": 9.07
+      "price": 0.16013,
+      "ch24h": 9.049999999999999
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2422,
-      "ch24h": -9.66
+      "price": 0.2425,
+      "ch24h": -9.45
     },
     {
       "sym": "PENGUUSDT",
@@ -217,13 +217,13 @@
       "ch24h": -5.1
     }
   ],
-  "totalCapital": 95.23409430346999,
-  "capital": 95.23409430346999,
-  "wildCapital": 52.181430823469995,
+  "totalCapital": 95.20316402096,
+  "capital": 95.20316402096,
+  "wildCapital": 52.150500540959996,
   "joakoCapital": 43.05266348,
-  "pnl": -13.09590569653001,
-  "pnlPercent": -12.09,
+  "pnl": -13.126835979039996,
+  "pnlPercent": -12.12,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-16T13:05:27.289Z"
+  "updated": "2026-05-16T13:06:02.293Z"
 }
