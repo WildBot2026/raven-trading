@@ -7,19 +7,19 @@
       "amount": 127445.007,
       "quantity": 127445.007,
       "qty": 127445.007,
-      "value": 10.175209358879998,
-      "valueUSDT": 10.175209358879998,
-      "usdValue": 10.175209358879998,
-      "price": 0.00007984,
+      "value": 10.21089396084,
+      "valueUSDT": 10.21089396084,
+      "usdValue": 10.21089396084,
+      "price": 0.00008012,
       "note": "active",
       "entryPrice": 0.00007811,
-      "pnl": 0.22047986210999984,
-      "pnlPct": 2.214825246447316,
-      "highSinceEntry": 0.00007982,
+      "pnl": 0.2561644640700004,
+      "pnlPct": 2.573294072461918,
+      "highSinceEntry": 0.00008006,
       "pctSold": 0,
-      "trailingStop": 0.0000766272,
+      "trailingStop": 0.0000768576,
       "hardStop": 0.00007498559999999999,
-      "stop": 0.0000766272,
+      "stop": 0.0000768576,
       "targets": [
         {
           "at": "+4%",
@@ -88,62 +88,19 @@
     },
     {
       "account": "WILD",
-      "coin": "PONKE",
-      "symbol": "PONKE",
-      "amount": 240.60376,
-      "quantity": 240.60376,
-      "qty": 240.60376,
-      "value": 9.7588885056,
-      "valueUSDT": 9.7588885056,
-      "usdValue": 9.7588885056,
-      "price": 0.04056,
-      "note": "active",
-      "entryPrice": 0.04158,
-      "pnl": -0.24541583520000002,
-      "pnlPct": -2.4531024531024515,
-      "highSinceEntry": 0.04158,
-      "pctSold": 0,
-      "trailingStop": 0.039916799999999995,
-      "hardStop": 0.039916799999999995,
-      "stop": 0.039916799999999995,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0432432,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.0449064,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.0465696,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.049895999999999996,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
       "coin": "FHE",
       "symbol": "FHE",
       "amount": 359.64,
       "quantity": 359.64,
       "qty": 359.64,
-      "value": 9.7534368,
-      "valueUSDT": 9.7534368,
-      "usdValue": 9.7534368,
-      "price": 0.02712,
+      "value": 9.7390512,
+      "valueUSDT": 9.7390512,
+      "usdValue": 9.7390512,
+      "price": 0.02708,
       "note": "active",
       "entryPrice": 0.0266,
-      "pnl": 0.18701279999999987,
-      "pnlPct": 1.9548872180451093,
+      "pnl": 0.17262720000000045,
+      "pnlPct": 1.8045112781954975,
       "highSinceEntry": 0.02736,
       "pctSold": 0,
       "trailingStop": 0.026265599999999997,
@@ -198,12 +155,12 @@
       "account": "WILD",
       "coin": "USDT",
       "symbol": "USDT",
-      "amount": 12.79481338,
-      "quantity": 12.79481338,
-      "qty": 12.79481338,
-      "value": 12.79481338,
-      "valueUSDT": 12.79481338,
-      "usdValue": 12.79481338,
+      "amount": 22.25121532,
+      "quantity": 22.25121532,
+      "qty": 22.25121532,
+      "value": 22.25121532,
+      "valueUSDT": 22.25121532,
+      "usdValue": 22.25121532,
       "price": 1,
       "note": "disponible",
       "entryPrice": null,
@@ -246,13 +203,13 @@
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16027,
-      "ch24h": 8.58
+      "price": 0.16038,
+      "ch24h": 8.649999999999999
     },
     {
       "sym": "OPGUSDT",
       "price": 0.2422,
-      "ch24h": -9.53
+      "ch24h": -9.56
     },
     {
       "sym": "PENGUUSDT",
@@ -260,13 +217,13 @@
       "ch24h": -5.1499999999999995
     }
   ],
-  "totalCapital": 95.46963320888,
-  "capital": 95.46963320888,
-  "wildCapital": 52.41696972888,
+  "totalCapital": 95.18844564524,
+  "capital": 95.18844564524,
+  "wildCapital": 52.135782165239995,
   "joakoCapital": 43.05266348,
-  "pnl": -12.86036679112,
-  "pnlPercent": -11.87,
+  "pnl": -13.141554354760004,
+  "pnlPercent": -12.13,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-16T12:57:23.441Z"
+  "updated": "2026-05-16T12:57:57.904Z"
 }
