@@ -7,14 +7,14 @@
       "amount": 112.1877,
       "quantity": 112.1877,
       "qty": 112.1877,
-      "value": 10.022849118000002,
-      "valueUSDT": 10.022849118000002,
-      "usdValue": 10.022849118000002,
-      "price": 0.08934,
+      "value": 10.009386594,
+      "valueUSDT": 10.009386594,
+      "usdValue": 10.009386594,
+      "price": 0.08922,
       "note": "active",
       "entryPrice": 0.08889,
-      "pnl": 0.05048446500000067,
-      "pnlPct": 0.5062436719541097,
+      "pnl": 0.03702194099999966,
+      "pnlPct": 0.3712453594330034,
       "highSinceEntry": 0.08995,
       "pctSold": 0,
       "trailingStop": 0.086352,
@@ -45,19 +45,57 @@
     },
     {
       "account": "WILD",
+      "coin": "CGPT",
+      "symbol": "CGPT",
+      "amount": 249.37038,
+      "quantity": 249.37038,
+      "qty": 249.37038,
+      "value": 9.9897774228,
+      "valueUSDT": 9.9897774228,
+      "usdValue": 9.9897774228,
+      "price": 0.04006,
+      "note": "active",
+      "entryPrice": 0.03998,
+      "pnl": 0.01994963039999919,
+      "pnlPct": 0.2001000500249983,
+      "highSinceEntry": 0.03998,
+      "pctSold": 0,
+      "trailingStop": 0.0383808,
+      "hardStop": 0.0383808,
+      "stop": 0.0383808,
+      "targets": [
+        {
+          "at": "+8%",
+          "price": 0.043178400000000006,
+          "sellPct": 40
+        },
+        {
+          "at": "+15%",
+          "price": 0.045977,
+          "sellPct": 30
+        },
+        {
+          "at": "+25%",
+          "price": 0.049975000000000006,
+          "sellPct": 20
+        }
+      ]
+    },
+    {
+      "account": "WILD",
       "coin": "RECALL",
       "symbol": "RECALL",
       "amount": 0.0297,
       "quantity": 0.0297,
       "qty": 0.0297,
-      "value": 0.001991979,
-      "valueUSDT": 0.001991979,
-      "usdValue": 0.001991979,
-      "price": 0.06707,
+      "value": 0.001992276,
+      "valueUSDT": 0.001992276,
+      "usdValue": 0.001992276,
+      "price": 0.06708,
       "note": "active",
       "entryPrice": 0.0638,
-      "pnl": 0.00009711900000000027,
-      "pnlPct": 5.125391849529803,
+      "pnl": 0.00009741600000000015,
+      "pnlPct": 5.141065830721003,
       "highSinceEntry": 0.06775,
       "pctSold": 0.25,
       "trailingStop": 0.0643625,
@@ -155,12 +193,12 @@
       "account": "WILD",
       "coin": "USDT",
       "symbol": "USDT",
-      "amount": 33.86672107,
-      "quantity": 33.86672107,
-      "qty": 33.86672107,
-      "value": 33.86672107,
-      "valueUSDT": 33.86672107,
-      "usdValue": 33.86672107,
+      "amount": 23.86694387,
+      "quantity": 23.86694387,
+      "qty": 23.86694387,
+      "value": 23.86694387,
+      "valueUSDT": 23.86694387,
+      "usdValue": 23.86694387,
       "price": 1,
       "note": "disponible",
       "entryPrice": null,
@@ -197,14 +235,14 @@
     }
   ],
   "btc": {
-    "price": 79185.1,
+    "price": 79187.2,
     "change": -2.1399999999999997
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
       "price": 0.15826,
-      "ch24h": 4.03
+      "ch24h": 4.1000000000000005
     },
     {
       "sym": "OPGUSDT",
@@ -217,13 +255,13 @@
       "ch24h": -2.71
     }
   ],
-  "totalCapital": 96.99327759383999,
-  "capital": 96.99327759383999,
-  "wildCapital": 53.898009503839994,
+  "totalCapital": 96.96981558964,
+  "capital": 96.96981558964,
+  "wildCapital": 53.87454749964,
   "joakoCapital": 43.09526809,
-  "pnl": -11.336722406160007,
-  "pnlPercent": -10.46,
+  "pnl": -11.360184410359992,
+  "pnlPercent": -10.49,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-16T02:14:09.261Z"
+  "updated": "2026-05-16T02:14:44.553Z"
 }
