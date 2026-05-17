@@ -15,11 +15,11 @@
       "entryPrice": 0.4379,
       "pnl": 0.5551542899999995,
       "pnlPct": 1.393012103219915,
-      "highSinceEntry": 0.4433,
+      "highSinceEntry": 0.444,
       "pctSold": 0,
-      "trailingStop": 0.425568,
+      "trailingStop": 0.42624,
       "hardStop": 0.420384,
-      "stop": 0.425568,
+      "stop": 0.42624,
       "targets": [
         {
           "at": "+4%",
@@ -117,13 +117,13 @@
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16177,
-      "ch24h": 0.65
+      "price": 0.16174,
+      "ch24h": 0.63
     },
     {
       "sym": "OPGUSDT",
       "price": 0.2517,
-      "ch24h": -4.109999999999999
+      "ch24h": -3.93
     },
     {
       "sym": "PENGUUSDT",
@@ -139,5 +139,5 @@
   "pnlPercent": -11.99,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-17T00:31:19.420Z"
+  "updated": "2026-05-17T00:31:53.406Z"
 }
