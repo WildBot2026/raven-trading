@@ -2,492 +2,19 @@
   "wallets": [
     {
       "account": "WILD",
-      "coin": "LUNC",
-      "symbol": "LUNC",
-      "amount": 0.841,
-      "quantity": 0.841,
-      "qty": 0.841,
-      "value": 0.00007263717,
-      "valueUSDT": 0.00007263717,
-      "usdValue": 0.00007263717,
-      "price": 0.00008637,
-      "note": "active",
-      "entryPrice": 0.00008019,
-      "pnl": 0.000005197379999999998,
-      "pnlPct": 7.706696595585472,
-      "highSinceEntry": 0.00008203,
-      "pctSold": 1,
-      "trailingStop": 0.0000787488,
-      "hardStop": 0.0000769824,
-      "stop": 0.0000787488,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0000833976,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.00008660520000000002,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.00008981280000000002,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.000096228,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "ZIG",
-      "symbol": "ZIG",
-      "amount": 0.00959,
-      "quantity": 0.00959,
-      "qty": 0.00959,
-      "value": 0.00042109689999999996,
-      "valueUSDT": 0.00042109689999999996,
-      "usdValue": 0.00042109689999999996,
-      "price": 0.04391,
-      "note": "active",
-      "entryPrice": 0.04339,
-      "pnl": 0.000004986799999999996,
-      "pnlPct": 1.1984328186217974,
-      "highSinceEntry": 0.04514,
-      "pctSold": 0.25,
-      "trailingStop": 0.043334399999999995,
-      "hardStop": 0.041654399999999994,
-      "stop": 0.043334399999999995,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0451256,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.0468612,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.0485968,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.052067999999999996,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "H",
-      "symbol": "H",
-      "amount": 0.0586,
-      "quantity": 0.0586,
-      "qty": 0.0586,
-      "value": 0.014313636,
-      "valueUSDT": 0.014313636,
-      "usdValue": 0.014313636,
-      "price": 0.24426,
-      "note": "active",
-      "entryPrice": 0.2406,
-      "pnl": 0.0002144759999999998,
-      "pnlPct": 1.5211970074813008,
-      "highSinceEntry": 0.24485,
-      "pctSold": 1,
-      "trailingStop": 0.23505600000000001,
-      "hardStop": 0.230976,
-      "stop": 0.23505600000000001,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.250224,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.259848,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.26947200000000004,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.28872,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "PONKE",
-      "symbol": "PONKE",
-      "amount": 0.00641,
-      "quantity": 0.00641,
-      "qty": 0.00641,
-      "value": 0.000258964,
-      "valueUSDT": 0.000258964,
-      "usdValue": 0.000258964,
-      "price": 0.0404,
-      "note": "active",
-      "entryPrice": 0.04254,
-      "pnl": -0.000013717400000000019,
-      "pnlPct": -5.030559473436769,
-      "highSinceEntry": 0.04277,
-      "pctSold": 1,
-      "trailingStop": 0.041059200000000004,
-      "hardStop": 0.0408384,
-      "stop": 0.041059200000000004,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.044241600000000006,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.045943200000000003,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.04764480000000001,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.051048,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "FF",
-      "symbol": "FF",
-      "amount": 0.0888,
-      "quantity": 0.0888,
-      "qty": 0.0888,
-      "value": 0.00791652,
-      "valueUSDT": 0.00791652,
-      "usdValue": 0.00791652,
-      "price": 0.08915,
-      "note": "active",
-      "entryPrice": 0.08982,
-      "pnl": -0.00005949600000000035,
-      "pnlPct": -0.7459363170786104,
-      "highSinceEntry": 0.09196,
-      "pctSold": 1,
-      "trailingStop": 0.0882816,
-      "hardStop": 0.08622719999999999,
-      "stop": 0.0882816,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0934128,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.0970056,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.1005984,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.10778399999999999,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "TAC",
-      "symbol": "TAC",
-      "amount": 0.0371,
-      "quantity": 0.0371,
-      "qty": 0.0371,
-      "value": 0.0007861490000000001,
-      "valueUSDT": 0.0007861490000000001,
-      "usdValue": 0.0007861490000000001,
-      "price": 0.02119,
-      "note": "active",
-      "entryPrice": 0.02125,
-      "pnl": -0.000002226000000000038,
-      "pnlPct": -0.282352941176478,
-      "highSinceEntry": 0.0214,
-      "pctSold": 1,
-      "trailingStop": 0.020544,
-      "hardStop": 0.0204,
-      "stop": 0.020544,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0221,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.02295,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.023800000000000005,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.025500000000000002,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "CORN",
-      "symbol": "CORN",
-      "amount": 0.0548,
-      "quantity": 0.0548,
-      "qty": 0.0548,
-      "value": 0.0021509,
-      "valueUSDT": 0.0021509,
-      "usdValue": 0.0021509,
-      "price": 0.03925,
-      "note": "active",
-      "entryPrice": 0.03841,
-      "pnl": 0.00004603200000000003,
-      "pnlPct": 2.1869304868523898,
-      "highSinceEntry": 0.04002,
-      "pctSold": 0.25,
-      "trailingStop": 0.0384192,
-      "hardStop": 0.0368736,
-      "stop": 0.0384192,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0399464,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.0414828,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.0430192,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.046092,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "STABLE",
-      "symbol": "STABLE",
-      "amount": 0.0633,
-      "quantity": 0.0633,
-      "qty": 0.0633,
-      "value": 0.002273103,
-      "valueUSDT": 0.002273103,
-      "usdValue": 0.002273103,
-      "price": 0.03591,
-      "note": "active",
-      "entryPrice": 0.03669,
-      "pnl": -0.00004937400000000018,
-      "pnlPct": -2.1259198691741643,
-      "highSinceEntry": 0.0369,
-      "pctSold": 1,
-      "trailingStop": 0.035424000000000004,
-      "hardStop": 0.0352224,
-      "stop": 0.035424000000000004,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0381576,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.039625200000000006,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.041092800000000006,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.044028,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "NIGHT",
-      "symbol": "NIGHT",
-      "amount": 0.0889,
-      "quantity": 0.0889,
-      "qty": 0.0889,
-      "value": 0.002842133,
-      "valueUSDT": 0.002842133,
-      "usdValue": 0.002842133,
-      "price": 0.03197,
-      "note": "active",
-      "entryPrice": 0.03201,
-      "pnl": -0.0000035559999999998555,
-      "pnlPct": -0.12496094970321225,
-      "highSinceEntry": 0.03222,
-      "pctSold": 1,
-      "trailingStop": 0.0309312,
-      "hardStop": 0.030729599999999996,
-      "stop": 0.0309312,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0332904,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.0345708,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.0358512,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.038411999999999995,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "SUNDOG",
-      "symbol": "SUNDOG",
-      "amount": 0.0879,
-      "quantity": 0.0879,
-      "qty": 0.0879,
-      "value": 0.0005784699000000001,
-      "valueUSDT": 0.0005784699000000001,
-      "usdValue": 0.0005784699000000001,
-      "price": 0.006581,
-      "note": "active",
-      "entryPrice": 0.00702,
-      "pnl": -0.00003858810000000002,
-      "pnlPct": -6.253561253561257,
-      "highSinceEntry": 0.00732,
-      "pctSold": 0.25,
-      "trailingStop": 0.0070272,
-      "hardStop": 0.0067392,
-      "stop": 0.0070272,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.0073008000000000005,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.007581600000000001,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.0078624,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.008424,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
-      "coin": "FHE",
-      "symbol": "FHE",
-      "amount": 0.64,
-      "quantity": 0.64,
-      "qty": 0.64,
-      "value": 0.0172928,
-      "valueUSDT": 0.0172928,
-      "usdValue": 0.0172928,
-      "price": 0.02702,
-      "note": "active",
-      "entryPrice": 0.0266,
-      "pnl": 0.00026880000000000014,
-      "pnlPct": 1.5789473684210575,
-      "highSinceEntry": 0.02762,
-      "pctSold": 1,
-      "trailingStop": 0.0265152,
-      "hardStop": 0.025535999999999996,
-      "stop": 0.0265152,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.027664,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.028728,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.029792000000000003,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.03192,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
       "coin": "BSB",
       "symbol": "BSB",
       "amount": 91.0089,
       "quantity": 91.0089,
       "qty": 91.0089,
-      "value": 40.34424537,
-      "valueUSDT": 40.34424537,
-      "usdValue": 40.34424537,
-      "price": 0.4433,
+      "value": 40.280539139999995,
+      "valueUSDT": 40.280539139999995,
+      "usdValue": 40.280539139999995,
+      "price": 0.4426,
       "note": "active",
       "entryPrice": 0.4379,
-      "pnl": 0.4914480600000014,
-      "pnlPct": 1.23315825530943,
+      "pnl": 0.4277418299999983,
+      "pnlPct": 1.073304407398945,
       "highSinceEntry": 0.4433,
       "pctSold": 0,
       "trailingStop": 0.425568,
@@ -518,49 +45,6 @@
     },
     {
       "account": "WILD",
-      "coin": "PUFFER",
-      "symbol": "PUFFER",
-      "amount": 0.053,
-      "quantity": 0.053,
-      "qty": 0.053,
-      "value": 0.00142941,
-      "valueUSDT": 0.00142941,
-      "usdValue": 0.00142941,
-      "price": 0.02697,
-      "note": "active",
-      "entryPrice": 0.02774,
-      "pnl": -0.00004080999999999999,
-      "pnlPct": -2.775775054073537,
-      "highSinceEntry": 0.02774,
-      "pctSold": 1,
-      "trailingStop": 0.0266304,
-      "hardStop": 0.0266304,
-      "stop": 0.0266304,
-      "targets": [
-        {
-          "at": "+4%",
-          "price": 0.028849600000000003,
-          "sellPct": 25
-        },
-        {
-          "at": "+8%",
-          "price": 0.029959200000000002,
-          "sellPct": 33
-        },
-        {
-          "at": "+12%",
-          "price": 0.031068800000000004,
-          "sellPct": 50
-        },
-        {
-          "at": "+20%",
-          "price": 0.033288,
-          "sellPct": 100
-        }
-      ]
-    },
-    {
-      "account": "WILD",
       "coin": "SWEAT",
       "symbol": "SWEAT",
       "amount": 0.03613,
@@ -585,12 +69,12 @@
       "account": "WILD",
       "coin": "USDT",
       "symbol": "USDT",
-      "amount": 12.21221852,
-      "quantity": 12.21221852,
-      "qty": 12.21221852,
-      "value": 12.21221852,
-      "valueUSDT": 12.21221852,
-      "usdValue": 12.21221852,
+      "amount": 12.26106241,
+      "quantity": 12.26106241,
+      "qty": 12.26106241,
+      "value": 12.26106241,
+      "valueUSDT": 12.26106241,
+      "usdValue": 12.26106241,
       "price": 1,
       "note": "disponible",
       "entryPrice": null,
@@ -628,32 +112,32 @@
   ],
   "btc": {
     "price": 78213.4,
-    "change": -1.0999999999999999
+    "change": -1.11
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16225,
-      "ch24h": 2.52
+      "price": 0.16217,
+      "ch24h": 1.96
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.252,
-      "ch24h": -4.47
+      "price": 0.2523,
+      "ch24h": -4
     },
     {
       "sym": "PENGUUSDT",
       "price": 0.008459,
-      "ch24h": -4.18
+      "ch24h": -4.21
     }
   ],
-  "totalCapital": 95.27450735897,
-  "capital": 95.27450735897,
-  "wildCapital": 52.60687028897,
+  "totalCapital": 95.20930919999999,
+  "capital": 95.20930919999999,
+  "wildCapital": 52.541672129999995,
   "joakoCapital": 42.66763707,
-  "pnl": -13.05549264103,
-  "pnlPercent": -12.05,
+  "pnl": -13.120690800000006,
+  "pnlPercent": -12.11,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-17T00:02:00.066Z"
+  "updated": "2026-05-17T00:02:34.603Z"
 }
