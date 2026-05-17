@@ -7,14 +7,14 @@
       "amount": 416.33325,
       "quantity": 416.33325,
       "qty": 416.33325,
-      "value": 19.6883993925,
-      "valueUSDT": 19.6883993925,
-      "usdValue": 19.6883993925,
-      "price": 0.04729,
+      "value": 19.725869385,
+      "valueUSDT": 19.725869385,
+      "usdValue": 19.725869385,
+      "price": 0.04738,
       "note": "active",
       "entryPrice": 0.04797,
-      "pnl": -0.28310661000000004,
-      "pnlPct": -1.417552637064834,
+      "pnl": -0.24563661750000013,
+      "pnlPct": -1.2299353762768361,
       "highSinceEntry": 0.04807,
       "pctSold": 0,
       "trailingStop": 0.0461472,
@@ -50,14 +50,14 @@
       "amount": 46.2626,
       "quantity": 46.2626,
       "qty": 46.2626,
-      "value": 20.11035222,
-      "valueUSDT": 20.11035222,
-      "usdValue": 20.11035222,
-      "price": 0.4347,
+      "value": 20.124230999999998,
+      "valueUSDT": 20.124230999999998,
+      "usdValue": 20.124230999999998,
+      "price": 0.435,
       "note": "active",
       "entryPrice": 0.4317,
-      "pnl": 0.13878780000000013,
-      "pnlPct": 0.6949270326615631,
+      "pnl": 0.15266658000000116,
+      "pnlPct": 0.7644197359277349,
       "highSinceEntry": 0.4375,
       "pctSold": 0,
       "trailingStop": 0.42,
@@ -160,8 +160,8 @@
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15818,
-      "ch24h": -0.33999999999999997
+      "price": 0.15815,
+      "ch24h": -0.36
     },
     {
       "sym": "OPGUSDT",
@@ -174,13 +174,13 @@
       "ch24h": -5.19
     }
   ],
-  "totalCapital": 94.24528115249998,
-  "capital": 94.24528115249998,
-  "wildCapital": 51.717757002499994,
+  "totalCapital": 94.29662992499999,
+  "capital": 94.29662992499999,
+  "wildCapital": 51.769105775,
   "joakoCapital": 42.52752415,
-  "pnl": -14.084718847500014,
-  "pnlPercent": -13,
+  "pnl": -14.033370075000008,
+  "pnlPercent": -12.95,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-17T02:44:19.212Z"
+  "updated": "2026-05-17T02:44:52.986Z"
 }
