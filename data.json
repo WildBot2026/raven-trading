@@ -111,24 +111,24 @@
     }
   ],
   "btc": {
-    "price": 78026.3,
-    "change": -1.3599999999999999
+    "price": 78035.4,
+    "change": -1.35
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16073,
-      "ch24h": -0.54
+      "price": 0.16048,
+      "ch24h": -0.77
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.247,
-      "ch24h": -5.94
+      "price": 0.2471,
+      "ch24h": -6.260000000000001
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008389,
-      "ch24h": -5.34
+      "price": 0.008387,
+      "ch24h": -5.27
     }
   ],
   "totalCapital": 94.93628251,
@@ -139,5 +139,5 @@
   "pnlPercent": -12.36,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-17T01:17:55.835Z"
+  "updated": "2026-05-17T01:18:29.171Z"
 }
