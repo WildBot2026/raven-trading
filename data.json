@@ -2,19 +2,41 @@
   "wallets": [
     {
       "account": "WILD",
+      "coin": "CHZ",
+      "symbol": "CHZ",
+      "amount": 416.33325,
+      "quantity": 416.33325,
+      "qty": 416.33325,
+      "value": 19.9798326675,
+      "valueUSDT": 19.9798326675,
+      "usdValue": 19.9798326675,
+      "price": 0.04799,
+      "note": "new",
+      "entryPrice": null,
+      "pnl": null,
+      "pnlPct": null,
+      "highSinceEntry": null,
+      "pctSold": null,
+      "trailingStop": null,
+      "hardStop": null,
+      "stop": null,
+      "targets": null
+    },
+    {
+      "account": "WILD",
       "coin": "BSB",
       "symbol": "BSB",
       "amount": 0.0089,
       "quantity": 0.0089,
       "qty": 0.0089,
-      "value": 0.00386972,
-      "valueUSDT": 0.00386972,
-      "usdValue": 0.00386972,
-      "price": 0.4348,
+      "value": 0.00388129,
+      "valueUSDT": 0.00388129,
+      "usdValue": 0.00388129,
+      "price": 0.4361,
       "note": "active",
       "entryPrice": 0.4379,
-      "pnl": -0.000027589999999999924,
-      "pnlPct": -0.7079241836035588,
+      "pnl": -0.000016020000000000213,
+      "pnlPct": -0.4110527517698137,
       "highSinceEntry": 0.4458,
       "pctSold": 1,
       "trailingStop": 0.42796799999999996,
@@ -50,9 +72,9 @@
       "amount": 0.03613,
       "quantity": 0.03613,
       "qty": 0.03613,
-      "value": 0.00007059,
-      "valueUSDT": 0.00007059,
-      "usdValue": 0.00007059,
+      "value": 0.00007058,
+      "valueUSDT": 0.00007058,
+      "usdValue": 0.00007058,
       "price": 0,
       "note": "active",
       "entryPrice": 0.00224,
@@ -69,12 +91,12 @@
       "account": "WILD",
       "coin": "USDT",
       "symbol": "USDT",
-      "amount": 51.90647731,
-      "quantity": 51.90647731,
-      "qty": 51.90647731,
-      "value": 51.90647731,
-      "valueUSDT": 51.90647731,
-      "usdValue": 51.90647731,
+      "amount": 31.90664481,
+      "quantity": 31.90664481,
+      "qty": 31.90664481,
+      "value": 31.90664481,
+      "valueUSDT": 31.90664481,
+      "usdValue": 31.90664481,
       "price": 1,
       "note": "disponible",
       "entryPrice": null,
@@ -111,33 +133,33 @@
     }
   ],
   "btc": {
-    "price": 77948.6,
-    "change": -1.38
+    "price": 78005.7,
+    "change": -1.31
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.15842,
-      "ch24h": 0.48
+      "price": 0.15792,
+      "ch24h": 0.08
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2467,
-      "ch24h": -5.949999999999999
+      "price": 0.2471,
+      "ch24h": -5.79
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008374,
-      "ch24h": -5.09
+      "price": 0.008385,
+      "ch24h": -4.96
     }
   ],
-  "totalCapital": 94.44347371,
-  "capital": 94.44347371,
-  "wildCapital": 51.91041762,
+  "totalCapital": 94.4234854375,
+  "capital": 94.4234854375,
+  "wildCapital": 51.890429347499996,
   "joakoCapital": 42.53305609,
-  "pnl": -13.886526289999992,
-  "pnlPercent": -12.82,
+  "pnl": -13.906514562499993,
+  "pnlPercent": -12.84,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-17T01:33:04.166Z"
+  "updated": "2026-05-17T01:33:39.172Z"
 }
