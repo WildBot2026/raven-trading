@@ -7,9 +7,9 @@
       "amount": 0.03613,
       "quantity": 0.03613,
       "qty": 0.03613,
-      "value": 0.00007057,
-      "valueUSDT": 0.00007057,
-      "usdValue": 0.00007057,
+      "value": 0.00007056,
+      "valueUSDT": 0.00007056,
+      "usdValue": 0.00007056,
       "price": 0,
       "note": "active",
       "entryPrice": 0.00224,
@@ -117,14 +117,14 @@
       "amount": 0.605,
       "quantity": 0.605,
       "qty": 0.605,
-      "value": 0.031127250000000002,
-      "valueUSDT": 0.031127250000000002,
-      "usdValue": 0.031127250000000002,
-      "price": 0.05145,
+      "value": 0.031145399999999997,
+      "valueUSDT": 0.031145399999999997,
+      "usdValue": 0.031145399999999997,
+      "price": 0.05148,
       "note": "active",
       "entryPrice": 0.05166,
-      "pnl": -0.0001270499999999969,
-      "pnlPct": -0.40650406504063596,
+      "pnl": -0.00010889999999999976,
+      "pnlPct": -0.34843205574912606,
       "highSinceEntry": 0.05183,
       "pctSold": 1,
       "trailingStop": 0.0497568,
@@ -167,33 +167,33 @@
     }
   ],
   "btc": {
-    "price": 76893.4,
-    "change": -1.39
+    "price": 76942.3,
+    "change": -1.34
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16263,
-      "ch24h": 0.26
+      "price": 0.16278,
+      "ch24h": 0.08
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2555,
-      "ch24h": 3.15
+      "price": 0.2552,
+      "ch24h": 3.0700000000000003
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008381,
-      "ch24h": -0.04
+      "price": 0.00839,
+      "ch24h": 0.13
     }
   ],
-  "totalCapital": 87.91152428000001,
-  "capital": 87.91152428000001,
-  "wildCapital": 45.5756654,
-  "joakoCapital": 42.33585888,
-  "pnl": -20.41847571999999,
+  "totalCapital": 87.91154241999999,
+  "capital": 87.91154241999999,
+  "wildCapital": 45.57566539,
+  "joakoCapital": 42.33587703,
+  "pnl": -20.41845758000001,
   "pnlPercent": -18.85,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-18T03:22:57.780Z"
+  "updated": "2026-05-18T03:23:31.931Z"
 }
