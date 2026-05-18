@@ -117,14 +117,14 @@
       "amount": 263.8359,
       "quantity": 263.8359,
       "qty": 263.8359,
-      "value": 9.81469548,
-      "valueUSDT": 9.81469548,
-      "usdValue": 9.81469548,
-      "price": 0.0372,
+      "value": 9.819972198,
+      "valueUSDT": 9.819972198,
+      "usdValue": 9.819972198,
+      "price": 0.03722,
       "note": "active",
       "entryPrice": 0.03739,
-      "pnl": -0.0501288210000007,
-      "pnlPct": -0.5081572612998242,
+      "pnl": -0.04485210299999908,
+      "pnlPct": -0.4546670232682404,
       "highSinceEntry": 0.03744,
       "pctSold": 0,
       "trailingStop": 0.0359424,
@@ -150,14 +150,14 @@
       "amount": 0.00718,
       "quantity": 0.00718,
       "qty": 0.00718,
-      "value": 0.006322708,
-      "valueUSDT": 0.006322708,
-      "usdValue": 0.006322708,
-      "price": 0.8806,
+      "value": 0.006324144,
+      "valueUSDT": 0.006324144,
+      "usdValue": 0.006324144,
+      "price": 0.8808,
       "note": "active",
       "entryPrice": 0.877,
-      "pnl": 0.00002584800000000034,
-      "pnlPct": 0.410490307867728,
+      "pnl": 0.00002728400000000018,
+      "pnlPct": 0.43329532497149437,
       "highSinceEntry": 0.8858,
       "pctSold": 0.5,
       "trailingStop": 0.850368,
@@ -299,7 +299,7 @@
     }
   ],
   "btc": {
-    "price": 77031.5,
+    "price": 77046.2,
     "change": -1.4500000000000002
   },
   "watchCoins": [
@@ -310,22 +310,22 @@
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2582,
-      "ch24h": 1.49
+      "price": 0.2581,
+      "ch24h": 1.4500000000000002
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008389,
-      "ch24h": -0.8
+      "price": 0.00839,
+      "ch24h": -0.79
     }
   ],
-  "totalCapital": 87.9961225818,
-  "capital": 87.9961225818,
+  "totalCapital": 88.0014007358,
+  "capital": 88.0014007358,
   "wildCapital": 45.57541733,
-  "joakoCapital": 42.4207052518,
-  "pnl": -20.333877418200004,
+  "joakoCapital": 42.425983405800004,
+  "pnl": -20.328599264199994,
   "pnlPercent": -18.77,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-18T04:58:28.015Z"
+  "updated": "2026-05-18T04:59:03.799Z"
 }
