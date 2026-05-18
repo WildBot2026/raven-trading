@@ -201,6 +201,9 @@ table{width:100%;border-collapse:collapse}
 // Entry prices: symbol -> entry_price (read from DOM)
 const entryPrices = {};
 
+// Truncate to N decimals without rounding
+function truncDec(v,n){var f=Math.pow(10,n);return Math.floor(v*f)/f;}
+
 // Render from static data.json (GitHub Pages mode) — also updates live prices after render
 let dataJsonLastData = null;
 function renderFromData(data){ dataJsonLastData = data;
@@ -233,10 +236,10 @@ function renderFromData(data){ dataJsonLastData = data;
   for(let w of data.wallets||[]){
     let a=w.account||'WILD';
     if(w.symbol==='USDT') wUsdt[a]=w.value||0;
-    else if(w.symbol!=='USDT') wPos[a].push(w); // Show ALL coins regardless of value
+    else if(w.symbol!=='USDT' && (w.value||0) >= 1) wPos[a].push(w); // Only coins >= $1
   }
   
-  // Sort by value descending, show ALL coins
+  // Sort by value descending
   for(let a of ['WILD','JOAKO']){
     wPos[a].sort((a,b)=>b.value-a.value);
   }
@@ -266,9 +269,9 @@ function renderFromData(data){ dataJsonLastData = data;
       html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
       html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
       if(entry>0){
-        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+p.symbol+'USDT" style="font-size:13px;font-weight:600">'+entry.toFixed(dec)+'</span></span>';
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+p.symbol+'USDT" style="font-size:13px;font-weight:600">'+truncDec(entry,dec)+'</span></span>';
       }
-      html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.symbol+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
+      html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.symbol+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+truncDec(cp,dec)+'</span></span>';
       html+='<span data-pct="'+p.symbol+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
       // Use real targets from data.json, fallback to dynamic calculation
       let stopPrice = p.trailingStop || p.hardStop || p.stop || (entry>0 ? entry*0.96 : 0);
@@ -277,7 +280,7 @@ function renderFromData(data){ dataJsonLastData = data;
       if(p.targets && p.targets.length>0){
         for(let ti=0;ti<p.targets.length;ti++){
           let t=p.targets[ti];
-          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">'+t.at+' $'+t.price.toFixed(dec)+' ('+t.sellPct+'%)</span>';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">'+t.at+' $'+truncDec(t.price,dec)+' ('+t.sellPct+'%)</span>';
         }
       } else if(entry>0){
         // Fallback: calculate dynamic targets
@@ -285,11 +288,11 @@ function renderFromData(data){ dataJsonLastData = data;
         let tp=[Math.round(tMul*3),Math.round(tMul*6),Math.round(tMul*10),Math.round(tMul*15)];
         for(let ti=0;ti<tp.length;ti++){
           let tP=tp[ti];
-          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+tP+'% $'+(entry*(1+tP/100)).toFixed(dec)+'</span>';
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+tP+'% $'+truncDec(entry*(1+tP/100),dec)+'</span>';
         }
       }
       if(stopPrice>0){
-        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+stopPct+'% $'+stopPrice.toFixed(dec)+'</span>';
+        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+stopPct+'% $'+truncDec(stopPrice,dec)+'</span>';
       }
       html+='</div>';
       html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+(p.quantity||p.qty||'0')+' tok · <span style="color:#818cf8;font-weight:600">$'+(p.value||0).toFixed(2)+'</span></div>';
@@ -337,7 +340,7 @@ async function updateAllPrices(){
       let actEl=div.querySelector('[data-act]');
       if(actEl){
         let dec=6;
-        actEl.textContent='$'+p.toFixed(dec);
+        actEl.textContent='$'+truncDec(p,dec);
       }
       // Update percentage
       let pctEl=div.querySelector('[data-pct]');
@@ -551,10 +554,10 @@ async function syncFromBybit(){
         html+='<div class="p" data-coin="'+p.coin+'">';
         html+='<div style="display:flex;justify-content:space-between">';
         html+='<span class="pn">'+p.coin+' '+getMomLabel(coinSym,chg)+'</span>';
-        html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
+        html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+truncDec(cp,dec)+'</span></div>';
         html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
-        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(tDec)+'</span></span>';
-        html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.coin+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+truncDec(entry,tDec)+'</span></span>';
+        html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.coin+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+truncDec(cp,dec)+'</span></span>';
         html+='<span data-pct="'+p.coin+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
         // Use real targets from data.json when available, fallback to dynamic calc
         let stopPrice = p.trailingStop || p.hardStop || p.stop || (entry>0 ? entry*0.96 : 0);
