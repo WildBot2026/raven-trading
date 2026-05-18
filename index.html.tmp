@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raven</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;color:#e2e8f0;font-family:system-ui,sans-serif;padding:8px;font-size:15px}
+h1{color:#818cf8;font-size:20px;margin-bottom:8px}
+h2{color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.c{background:rgba(17,17,34,0.85);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px;margin-bottom:5px}
+.g{color:#4ade80}.r{color:#f87171}.gr{color:#64748b}
+.v{font-size:22px;font-weight:800}
+.sm{font-size:11px;color:#64748b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.p{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:5px 7px;margin-bottom:3px}
+.pn{font-weight:700;font-size:16px}.pv{font-size:15px;font-weight:600}.pp{font-size:12px}
+.ac{color:#818cf8;font-size:11px}
+td{padding:3px 6px;border-top:1px solid rgba(255,255,255,0.04);font-size:13px}
+th{color:#64748b;text-align:left;padding:3px 6px;font-size:12px}
+table{width:100%;border-collapse:collapse}
+.cv{background:#0a0a1a;border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:4px;margin-top:4px}
+.cv h2{color:#64748b;font-size:12px;text-transform:uppercase;margin-bottom:2px}
+.cv canvas{display:block;width:100%;height:280px}
+.coin-sel{background:#1a1a2e;color:#e2e8f0;border:1px solid #333;border-radius:3px;padding:2px 4px;font-size:11px}
+
+</style>
+</head>
+<body>
+<h1>🦅 Raven</h1>
+
+<div class="grid">
+  <div class="c">
+    <h2>Capital Total</h2>
+    <div class="v g" id="totalCap">Cargando...</div>
+    <div class="sm" id="pnlCap"></div>
+  </div>
+  <div class="c">
+    <h2>BTC/USDT</h2>
+    <div class="v" id="btcP">$80,899</div>
+    <div class="sm g" id="btcC">+1.43%</div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="c">
+    <h2 style="background:black;color:#e2e8f0;border:2px solid #eab308;border-radius:6px;padding:6px 10px;font-size:18px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:2px">🐺 Wallet WILD</h2>
+    <div id="wildPos"></div>
+    <div style="text-align:right;font-weight:700;color:#818cf8">Cargando...</div>
+  </div>
+  <div class="c">
+    <h2 style="background:black;color:#e2e8f0;border:2px solid #a855f7;border-radius:6px;padding:6px 10px;font-size:18px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:2px">🐺 Wallet JOAKO</h2>
+    <div id="joakoPos"></div>
+    <div style="text-align:right;font-weight:700;color:#818cf8">Cargando...</div>
+  </div>
+</div>
+
+<div class="c">
+  
+
+<div class="grid">
+  <div class="cv">
+    <h2>Gráfica 1 <select class="coin-sel" id="sel0" onchange="loadChart(0)">
+      <option value="ADAUSDT">ADA</option>
+      <option value="APTUSDT">APT</option>
+      <option value="ARBUSDT">ARB</option>
+      <option value="AVAXUSDT">AVAX</option>
+      <option value="B3USDT">B3</option>
+      <option value="BDXNUSDT">BDXN</option>
+      <option value="BLENDUSDT">BLEND</option>
+      <option value="BOMEUSDT">BOME</option>
+      <option value="BSBUSDT">BSB</option>
+      <option value="BTCUSDT">BTC</option>
+      <option value="CATIUSDT">CATI</option>
+      <option value="CFGUSDT">CFG</option>
+      <option value="DOGEUSDT">DOGE</option>
+      <option value="DOGSUSDT">DOGS</option>
+      <option value="DOTUSDT">DOT</option>
+      <option value="ENAUSDT">ENA</option>
+      <option value="ETHUSDT">ETH</option>
+      <option value="FHEUSDT">FHE</option>
+      <option value="FIGHTUSDT">FIGHT</option>
+      <option value="FTTUSDT">FTT</option>
+      <option value="GALAUSDT">GALA</option>
+      <option value="GAMEUSDT">GAME</option>
+      <option value="ICPUSDT">ICP</option>
+      <option value="INJUSDT">INJ</option>
+      <option value="JUPUSDT">JUP</option>
+      <option value="LINKUSDT">LINK</option>
+      <option value="LUNAIUSDT">LUNAI</option>
+      <option value="LUNCUSDT">LUNC</option>
+      <option value="MAJORUSDT">MAJOR</option>
+      <option value="MAVIAUSDT">MAVIA</option>
+      <option value="MONUSDT">MON</option>
+      <option value="MORPHOUSDT">MORPHO</option>
+      <option value="NIGHTUSDT">NIGHT</option>
+      <option value="NOTUSDT">NOT</option>
+      <option value="NYMUSDT">NYM</option>
+      <option value="OASUSDT">OAS</option>
+      <option value="OLUSDT">OL</option>
+      <option value="OPUSDT">OP</option>
+      <option value="PENGUUSDT">PENGU</option>
+      <option value="PEPEUSDT">PEPE</option>
+      <option value="SAROSUSDT">SAROS</option>
+      <option value="SHIBUSDT">SHIB</option>
+      <option value="SOLUSDT">SOL</option>
+      <option value="STXUSDT">STX</option>
+      <option value="SUIUSDT">SUI</option>
+      <option value="TIAUSDT">TIA</option>
+      <option value="TONUSDT">TON</option>
+      <option value="TRXUSDT">TRX</option>
+      <option value="UNIUSDT">UNI</option>
+      <option value="VIRTUALUSDT">VIRTUAL</option>
+      <option value="VVVUSDT">VVV</option>
+      <option value="WHITEWHALEUSDT">WHITEWHALE</option>
+      <option value="XRPUSDT">XRP</option>
+    </select>
+    <select class="coin-sel" id="tf0" onchange="loadChart(0)"><option value="1">1m</option><option value="3">3m</option><option value="5">5m</option><option value="15">15m</option><option value="60">1h</option><option value="480">8h</option><option value="D">1d</option></select></h2>
+    <canvas id="cv0" height="280"></canvas>
+  </div>
+  <div class="cv">
+    <h2>Gráfica 2 <select class="coin-sel" id="sel1" onchange="loadChart(1)">
+      <option value="ADAUSDT">ADA</option>
+      <option value="APTUSDT">APT</option>
+      <option value="ARBUSDT">ARB</option>
+      <option value="AVAXUSDT">AVAX</option>
+      <option value="B3USDT">B3</option>
+      <option value="BDXNUSDT">BDXN</option>
+      <option value="BLENDUSDT">BLEND</option>
+      <option value="BOMEUSDT">BOME</option>
+      <option value="BSBUSDT">BSB</option>
+      <option value="BTCUSDT">BTC</option>
+      <option value="CATIUSDT">CATI</option>
+      <option value="CFGUSDT">CFG</option>
+      <option value="DOGEUSDT">DOGE</option>
+      <option value="DOGSUSDT">DOGS</option>
+      <option value="DOTUSDT">DOT</option>
+      <option value="ENAUSDT">ENA</option>
+      <option value="ETHUSDT">ETH</option>
+      <option value="FHEUSDT">FHE</option>
+      <option value="FIGHTUSDT">FIGHT</option>
+      <option value="FTTUSDT">FTT</option>
+      <option value="GALAUSDT">GALA</option>
+      <option value="GAMEUSDT">GAME</option>
+      <option value="ICPUSDT">ICP</option>
+      <option value="INJUSDT">INJ</option>
+      <option value="JUPUSDT">JUP</option>
+      <option value="LINKUSDT">LINK</option>
+      <option value="LUNAIUSDT">LUNAI</option>
+      <option value="LUNCUSDT">LUNC</option>
+      <option value="MAJORUSDT">MAJOR</option>
+      <option value="MAVIAUSDT">MAVIA</option>
+      <option value="MONUSDT">MON</option>
+      <option value="MORPHOUSDT">MORPHO</option>
+      <option value="NIGHTUSDT">NIGHT</option>
+      <option value="NOTUSDT">NOT</option>
+      <option value="NYMUSDT">NYM</option>
+      <option value="OASUSDT">OAS</option>
+      <option value="OLUSDT">OL</option>
+      <option value="OPUSDT">OP</option>
+      <option value="PENGUUSDT">PENGU</option>
+      <option value="PEPEUSDT" selected>PEPE</option>
+      <option value="SAROSUSDT">SAROS</option>
+      <option value="SHIBUSDT">SHIB</option>
+      <option value="SOLUSDT">SOL</option>
+      <option value="STXUSDT">STX</option>
+      <option value="SUIUSDT">SUI</option>
+      <option value="TIAUSDT">TIA</option>
+      <option value="TONUSDT">TON</option>
+      <option value="TRXUSDT">TRX</option>
+      <option value="UNIUSDT">UNI</option>
+      <option value="VIRTUALUSDT">VIRTUAL</option>
+      <option value="VVVUSDT">VVV</option>
+      <option value="WHITEWHALEUSDT">WHITEWHALE</option>
+      <option value="XRPUSDT">XRP</option>
+    </select>
+    <select class="coin-sel" id="tf1" onchange="loadChart(1)"><option value="1">1m</option><option value="3">3m</option><option value="5">5m</option><option value="15">15m</option><option value="60">1h</option><option value="480">8h</option><option value="D">1d</option></select></h2>
+    <canvas id="cv1" height="280"></canvas>
+  </div>
+</div><
+<h2>Últimos Trades</h2>
+  <table>
+  <tr><th>Hora</th><th>Par</th><th>Tipo</th><th>Precio</th><th>Cant</th><th>Cuenta</th></tr>
+  <tbody id="tradeBody">
+  <tr><td colspan="6" style="text-align:center;color:#64748b;padding:10px">Cargando trades en vivo...</td></tr>
+  </tbody>
+  <tr><td>14:01</td><td>BSB</td><td class="r">BUY</td><td>$0.5913</td><td>26.9</td><td>WILD</td></tr>
+  <tr><td>14:01</td><td>MON</td><td class="r">BUY</td><td>$0.03133</td><td>215</td><td>JOAKO</td></tr>
+  </table>
+</div>
+
+<div class="c">
+  <h2>FHE</h2>
+  <div style="font-size:18px">$0.0439 (-1.8%)</div>
+  <div class="sm g">Vendida ✅ con +$2.22 ganancia</div>
+</div>
+
+<script>
+// Entry prices: symbol -> entry_price (read from DOM)
+const entryPrices = {};
+
+// Render from static data.json (GitHub Pages mode)
+function renderFromData(data){
+  if(!data || !data.wallets) return;
+  
+  // Update capital
+  let tc=document.getElementById('totalCap');
+  let pc=document.getElementById('pnlCap');
+  if(tc) tc.textContent='$'+data.totalCapital.toFixed(2);
+  if(pc){
+    let pnl=data.totalCapital-(data.startCapital||100);
+    let pnlPct=((data.totalCapital/(data.startCapital||100))-1)*100;
+    pc.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pnlPct>=0?'+':'')+pnlPct.toFixed(1)+'%)';
+    pc.style.color=pnl>=0?'#4ade80':'#f87171';
+  }
+  
+  // Update BTC
+  if(data.btc){
+    document.getElementById('btcP').textContent='$'+data.btc.price.toLocaleString();
+    let pc2=document.getElementById('btcC');
+    if(pc2){
+      pc2.textContent=(data.btc.change>=0?'+':'')+data.btc.change.toFixed(2)+'%';
+      pc2.className=data.btc.change>=0?'sm g':'sm r';
+    }
+  }
+  
+  // Build positions per wallet
+  let wPos={'WILD':[],'JOAKO':[]};
+  let wUsdt={'WILD':0,'JOAKO':0};
+  for(let w of data.wallets||[]){
+    let a=w.account||'WILD';
+    if(w.symbol==='USDT') wUsdt[a]=w.value||0;
+    else if(w.symbol!=='USDT') wPos[a].push(w); // Show ALL coins regardless of value
+  }
+  
+  // Sort by value descending, show ALL coins
+  for(let a of ['WILD','JOAKO']){
+    wPos[a].sort((a,b)=>b.value-a.value);
+  }
+  
+  // Build position divs
+  let wallets={'WILD':document.getElementById('wildPos'),'JOAKO':document.getElementById('joakoPos')};
+  for(let w of ['WILD','JOAKO']){
+    let cont=wallets[w];
+    if(!cont) continue;
+    let pos=wPos[w];
+    let totalV=pos.reduce((s,p)=>s+(p.value||0),0);
+    let totUsdt=wUsdt[w]||0;
+    let wt=cont.nextElementSibling;
+    if(wt&&wt.style&&wt.style.fontWeight==='700') wt.textContent='$'+(totalV+totUsdt).toFixed(2);
+    
+    let html='';
+    for(let p of pos){
+      let entry=p.entryPrice||p.price||0;
+      let cp=p.price||0;
+      let chg=entry>0?((cp-entry)/entry*100):0;
+      let dec=cp>=1?4:cp>=0.01?5:cp>=0.0001?6:cp>=0.000001?8:10;
+      let chgCls=chg>=0?'g':'r';
+      
+      html+='<div class="p" data-coin="'+p.symbol+'">';
+      html+='<div style="display:flex;justify-content:space-between">';
+      html+='<span class="pn">'+p.symbol+'</span>';
+      html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
+      html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
+      if(entry>0){
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+p.symbol+'USDT" style="font-size:13px;font-weight:600">'+entry.toFixed(dec)+'</span></span>';
+      }
+      html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.symbol+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
+      html+='<span data-pct="'+p.symbol+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
+      // Use real targets from data.json, fallback to dynamic calculation
+      let stopPrice = p.trailingStop || p.hardStop || p.stop || (entry>0 ? entry*0.96 : 0);
+      let stopPct = entry>0 ? Math.round((1-stopPrice/entry)*100) : 4;
+      html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
+      if(p.targets && p.targets.length>0){
+        for(let ti=0;ti<p.targets.length;ti++){
+          let t=p.targets[ti];
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">'+t.at+' $'+t.price.toFixed(dec)+' ('+t.sellPct+'%)</span>';
+        }
+      } else if(entry>0){
+        // Fallback: calculate dynamic targets
+        let tMul=chg>5?1.5:(chg>2?1:0.8);
+        let tp=[Math.round(tMul*3),Math.round(tMul*6),Math.round(tMul*10),Math.round(tMul*15)];
+        for(let ti=0;ti<tp.length;ti++){
+          let tP=tp[ti];
+          html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+tP+'% $'+(entry*(1+tP/100)).toFixed(dec)+'</span>';
+        }
+      }
+      if(stopPrice>0){
+        html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+stopPct+'% $'+stopPrice.toFixed(dec)+'</span>';
+      }
+      html+='</div>';
+      html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+(p.quantity||p.qty||'0')+' tok · <span style="color:#818cf8;font-weight:600">$'+(p.value||0).toFixed(2)+'</span></div>';
+      html+='</div>';
+    }
+    html+='<div class="p" data-coin=""><div style="display:flex;justify-content:space-between"><span class="pn" style="color:#818cf8">USDT</span><span style="font-size:14px;font-weight:600;color:#818cf8">$'+totUsdt.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;align-items:baseline"><span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="font-size:16px;font-weight:700;color:#64748b">---</span></div><div style="font-size:11px;color:#475569">Disponible</div></div>';
+    cont.innerHTML=html;
+  }
+}
+
+function initEntryPrices(){
+  let entries=document.querySelectorAll('[data-entry]');
+  entries.forEach(function(e){
+    let sym=e.getAttribute('data-entry');
+    let val=parseFloat(e.textContent.replace('$','').replace(',',''));
+    if(!isNaN(val) && !entryPrices[sym]){
+      entryPrices[sym]=val;
+    }
+  });
+}
+
+// Live price updater - reads coin names from the DOM
+async function updateAllPrices(){
+  try{
+    let r=await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
+    let j=await r.json();
+    if(j.retCode!==0)return;
+    let list=j.result.list;
+    let prices={};
+    let tickerData={}; // { SYMBOL: {ch24h, vol, pr} }
+    for(let i=0;i<list.length;i++){
+      let t=list[i];
+      prices[t.symbol]=parseFloat(t.lastPrice);
+      tickerData[t.symbol]={ch24h:parseFloat(t.price24hPcnt||0)*100, vol:parseFloat(t.turnover24h||0), pr:parseFloat(t.lastPrice||0)};
+    }
+    window._tickerData=tickerData;
+    // Find ALL coin position divs and update dynamically
+    let allCoinDivs=document.querySelectorAll('[data-coin]');
+    allCoinDivs.forEach(function(div){
+      let coinSym=div.getAttribute('data-coin')+'USDT';
+      let p=prices[coinSym];
+      if(!p)return;
+      let entry=entryPrices[coinSym];
+      // Update actual price
+      let actEl=div.querySelector('[data-act]');
+      if(actEl){
+        let dec=coinSym.includes('PEPE')?8:coinSym.includes('PENGU')?5:coinSym.includes('MON')?6:coinSym.includes('BSB')?4:3;
+        actEl.textContent='$'+p.toFixed(dec);
+      }
+      // Update percentage
+      let pctEl=div.querySelector('[data-pct]');
+      if(pctEl && entry){
+        let chg=(p-entry)/entry*100;
+        pctEl.textContent=(chg>=0?'+':'')+chg.toFixed(2)+'%';
+        pctEl.style.color=chg>=0?'#4ade80':'#f87171';
+      }
+    });
+  }catch(e){}
+}
+
+async function updateBTC(){
+  try{
+    let r=await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=BTCUSDT');
+    let j=await r.json();
+    let t=j.result.list[0];
+    document.getElementById('btcP').textContent='$'+parseFloat(t.lastPrice).toLocaleString();
+    let pc=parseFloat(t.price24hPcnt)*100;
+    document.getElementById('btcC').textContent=(pc>0?'+':'')+pc.toFixed(2)+'%';
+    document.getElementById('btcC').className=pc>=0?'sm g':'sm r';
+  }catch(e){}
+}
+
+// Sync positions and trades from proxy server (authenticated with date-based password)
+async function syncFromBybit(){
+  // Skip full rebuild if data.json already loaded successfully
+  if(dataJsonLoaded) return;
+  
+  try{
+    // First try loading data.json for latest portfolio state
+    try {
+      let r = await fetch('data.json?_=' + Date.now());
+      if(r.ok) {
+        let d = await r.json();
+        if(d && d.wallets) {
+          renderFromData(d);
+          initEntryPrices();
+          dataJsonLoaded = true;
+          return;
+        }
+      }
+    } catch(e) {}
+    
+    // Save current entry prices before rebuild
+    let curEntries=document.querySelectorAll('[data-entry]');
+    curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
+    
+    // Get date string (DDMMYYYY)
+    let d=new Date();
+    let ds=('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
+    
+    // Determine proxy host
+    let proxyHost=window.location.hostname;
+    var proto='https';
+    // On external domains, always use tunnel API
+    if(proxyHost.includes('github')||proxyHost.includes('netlify')||proxyHost.includes('tradingia.cloud')){
+      proxyHost='api.tradingia.cloud';
+    } else {
+      // Local network: use proxy directly
+      proto='http';
+      proxyHost=proxyHost+':3377';
+    }
+    
+    // Build auth URLs
+    let wildUrl=proto+'://'+proxyHost+'/?user=wild&pass=Steelers'+ds+'*';
+    let ravUrl=proto+'://'+proxyHost+'/?user=ravens&pass=Ravens'+ds+'*';
+    
+    let wildR, ravR, wd, rd;
+    try {
+      wildR=await fetch(wildUrl);
+      ravR=await fetch(ravUrl);
+      wd=await wildR.json();
+      rd=await ravR.json();
+    } catch(e) {
+      console.log('proxy unavailable, using static data.json');
+      return;
+    }
+    
+    if(wd.error||rd.error){console.log('proxy auth error, using static data.json');return;}
+    
+    // Combine data
+    let allPos=[];
+    (wd.positions||[]).forEach(p=>allPos.push({account:'WILD',coin:p.coin,qty:p.qty,usdValue:p.usdValue}));
+    (rd.positions||[]).forEach(p=>allPos.push({account:'JOAKO',coin:p.coin,qty:p.qty,usdValue:p.usdValue}));
+    let allTrades=[];
+    (wd.trades||[]).forEach(t=>allTrades.push({...t,account:'WILD'}));
+    (rd.trades||[]).forEach(t=>allTrades.push({...t,account:'JOAKO'}));
+    allTrades.sort((a,b)=>b.time-a.time);
+    
+    // Merge entry prices from proxy (per-wallet: WILD:COIN and JOAKO:COIN)
+    let wEntries={};
+    if(wd.entries){Object.keys(wd.entries).forEach(k=>wEntries[k+'USDT']=wd.entries[k]);}
+    if(rd.entries){Object.keys(rd.entries).forEach(k=>{if(entryPrices[k+'USDT']===undefined)entryPrices[k+'USDT']=rd.entries[k];});}
+    
+    // Update entryPrices with proxy data (only if entry exists, don't override saved DOM values)
+    let acctEntries={WILD:wEntries,JOAKO:{}};
+    if(rd.entries){Object.keys(rd.entries).forEach(k=>acctEntries.JOAKO[k+'USDT']=rd.entries[k]);}
+    
+    // Merge proxy entries into entryPrices (keep existing DOM values as priority)
+    for(let a of ['WILD','JOAKO']){
+      let ae=acctEntries[a];
+      if(!ae)continue;
+      Object.keys(ae).forEach(k=>{
+        if(entryPrices[k]===undefined||entryPrices[k]===0)entryPrices[k]=ae[k];
+      });
+    }
+    
+    // Build price lookup
+    let prices={};
+    if(wd.prices){Object.keys(wd.prices).forEach(k=>prices[k]=wd.prices[k]);}
+    if(rd.prices){Object.keys(rd.prices).forEach(k=>prices[k]=rd.prices[k]);}
+    
+    // Helper: calculate decimals dynamically based on price
+    // Mom label based on REAL market analysis matching bot logic:
+    // - prices[coinSym] = { prices: [{price,time}...], high: N }
+    // Estrategia A (Masiva): ch24h>15, vel>0.8, vol>100K, price<1
+    // Estrategia B (Estable): ch24h>3, vel>0.3, pricePos<0.85, vol>150K
+    function getMomLabel(coinSym, pnl){
+      let B = (d, bg, fg, extra) => '<span style="background:'+bg+';color:'+fg+';font-size:10px;padding:0 3px;border-radius:3px;font-weight:700;vertical-align:middle;letter-spacing:1px"'+(extra||'')+'>'+d+'</span>';
+      // Try tickerData first (live Bybit endpoint), fallback to momentum cache
+      let td = (window._tickerData||{})[coinSym];
+      let pk = prices[coinSym];
+      
+      let curPrice = td ? td.pr : (pk ? (pk.lastPrice || (pk.prices && pk.prices.length > 0 ? pk.prices[pk.prices.length-1].price : 0)) : 0);
+      let ch24h = td ? td.ch24h : (pk ? (pk.ch24h || 0) : 0);
+      let vol = td ? td.vol : (pk ? (pk.vol24h || 0) : 0);
+      
+      if(!curPrice && !ch24h && !vol) return B('○','#1e1e3a','#818cf8');
+      
+      // Velocity from momentum cache (last few ticks)
+      let vel = 0;
+      if(pk && pk.prices && pk.prices.length >= 3) {
+        let arr = pk.prices;
+        let recent = arr.slice(-3);
+        vel = recent.length >= 2 ? ((recent[recent.length-1].price / recent[0].price) - 1) * 100 : 0;
+      }
+      
+      // Price position from 24h range (0-1), using cache high or ticker data
+      let pricePos = 0.5;
+      if(pk && pk.high && curPrice > 0) {
+        let low = Math.min(...(pk.prices||[]).map(p=>p.price), curPrice * 0.5);
+        let high = pk.high;
+        let rng = high - low;
+        if(rng > 0) pricePos = Math.min(1, Math.max(0, (curPrice - low) / rng));
+      }
+      
+      // ESTRATEGIA A: compra masiva (misma que el bot)
+      let esMasiva = ch24h > 15 && vel > 0.8 && vol > 100000 && curPrice < 1;
+      // ESTRATEGIA B: estable (misma que el bot)
+      // Incluye pricePos < 0.85 (no en el techo) y pricePos > 0.05 (no en el suelo extremo)
+      let esEstable = ch24h > 3 && vel > 0.3 && curPrice < 5 && vol > 150000 && pricePos < 0.85 && pricePos > 0.05;
+      
+      // 🚀 EUPHORIA: masiva + pnl fuerte → cohete
+      if(esMasiva && pnl > 5) return '<span style="font-size:12px" title="🚀 EUFORIA: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% vol:$'+(vol/1e6).toFixed(2)+'M">🚀</span>';
+      // ●● STRONG: masiva en verde
+      if(esMasiva && pnl > 2) return B('●●','rgba(74,222,128,0.15)','#4ade80',' title="🔥 MOMENTUM: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% · ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      if(esMasiva) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="🔥 MOMENTUM: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · en compra masiva"');
+      // ESTABLE positivo → verde
+      if(esEstable && pnl > 2) return B('●','rgba(74,222,128,0.1)','#4ade80',' title="📈 ESTABLE: +'+(pnl>0?'+':'')+pnl.toFixed(1)+'% ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      if(esEstable) return B('●','rgba(74,222,128,0.08)','#34d399',' title="📈 ESTABLE: ch24h:'+ch24h.toFixed(1)+'% vel:'+vel.toFixed(2)+'% · potencial"');
+      // ● AMARILLO: moviéndose pero sin estrategia clara
+      if(vel > 0.3) return B('●','rgba(234,179,8,0.1)','#eab308',' title="◐ MOVIENDO: vel:'+vel.toFixed(2)+'% ch24h:'+ch24h.toFixed(1)+'%"');
+      // ● ROJO: bajando
+      if(pnl <= -0.5 || vel < -0.3) return B('●','rgba(248,113,113,0.1)','#f87171',' title="🔴 BAJANDO: PnL:'+pnl.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+      // ○ GRIS: sin señal
+      return B('○','#1e1e3a','#818cf8',' title="⚪ SIN SEÑAL: PnL:'+pnl.toFixed(1)+'% vel:'+vel.toFixed(2)+'%"');
+    }
+    
+    function getDec(price){
+      if(price>=1)return 4;
+      if(price>=0.01)return 5;
+      if(price>=0.0001)return 6;
+      if(price>=0.000001)return 8;
+      return 10;
+    }
+    
+    // Helper: format qty without decimals for large counts
+    function fmtQty(qty,coin){
+      if(coin==='PEPE'||coin==='SHIB'||coin==='FLOKI')return qty.toFixed(0);
+      if(qty>=1000)return qty.toFixed(0);
+      if(qty>=100)return qty.toFixed(1);
+      if(qty>=1)return qty.toFixed(2);
+      return qty.toFixed(4);
+    }
+    
+    // Rebuild position divs per wallet
+    let wallets={'WILD':document.getElementById('wildPos'),'JOAKO':document.getElementById('joakoPos')};
+    for(let w of ['WILD','JOAKO']){
+      let cont=wallets[w];
+      if(!cont)continue;
+      let pos=allPos.filter(p=>p.account===w&&p.coin!=='USDT');
+      pos.sort((a,b)=>b.usdValue-a.usdValue);
+      
+      // Update wallet total below positions
+      let totalV=pos.reduce((s,p)=>s+p.usdValue,0);
+      let totUsdt=(allPos.find(p=>p.account===w&&p.coin==='USDT')||{}).usdValue||0;
+      let wt=cont.nextElementSibling;
+      if(wt&&wt.style&&wt.style.fontWeight==='700')wt.textContent='$'+(totalV+totUsdt).toFixed(2);
+      
+      let html='';
+      for(let p of pos){
+        let coinSym=p.coin+'USDT';
+        let cp=prices[coinSym]||p.usdValue/(p.qty||1);
+        let entry=entryPrices[coinSym]||cp;
+        let chg=((cp-entry)/entry*100);
+        let dec=getDec(cp);
+        let chgCls=chg>=0?'g':'r';
+        // Use real targets from data.json data (when available)
+        let tDec=getDec(entry);
+        html+='<div class="p" data-coin="'+p.coin+'">';
+        html+='<div style="display:flex;justify-content:space-between">';
+        html+='<span class="pn">'+p.coin+' '+getMomLabel(coinSym,chg)+'</span>';
+        html+='<span style="font-size:14px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></div>';
+        html+='<div style="display:flex;justify-content:space-between;align-items:baseline">';
+        html+='<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="'+coinSym+'" style="font-size:13px;font-weight:600">'+entry.toFixed(tDec)+'</span></span>';
+        html+='<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="'+p.coin+'" style="font-size:13px;font-weight:600;color:#818cf8">$'+cp.toFixed(dec)+'</span></span>';
+        html+='<span data-pct="'+p.coin+'" class="'+chgCls+'" style="font-size:16px;font-weight:700">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</span></div>';
+        // Use real targets from data.json when available, fallback to dynamic calc
+        let stopPrice = p.trailingStop || p.hardStop || p.stop || (entry>0 ? entry*0.96 : 0);
+        html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:3px">';
+        if(p.targets && p.targets.length>0){
+          for(let ti=0;ti<p.targets.length;ti++){
+            let t=p.targets[ti];
+            html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">'+t.at+' $'+t.price.toFixed(tDec)+' ('+t.sellPct+'%)</span>';
+          }
+        } else if(entry>0){
+          let tMul=chg>5?1.5:(chg>2?1:0.8);
+          let tp=[Math.round(tMul*3),Math.round(tMul*6),Math.round(tMul*10),Math.round(tMul*15)];
+          for(let ti=0;ti<tp.length;ti++){
+            let tP=tp[ti];
+            html+='<span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:10px">+'+tP+'% $'+(entry*(1+tP/100)).toFixed(tDec)+'</span>';
+          }
+        }
+        if(stopPrice>0){
+          let sPct=Math.round((1-stopPrice/entry)*100);
+          html+='<span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:10px">Stop -'+sPct+'% $'+stopPrice.toFixed(tDec)+'</span>';
+        }
+        html+='</div>';
+        let distFromHigh = chg > 0 ? 0 : chg;
+        let distText = '';
+        if(chg < 0) {
+          let highChg = (highPrice/entry-1)*100;
+          let dropFromHigh = ((cp/highPrice)-1)*100;
+          distText = ' · <span style="color:'+(dropFromHigh<-2?'#f87171':'#94a3b8')+'">High '+(distFromHigh>0?'+'+distFromHigh.toFixed(1):'')+'% · -'+(highChg > 0 ? Math.abs(dropFromHigh).toFixed(1) : '0.0')+'%</span>';
+        } else {
+          distText = ' · <span style="color:#94a3b8">▲ +'+chg.toFixed(1)+'%</span>';
+        }
+        html+='<div style="font-size:11px;color:#64748b;margin-top:2px">'+fmtQty(p.qty,p.coin)+' tok · <span style="color:#818cf8;font-weight:600">$'+p.usdValue.toFixed(2)+'</span>'+distText+'</div>';
+        html+='</div>';
+      }
+      html+='<div class="p" data-coin=""><div style="display:flex;justify-content:space-between"><span class="pn" style="color:#818cf8">USDT</span><span style="font-size:14px;font-weight:600;color:#818cf8">$'+totUsdt.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;align-items:baseline"><span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="font-size:16px;font-weight:700;color:#64748b">---</span></div><div style="font-size:11px;color:#475569">Disponible</div></div>';
+      cont.innerHTML=html;
+    }
+    
+    // Update capital total
+    let totalVal=allPos.reduce((s,p)=>s+parseFloat(p.usdValue||0),0);
+    let tc=document.getElementById('totalCap');
+    let pc=document.getElementById('pnlCap');
+    if(tc){tc.textContent='$'+totalVal.toFixed(2);}
+    if(pc){let pnl=totalVal-100;pc.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pnl>=0?'+':'')+(pnl/100*100).toFixed(1)+'%)';pc.style.color=pnl>=0?'#4ade80':'#f87171';}
+    
+    // Update trade history
+    if(allTrades.length>0){
+      let tbody=document.getElementById('tradeBody');
+      if(tbody){
+        tbody.innerHTML='';
+        for(let t of allTrades.slice(0,15)){
+          let sym=t.symbol.replace('USDT','');
+          let cl=t.side==='Sell'?'g':'r';
+          let tm='';
+          try{tm=new Date(parseInt(t.time)).toLocaleTimeString();}catch(e){tm='--';}
+          let row='<tr><td>'+tm+'</td><td>'+sym+'</td><td class="'+cl+'">'+t.side+'</td><td>$'+t.price.toFixed(sym.includes('PEPE')?8:4)+'</td><td>'+t.qty.toFixed(sym.includes('PEPE')?0:2)+'</td><td>'+(t.account||'')+'</td></tr>';
+          tbody.innerHTML+=row;
+        }
+      }
+    }
+  }catch(e){console.log('sync err',e);}
+}
+
+// Startup: load data.json FIRST for portfolio view
+let dataJsonLoaded = false;
+
+async function boot(){
+  initEntryPrices();
+  updateBTC();
+  updateAllPrices();
+  
+  // Load data.json immediately — no waiting for proxy
+  try {
+    let r = await fetch('data.json?_=' + Date.now());
+    if(r.ok) {
+      let d = await r.json();
+      if(d && d.wallets) {
+        renderFromData(d);
+        initEntryPrices();
+        updateAllPrices();
+        dataJsonLoaded = true;
+      }
+    }
+  } catch(e) {}
+  
+  // Also try to load trades from data.json
+  if(dataJsonLoaded) {
+    try {
+      let r = await fetch('data.json?_=' + Date.now());
+      if(r.ok) {
+        let d = await r.json();
+        if(d && d.tradeHistory && d.tradeHistory.length > 0) {
+          let allTrades = d.tradeHistory.sort((a,b) => new Date(b.date) - new Date(a.date));
+          renderTrades(allTrades.slice(0, 30));
+        }
+      }
+    } catch(e) {}
+  }
+  
+  // Try proxy in background for live price updates
+  proxyUpdateBg();
+}
+
+async function proxyUpdateBg(){
+  try {
+    let d = new Date();
+    let ds = ('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
+    let r1 = await fetch('https://api.tradingia.cloud/?user=wild&pass=Steelers'+ds+'*');
+    let r2 = await fetch('https://api.tradingia.cloud/?user=ravens&pass=Ravens'+ds+'*');
+    if(r1.ok && r2.ok) {
+      let wd = await r1.json();
+      let rd = await r2.json();
+      
+      // Update prices from proxy if we got them
+      let curEntries=document.querySelectorAll('[data-entry]');
+      curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
+      updateAllPrices();
+      updateBTC();
+      
+      let allTrades = [];
+      (wd.trades||[]).forEach(t => allTrades.push({...t, account:'WILD'}));
+      (rd.trades||[]).forEach(t => allTrades.push({...t, account:'JOAKO'}));
+      allTrades.sort((a,b) => (b.time||0) - (a.time||0));
+      if(allTrades.length > 0) renderTrades(allTrades.slice(0, 30));
+    }
+  } catch(e) {
+    // Proxy unavailable — data.json is already loaded
+  }
+}
+
+function renderTrades(trades) {
+  let tbody = document.getElementById('tradeBody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  for(let t of trades) {
+    let sym = (t.symbol||'').replace('USDT','');
+    let side = (t.side||'');
+    side = side.charAt(0).toUpperCase() + side.slice(1).toLowerCase();
+    let qty = parseFloat(t.qty||0);
+    let price = parseFloat(t.price||0);
+    let acct = t.account||'';
+    let date = t.date||'';
+    
+    // Format time from timestamp
+    if(!date && t.time) {
+      try {
+        let dt = new Date(parseInt(t.time));
+        date = dt.getHours().toString().padStart(2,'0')+':'+dt.getMinutes().toString().padStart(2,'0');
+      } catch(e) { date = ''; }
+    }
+    
+    let cl = side === 'Sell' ? 'g' : 'r';
+    let dec = price < 0.01 ? 6 : price < 1 ? 4 : 2;
+    let qtyDec = sym.includes('PEPE') ? 0 : qty < 1 ? 4 : qty < 10 ? 2 : 0;
+    
+    let row = '<tr><td>'+date+'</td><td>'+sym+'</td><td class="'+cl+'">'+side+'</td><td>$'+price.toFixed(dec)+'</td><td>'+qty.toFixed(qtyDec)+'</td><td>'+acct+'</td></tr>';
+    tbody.innerHTML += row;
+  }
+}
+
+boot();
+setInterval(updateBTC,15000);
+setInterval(updateAllPrices,15000);
+setInterval(proxyUpdate,30000);
+</script>
+
+<script>function loadChart(n){try{var s=document.getElementById("sel"+n).value;var t=document.getElementById("tf"+n).value;var c=document.getElementById("cv"+n);var ctx=c.getContext("2d");c.width=c.offsetWidth;c.height=160;ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="#0a0a1a";ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Cargando "+s+"...",10,20);fetch("https://api.bybit.com/v5/market/kline?category=spot&symbol="+s+"&interval="+t+"&limit=200").then(r=>r.json()).then(j=>{if(j.retCode!==0||!j.result||!j.result.list){return}var k=j.result.list.map(x=>({t:parseInt(x[0]),o:parseFloat(x[1]),h:parseFloat(x[2]),l:parseFloat(x[3]),c:parseFloat(x[4]),v:parseFloat(x[5])}));var mn=Math.min(...k.map(x=>x.l));var mx=Math.max(...k.map(x=>x.h));var rn=mx-mn||1;var w=c.width;var h=160;ctx.clearRect(0,0,w,h);var gap=4;var bw=(w-gap*(k.length-1))/k.length;bw=Math.max(bw,1);for(var i=0;i<k.length;i++){var x=i*(bw+gap);var open=(k[i].o-mn)/rn*h;var close=(k[i].c-mn)/rn*h;var high=(k[i].h-mn)/rn*h;var low=(k[i].l-mn)/rn*h;var isG=k[i].c>=k[i].o;ctx.strokeStyle=isG?"#4ade80":"#f87171";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x+bw/2,high);ctx.lineTo(x+bw/2,low);ctx.stroke();ctx.fillStyle=isG?"#4ade80":"#f87171";ctx.fillRect(x,Math.min(open,close),bw,Math.abs(close-open));}ctx.fillStyle="#64748b";ctx.font="10px system-ui";ctx.fillText(k[0].t?new Date(k[0].t).toLocaleTimeString():""+" - "+s+" $"+k[k.length-1].c.toFixed(s.includes("PEPE")?8:s.includes("PENGU")?5:4),4,12);}).catch(e=>{ctx.clearRect(0,0,w,h);ctx.fillStyle="#64748b";ctx.font="12px system-ui";ctx.fillText("Chart error",10,20);});}catch(e){}}loadChart(0);loadChart(1);setTimeout(function(){loadChart(0);loadChart(1);},2000);</script>
+
+<!-- REGLAS DEL BOT -->
+<div class="c" style="margin-top:8px;border-color:rgba(234,179,8,0.3)">
+  <h2 style="color:#eab308;font-size:14px;margin-bottom:6px">📋 Reglas Reales del Bot</h2>
+  
+  <div style="background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#4ade80;font-size:13px;margin-bottom:3px">🚀 Estrategia A — Compras Masivas</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      Monedas con pump agresivo: <strong style="color:#4ade80">ch24h &gt; 15%</strong> + <strong style="color:#4ade80">velocidad &gt; 0.8%/30s</strong> + <strong style="color:#4ade80">vol &gt; $100K</strong> + <strong style="color:#4ade80">precio &lt; $1</strong><br>
+      Compra rápido, vende cuando el momentum cambie. Ideal para micro-caps como SWEAT, CAMP, etc.<br>
+      <span style="color:#64748b">Si cumple, compra con todo menos $1 de reserva. En el mismo tick.</span>
+    </div>
+  </div>
+  
+  <div style="background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📈 Estrategia B — Estables con Potencial</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      Monedas con menos momentum pero setup limpio: <strong style="color:#818cf8">ch24h &gt; 3%</strong> + <strong style="color:#818cf8">vel &gt; 0.3%/30s</strong> + <strong style="color:#818cf8">vol &gt; $150K</strong> + <strong style="color:#818cf8">precio &lt; $5</strong><br>
+      Precio no en el techo (pricePos &lt; 85%) ni en el suelo (pricePos &gt; 5%).<br>
+      <span style="color:#64748b">Ideal para monedas que ves subir en minutos/horas sin ser pumps violentos.</span>
+    </div>
+  </div>
+  
+  <div style="background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#eab308;font-size:13px;margin-bottom:3px">🔄 Flujo de Compra</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      1. Lee wallet → USDT disponible en WILD y JOAKO<br>
+      2. Escanea mercado (cada 2 min) contra Estrategia A y B<br>
+      3. Elige la mejor candidata entre ambas estrategias<br>
+      4. Si falta USDT → rota posición más débil de la misma cuenta (la de peor PnL con valor &gt; $6)<br>
+      5. Vuelve a leer wallet de esa cuenta → si ya hay USDT, compra inmediato<br>
+      6. Compra con <strong style="color:#4ade80">todo menos $1 de reserva</strong>, 3 intentos, en el mismo tick<br>
+      <span style="color:#64748b">Sin cooldowns. Sin filtros absurdos. Sin condiciones que se pisen.</span>
+    </div>
+  </div>
+  
+  <div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:4px;padding:6px 8px;margin-bottom:5px">
+    <div style="font-weight:700;color:#f87171;font-size:13px;margin-bottom:3px">🛑 Venta — Trailing + Targets</div>
+    <div style="font-size:12px;color:#e2e8f0">
+      <strong style="color:#a78bfa">Trailing stop:</strong> -4% desde el precio más alto alcanzado (se mueve hacia arriba)<br>
+      <strong style="color:#64748b">Hard stop:</strong> -4% desde entry — red de seguridad<br>
+      <strong style="color:#eab308">Time stop:</strong> 8h sin pegar targets → vende todo<br>
+      <strong style="color:#f87171">Crash stop:</strong> si la tendencia es &quot;crash&quot; o &quot;down&quot; → targets reducidos (+2%/+4%)<br>
+      <span style="color:#64748b">No vende posiciones &lt; $6 — esas las manejas tú.</span>
+    </div>
+  </div>
+  
+  <div class="c">
+    <div style="font-weight:700;color:#818cf8;font-size:13px;margin-bottom:3px">📊 Bolitas de Estado (coinciden con lo que ve el bot)</div>
+    <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
+      <span style="font-size:12px">🚀</span> <strong>EUFORIA</strong> Estrategia A (masiva) + PnL &gt; 5% · sin targets · solo trailing<br>
+      <span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●●</span> <strong>MOMENTUM</strong> Estrategia A (masiva) + PnL &gt; 2%<br>
+      <span style="background:rgba(74,222,128,0.1);color:#4ade80;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>MASIVA</strong> Estrategia A recién comprada o estable en verde<br>
+      <span style="background:rgba(74,222,128,0.08);color:#34d399;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>ESTABLE</strong> Estrategia B — potencial al alza<br>
+      <span style="background:rgba(234,179,8,0.1);color:#eab308;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>MOVIENDO</strong> vel &gt; 0.3%/30s pero sin estrategia clara<br>
+      <span style="background:rgba(248,113,113,0.1);color:#f87171;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">●</span> <strong>BAJANDO</strong> PnL &lt; -0.5% o vel &lt; -0.3%/30s<br>
+      <span style="background:#1e1e3a;color:#818cf8;padding:1px 5px;border-radius:3px;font-size:12px;font-weight:700">○</span> <strong>SIN SEÑAL</strong> no cumple ningún criterio<br>
+    </div>
+  </div>
+
+</body>
+</html>
+
