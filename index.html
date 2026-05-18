@@ -490,7 +490,21 @@ async function syncFromBybit(){
       }
     } catch(e) {}
     
-    // === TRY 2: Static data.json ===
+    // === TRY 2: Live API via api.tradingia.cloud (from GitHub Pages) ===
+    try {
+      let r = await fetch('https://api.tradingia.cloud/api/balances?token=1822003cad56fe8f64d9bdb0ddc385ad&_=' + Date.now());
+      if(r.ok) {
+        let d = await r.json();
+        if(d && d.wallets) {
+          renderFromLiveApi(d);
+          initEntryPrices();
+          dataJsonLoaded = true;
+          return;
+        }
+      }
+    } catch(e) {}
+    
+    // === TRY 3: Static data.json (fallback) ===
     try {
       let r = await fetch('data.json?_=' + Date.now());
       if(r.ok) {
