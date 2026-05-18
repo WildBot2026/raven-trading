@@ -7,9 +7,9 @@
       "amount": 0.03613,
       "quantity": 0.03613,
       "qty": 0.03613,
-      "value": 0.00007057,
-      "valueUSDT": 0.00007057,
-      "usdValue": 0.00007057,
+      "value": 0.00007059,
+      "valueUSDT": 0.00007059,
+      "usdValue": 0.00007059,
       "price": 0,
       "note": "active",
       "entryPrice": 0.00224,
@@ -117,14 +117,14 @@
       "amount": 699.605,
       "quantity": 699.605,
       "qty": 699.605,
-      "value": 36.0436496,
-      "valueUSDT": 36.0436496,
-      "usdValue": 36.0436496,
-      "price": 0.05152,
+      "value": 36.05064565,
+      "valueUSDT": 36.05064565,
+      "usdValue": 36.05064565,
+      "price": 0.05153,
       "note": "active",
       "entryPrice": 0.05166,
-      "pnl": -0.09794469999999601,
-      "pnlPct": -0.27100271002709064,
+      "pnl": -0.09094864999999873,
+      "pnlPct": -0.25164537359658734,
       "highSinceEntry": 0.05183,
       "pctSold": 0,
       "trailingStop": 0.0497568,
@@ -167,33 +167,33 @@
     }
   ],
   "btc": {
-    "price": 76976.7,
-    "change": -1.26
+    "price": 76999.1,
+    "change": -1.24
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16353,
-      "ch24h": 1.7000000000000002
+      "price": 0.1632,
+      "ch24h": 1.3
     },
     {
       "sym": "OPGUSDT",
-      "price": 0.2557,
-      "ch24h": 3.27
+      "price": 0.2562,
+      "ch24h": 3.47
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008423,
-      "ch24h": 0.44999999999999996
+      "price": 0.00843,
+      "ch24h": 0.51
     }
   ],
-  "totalCapital": 87.999488714,
-  "capital": 87.999488714,
-  "wildCapital": 45.5756654,
-  "joakoCapital": 42.423823314,
-  "pnl": -20.330511286000004,
-  "pnlPercent": -18.77,
+  "totalCapital": 88.00648478400001,
+  "capital": 88.00648478400001,
+  "wildCapital": 45.57566542,
+  "joakoCapital": 42.430819364,
+  "pnl": -20.32351521599999,
+  "pnlPercent": -18.76,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-18T03:07:30.505Z"
+  "updated": "2026-05-18T03:08:04.834Z"
 }
