@@ -303,6 +303,111 @@ function renderFromData(data){ dataJsonLastData = data;
   }
 }
 
+function renderFromLiveApi(data) {
+  // Convert live API format to data.json format
+  if(!data || !data.wallets) return;
+  
+  let totalCapital = data.total || 0;
+  let wildCapital = data.wallets.filter(w => w.account === 'WILD').reduce((s, w) => s + w.value, 0);
+  let joakoCapital = data.wallets.filter(w => w.account === 'JOAKO').reduce((s, w) => s + w.value, 0);
+  
+  // Get entry prices from trade_state if available
+  let entryPrices = {};
+  try {
+    let ts = JSON.parse(localStorage.getItem('tradeState') || '{}');
+    for(let [k, v] of Object.entries(ts)) {
+      let m = k.match(/^(WILD|JOAKO):(.+)$/);
+      if(m && v.ep) entryPrices[m[2]] = v.ep;
+    }
+  } catch(e) {}
+  
+  // Build per-wallet positions from live data
+  let wPos = {'WILD':[], 'JOAKO':[]};
+  let wUsdt = {'WILD':0, 'JOAKO':0};
+  
+  for(let w of data.wallets) {
+    let a = w.account || 'WILD';
+    if(w.coin === 'USDT') {
+      wUsdt[a] = w.value || 0;
+    } else if((w.value||0) >= 1) {
+      // Enrich with entry price from localStorage
+      w.entryPrice = entryPrices[w.coin] || null;
+      w.symbol = w.coin;
+      w.quantity = w.amount;
+      w.qty = w.amount;
+      w.price = w.price || 0;
+      w.pnlPct = null;
+      if(w.entryPrice && w.price > 0) {
+        w.pnlPct = ((w.price / w.entryPrice) - 1) * 100;
+      }
+      wPos[a].push(w);
+    }
+  }
+  
+  // Sort by value descending
+  for(let a of ['WILD','JOAKO']) {
+    wPos[a].sort((a,b) => b.value - a.value);
+  }
+  
+  // Update capital display
+  let tc = document.getElementById('totalCap');
+  let pc = document.getElementById('pnlCap');
+  if(tc) tc.textContent = '$' + totalCapital.toFixed(2);
+  if(pc) {
+    let initialCap = 108.33;
+    let pnl = totalCapital - initialCap;
+    let pnlPct = ((totalCapital / initialCap) - 1) * 100;
+    pc.textContent = 'PNL: ' + (pnl>=0?'+':'') + pnl.toFixed(2) + ' (' + (pnlPct>=0?'+':'') + pnlPct.toFixed(1) + '%)';
+    pc.style.color = pnl >= 0 ? '#4ade80' : '#f87171';
+  }
+  
+  // Update BTC
+  if(data.btc) {
+    document.getElementById('btcP').textContent = '$' + (data.btc.price||0).toLocaleString();
+    let pc2 = document.getElementById('btcC');
+    if(pc2) {
+      pc2.textContent = (data.btc.change>=0?'+':'') + (data.btc.change||0).toFixed(2) + '%';
+      pc2.className = (data.btc.change||0) >= 0 ? 'sm g' : 'sm r';
+    }
+  }
+  
+  // Render positions (reuse same rendering logic)
+  let wallets = {'WILD': document.getElementById('wildPos'), 'JOAKO': document.getElementById('joakoPos')};
+  for(let w of ['WILD', 'JOAKO']) {
+    let cont = wallets[w];
+    if(!cont) continue;
+    let pos = wPos[w];
+    let totalV = pos.reduce((s,p) => s + (p.value||0), 0);
+    let totUsdt = wUsdt[w] || 0;
+    let wt = cont.nextElementSibling;
+    if(wt && wt.style && wt.style.fontWeight === '700') wt.textContent = '$' + (totalV + totUsdt).toFixed(2);
+    
+    let html = '';
+    for(let p of pos) {
+      let entry = p.entryPrice || 0;
+      let cp = p.price || 0;
+      let chg = entry > 0 ? ((cp - entry) / entry * 100) : 0;
+      let dec = 6;
+      let chgCls = chg >= 0 ? 'g' : 'r';
+      
+      html += '<div class="p" data-coin="' + p.coin + '">';
+      html += '<div style="display:flex;justify-content:space-between">';
+      html += '<span class="pn">' + p.coin + '</span>';
+      html += '<span style="font-size:14px;font-weight:600;color:#818cf8">$' + cp.toFixed(dec) + '</span></div>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:baseline">';
+      if(entry > 0) {
+        html += '<span><span class="gr" style="font-size:11px">Entry</span> <span data-entry="' + p.coin + 'USDT" style="font-size:13px;font-weight:600">' + truncDec(entry, dec) + '</span></span>';
+      }
+      html += '<span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span data-act="' + p.coin + '" style="font-size:13px;font-weight:600;color:#818cf8">$' + truncDec(cp, dec) + '</span></span>';
+      html += '<span data-pct="' + p.coin + '" class="' + chgCls + '" style="font-size:16px;font-weight:700">' + (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%</span></div>';
+      html += '<div style="font-size:11px;color:#64748b;margin-top:2px">' + (p.amount || '0') + ' tok · <span style="color:#818cf8;font-weight:600">$' + (p.value||0).toFixed(2) + '</span></div>';
+      html += '</div>';
+    }
+    html += '<div class="p" data-coin=""><div style="display:flex;justify-content:space-between"><span class="pn" style="color:#818cf8">USDT</span><span style="font-size:14px;font-weight:600;color:#818cf8">$' + totUsdt.toFixed(2) + '</span></div><div style="display:flex;justify-content:space-between;align-items:baseline"><span><span class="gr" style="font-size:11px">Entry</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="margin-left:3px"><span class="gr" style="font-size:11px">Actual</span> <span style="font-size:13px;font-weight:600;color:#64748b">---</span></span><span style="font-size:16px;font-weight:700;color:#64748b">---</span></div><div style="font-size:11px;color:#475569">Disponible</div></div>';
+    cont.innerHTML = html;
+  }
+}
+
 function initEntryPrices(){
   let entries=document.querySelectorAll('[data-entry]');
   entries.forEach(function(e){
@@ -371,7 +476,21 @@ async function syncFromBybit(){
   if(dataJsonLoaded) return;
   
   try{
-    // First try loading data.json for latest portfolio state
+    // === TRY 1: Live API from same domain (dashboard.tradingia.cloud/api/balances) ===
+    try {
+      let r = await fetch('/api/balances?_=' + Date.now());
+      if(r.ok) {
+        let d = await r.json();
+        if(d && d.wallets) {
+          renderFromLiveApi(d);
+          initEntryPrices();
+          dataJsonLoaded = true;
+          return;
+        }
+      }
+    } catch(e) {}
+    
+    // === TRY 2: Static data.json ===
     try {
       let r = await fetch('data.json?_=' + Date.now());
       if(r.ok) {
@@ -389,6 +508,7 @@ async function syncFromBybit(){
     let curEntries=document.querySelectorAll('[data-entry]');
     curEntries.forEach(function(e){let s=e.getAttribute('data-entry');let v=parseFloat(e.textContent.replace('$','').replace(',',''));if(!isNaN(v))entryPrices[s]=v;});
     
+    // === TRY 3: Legacy proxy API ===
     // Get date string (DDMMYYYY)
     let d=new Date();
     let ds=('0'+d.getDate()).slice(-2)+('0'+(d.getMonth()+1)).slice(-2)+d.getFullYear();
