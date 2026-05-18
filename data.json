@@ -43,36 +43,619 @@
       "hardStop": null,
       "stop": null,
       "targets": null
+    },
+    {
+      "account": "JOAKO",
+      "coin": "TOWNS",
+      "symbol": "TOWNS",
+      "amount": 0.0695,
+      "quantity": 0.0695,
+      "qty": 0.0695,
+      "value": 0.000245613,
+      "valueUSDT": 0.000245613,
+      "usdValue": 0.000245613,
+      "price": 0.003534,
+      "note": "active",
+      "entryPrice": 0.00336,
+      "pnl": 0.000012092999999999979,
+      "pnlPct": 5.17857142857141,
+      "highSinceEntry": 0.003404,
+      "pctSold": 0.5,
+      "trailingStop": 0.0032678399999999997,
+      "hardStop": 0.0032256,
+      "stop": 0.0032678399999999997,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.0033936,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.003444,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "BDXN",
+      "symbol": "BDXN",
+      "amount": 0.0156,
+      "quantity": 0.0156,
+      "qty": 0.0156,
+      "value": 0.0000376896,
+      "valueUSDT": 0.0000376896,
+      "usdValue": 0.0000376896,
+      "price": 0.002416,
+      "note": "active",
+      "entryPrice": 0.002775,
+      "pnl": -0.000005600399999999999,
+      "pnlPct": -12.936936936936938,
+      "highSinceEntry": 0.002804,
+      "pctSold": 0.5,
+      "trailingStop": 0.00269184,
+      "hardStop": 0.002664,
+      "stop": 0.00269184,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.00280275,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.0028443749999999997,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "FLOCK",
+      "symbol": "FLOCK",
+      "amount": 0.00711,
+      "quantity": 0.00711,
+      "qty": 0.00711,
+      "value": 0.00048269790000000007,
+      "valueUSDT": 0.00048269790000000007,
+      "usdValue": 0.00048269790000000007,
+      "price": 0.06789,
+      "note": "active",
+      "entryPrice": 0.06379,
+      "pnl": 0.000029151000000000047,
+      "pnlPct": 6.427339708418267,
+      "highSinceEntry": 0.06446,
+      "pctSold": 0.5,
+      "trailingStop": 0.0618816,
+      "hardStop": 0.0612384,
+      "stop": 0.0618816,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.0644279,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.06538474999999999,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "H",
+      "symbol": "H",
+      "amount": 0.0914,
+      "quantity": 0.0914,
+      "qty": 0.0914,
+      "value": 0.022929517999999996,
+      "valueUSDT": 0.022929517999999996,
+      "usdValue": 0.022929517999999996,
+      "price": 0.25087,
+      "note": "active",
+      "entryPrice": 0.25078,
+      "pnl": 0.00000822599999999808,
+      "pnlPct": 0.035888029348418726,
+      "highSinceEntry": 0.25331,
+      "pctSold": 0.5,
+      "trailingStop": 0.24317759999999997,
+      "hardStop": 0.24074879999999999,
+      "stop": 0.24317759999999997,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.2532878,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.2570495,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "FF",
+      "symbol": "FF",
+      "amount": 0.0112,
+      "quantity": 0.0112,
+      "qty": 0.0112,
+      "value": 0.001009792,
+      "valueUSDT": 0.001009792,
+      "usdValue": 0.001009792,
+      "price": 0.09016,
+      "note": "active",
+      "entryPrice": 0.08723,
+      "pnl": 0.000032816000000000026,
+      "pnlPct": 3.3589361458213896,
+      "highSinceEntry": 0.0875,
+      "pctSold": 1,
+      "trailingStop": 0.08399999999999999,
+      "hardStop": 0.0837408,
+      "stop": 0.08399999999999999,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.08810230000000001,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.08941075,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "CC",
+      "symbol": "CC",
+      "amount": 0.0587,
+      "quantity": 0.0587,
+      "qty": 0.0587,
+      "value": 0.008873679,
+      "valueUSDT": 0.008873679,
+      "usdValue": 0.008873679,
+      "price": 0.15117,
+      "note": "active",
+      "entryPrice": 0.15656,
+      "pnl": -0.00031639300000000037,
+      "pnlPct": -3.4427695452222795,
+      "highSinceEntry": 0.15656,
+      "pctSold": 1,
+      "trailingStop": 0.1502976,
+      "hardStop": 0.1502976,
+      "stop": 0.1502976,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.1581256,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.16047399999999998,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "COOKIE",
+      "symbol": "COOKIE",
+      "amount": 0.00632,
+      "quantity": 0.00632,
+      "qty": 0.00632,
+      "value": 0.00012083840000000001,
+      "valueUSDT": 0.00012083840000000001,
+      "usdValue": 0.00012083840000000001,
+      "price": 0.01912,
+      "note": "active",
+      "entryPrice": 0.019,
+      "pnl": 7.584000000000129e-7,
+      "pnlPct": 0.6315789473684275,
+      "highSinceEntry": 0.01919,
+      "pctSold": 0.5,
+      "trailingStop": 0.0184224,
+      "hardStop": 0.01824,
+      "stop": 0.0184224,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.01919,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.019475,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "CORN",
+      "symbol": "CORN",
+      "amount": 0.0406,
+      "quantity": 0.0406,
+      "qty": 0.0406,
+      "value": 0.0018115719999999998,
+      "valueUSDT": 0.0018115719999999998,
+      "usdValue": 0.0018115719999999998,
+      "price": 0.04462,
+      "note": "active",
+      "entryPrice": 0.04273,
+      "pnl": 0.00007673400000000011,
+      "pnlPct": 4.423121928387563,
+      "highSinceEntry": 0.04367,
+      "pctSold": 0.5,
+      "trailingStop": 0.0419232,
+      "hardStop": 0.041020799999999996,
+      "stop": 0.0419232,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.043157299999999996,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.04379824999999999,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "STABLE",
+      "symbol": "STABLE",
+      "amount": 0.0613,
+      "quantity": 0.0613,
+      "qty": 0.0613,
+      "value": 0.002299363,
+      "valueUSDT": 0.002299363,
+      "usdValue": 0.002299363,
+      "price": 0.03751,
+      "note": "active",
+      "entryPrice": 0.03756,
+      "pnl": -0.000003065000000000088,
+      "pnlPct": -0.13312034078807322,
+      "highSinceEntry": 0.03798,
+      "pctSold": 0.5,
+      "trailingStop": 0.0364608,
+      "hardStop": 0.0360576,
+      "stop": 0.0364608,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.03793560000000001,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.038499,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "LIT",
+      "symbol": "LIT",
+      "amount": 0.00718,
+      "quantity": 0.00718,
+      "qty": 0.00718,
+      "value": 0.006490002,
+      "valueUSDT": 0.006490002,
+      "usdValue": 0.006490002,
+      "price": 0.9039,
+      "note": "active",
+      "entryPrice": 0.877,
+      "pnl": 0.00019314200000000023,
+      "pnlPct": 3.067274800456099,
+      "highSinceEntry": 0.8858,
+      "pctSold": 0.5,
+      "trailingStop": 0.850368,
+      "hardStop": 0.84192,
+      "stop": 0.850368,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.8857700000000001,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.898925,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "TON",
+      "symbol": "TON",
+      "amount": 2.64451,
+      "quantity": 2.64451,
+      "qty": 2.64451,
+      "value": 5.312820589999999,
+      "valueUSDT": 5.312820589999999,
+      "usdValue": 5.312820589999999,
+      "price": 2.009,
+      "note": "active",
+      "entryPrice": 2.036,
+      "pnl": -0.07140177000000035,
+      "pnlPct": -1.3261296660117994,
+      "highSinceEntry": 2.062,
+      "pctSold": 0,
+      "trailingStop": 1.9795199999999997,
+      "hardStop": 1.9545599999999999,
+      "stop": 1.9795199999999997,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 2.05636,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 2.0869,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "ELON",
+      "symbol": "ELON",
+      "amount": 0.045,
+      "quantity": 0.045,
+      "qty": 0.045,
+      "value": 0.01640385,
+      "valueUSDT": 0.01640385,
+      "usdValue": 0.01640385,
+      "price": 0.36453,
+      "note": "active",
+      "entryPrice": 0.36381,
+      "pnl": 0.00003239999999999993,
+      "pnlPct": 0.19790550012368513,
+      "highSinceEntry": 0.36381,
+      "pctSold": 1,
+      "trailingStop": 0.3492576,
+      "hardStop": 0.3492576,
+      "stop": 0.3492576,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.3674481,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.37290524999999997,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "FHE",
+      "symbol": "FHE",
+      "amount": 0.925,
+      "quantity": 0.925,
+      "qty": 0.925,
+      "value": 0.0278055,
+      "valueUSDT": 0.0278055,
+      "usdValue": 0.0278055,
+      "price": 0.03006,
+      "note": "active",
+      "entryPrice": 0.03072,
+      "pnl": -0.0006105000000000008,
+      "pnlPct": -2.1484375,
+      "highSinceEntry": 0.03075,
+      "pctSold": 1,
+      "trailingStop": 0.029519999999999998,
+      "hardStop": 0.0294912,
+      "stop": 0.029519999999999998,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.0310272,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.031487999999999995,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "HYPER",
+      "symbol": "HYPER",
+      "amount": 0.0427,
+      "quantity": 0.0427,
+      "qty": 0.0427,
+      "value": 0.004917332,
+      "valueUSDT": 0.004917332,
+      "usdValue": 0.004917332,
+      "price": 0.11516,
+      "note": "active",
+      "entryPrice": 0.11885,
+      "pnl": -0.00015756299999999997,
+      "pnlPct": -3.1047538914598216,
+      "highSinceEntry": 0.12063,
+      "pctSold": 0.5,
+      "trailingStop": 0.1158048,
+      "hardStop": 0.11409599999999999,
+      "stop": 0.1158048,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.12003849999999999,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.12182124999999999,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "OPG",
+      "symbol": "OPG",
+      "amount": 0.0025,
+      "quantity": 0.0025,
+      "qty": 0.0025,
+      "value": 0.00062625,
+      "valueUSDT": 0.00062625,
+      "usdValue": 0.00062625,
+      "price": 0.2505,
+      "note": "active",
+      "entryPrice": 0.2621,
+      "pnl": -0.000029,
+      "pnlPct": -4.425791682563906,
+      "highSinceEntry": 0.2628,
+      "pctSold": 1,
+      "trailingStop": 0.25228799999999996,
+      "hardStop": 0.251616,
+      "stop": 0.25228799999999996,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.264721,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.26865249999999996,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "KAIA",
+      "symbol": "KAIA",
+      "amount": 0.192,
+      "quantity": 0.192,
+      "qty": 0.192,
+      "value": 0.01038144,
+      "valueUSDT": 0.01038144,
+      "usdValue": 0.01038144,
+      "price": 0.05407,
+      "note": "active",
+      "entryPrice": 0.05217,
+      "pnl": 0.0003647999999999998,
+      "pnlPct": 3.6419398121525726,
+      "highSinceEntry": 0.05227,
+      "pctSold": 1,
+      "trailingStop": 0.05017919999999999,
+      "hardStop": 0.0500832,
+      "stop": 0.05017919999999999,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.0526917,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.053474249999999994,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "BILL",
+      "symbol": "BILL",
+      "amount": 0.0401,
+      "quantity": 0.0401,
+      "qty": 0.0401,
+      "value": 0.006349033,
+      "valueUSDT": 0.006349033,
+      "usdValue": 0.006349033,
+      "price": 0.15833,
+      "note": "active",
+      "entryPrice": 0.15379,
+      "pnl": 0.00018205399999999953,
+      "pnlPct": 2.952077508290518,
+      "highSinceEntry": 0.15535,
+      "pctSold": 0.5,
+      "trailingStop": 0.149136,
+      "hardStop": 0.1476384,
+      "stop": 0.149136,
+      "targets": [
+        {
+          "at": "+1%",
+          "price": 0.15532790000000002,
+          "sellPct": 50
+        },
+        {
+          "at": "+2.5%",
+          "price": 0.15763475,
+          "sellPct": 100
+        }
+      ]
+    },
+    {
+      "account": "JOAKO",
+      "coin": "USDT",
+      "symbol": "USDT",
+      "amount": 31.42629607,
+      "quantity": 31.42629607,
+      "qty": 31.42629607,
+      "value": 31.42629607,
+      "valueUSDT": 31.42629607,
+      "usdValue": 31.42629607,
+      "price": 1,
+      "note": "disponible",
+      "entryPrice": null,
+      "pnl": null,
+      "pnlPct": null,
+      "highSinceEntry": null,
+      "pctSold": null,
+      "trailingStop": null,
+      "hardStop": null,
+      "stop": null,
+      "targets": null
     }
   ],
   "btc": {
-    "price": 77509.2,
-    "change": -0.98
+    "price": 77451,
+    "change": -1.04
   },
   "watchCoins": [
     {
       "sym": "ZBTUSDT",
-      "price": 0.16255,
-      "ch24h": -1.0699999999999998
+      "price": 0.16195,
+      "ch24h": -1.4000000000000001
     },
     {
       "sym": "OPGUSDT",
       "price": 0.2505,
-      "ch24h": -4.06
+      "ch24h": -3.95
     },
     {
       "sym": "PENGUUSDT",
-      "price": 0.008358,
-      "ch24h": -2.6
+      "price": 0.008356,
+      "ch24h": -2.6599999999999997
     }
   ],
-  "totalCapital": 45.887712,
-  "capital": 45.887712,
+  "totalCapital": 82.7376128299,
+  "capital": 82.7376128299,
   "wildCapital": 45.887712,
-  "joakoCapital": 0,
-  "pnl": -62.442288,
-  "pnlPercent": -57.64,
+  "joakoCapital": 36.8499008299,
+  "pnl": -25.592387170099997,
+  "pnlPercent": -23.62,
   "startCapital": 108.33,
   "trades": 8,
-  "updated": "2026-05-18T13:14:54.718Z"
+  "updated": "2026-05-18T13:15:34.123Z"
 }
