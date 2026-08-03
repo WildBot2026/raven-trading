@@ -1203,6 +1203,8 @@ setInterval(updateMonitor, 15000);
       dayBal[day]=e; // last entry of day overwrites = closing
     }
     var days=Object.keys(dayBal).sort();
+    // 🐛 FIX 2026-08-03 (ARTURO): el historial SOLO muestra los últimos 5 días
+    days = days.slice(-5);
     if(days.length<2){tbl.innerHTML='<div style="color:#64748b;text-align:center">Se necesita al menos 2 días de datos</div>';return;}
     
     // Day-over-day comparison
