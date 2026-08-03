@@ -208,22 +208,29 @@ function renderFromData(data){ dataJsonLastData = data;
   
   let wc=document.getElementById('wildCap');
   let wp=document.getElementById('wildPnl');
-  if(wc) wc.textContent='$'+wildCap.toFixed(2);
+  if(wc) wc.textContent='$'+ (isFinite(wildCap) ? wildCap.toFixed(2) : '0.00');
   if(wp){
-    let pnl=wildCap-wildStart;
-    let pct=((wildCap/wildStart)-1)*100;
+    let pnl=(isFinite(wildCap)?wildCap:0)-wildStart;
+    let pct=wildStart>0?(((isFinite(wildCap)?wildCap:0)/wildStart)-1)*100:0;
     wp.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)';
     wp.style.color=pnl>=0?'#4ade80':'#f87171';
   }
   
   let jc=document.getElementById('joakoCap');
   let jp=document.getElementById('joakoPnl');
-  if(jc) jc.textContent='$'+joakoCap.toFixed(2);
+  if(jc) jc.textContent='$'+ (isFinite(joakoCap) ? joakoCap.toFixed(2) : '0.00');
   if(jp){
-    let pnl=joakoCap-joakoStart;
-    let pct=((joakoCap/joakoStart)-1)*100;
+    let pnl=(isFinite(joakoCap)?joakoCap:0)-joakoStart;
+    let pct=joakoStart>0?(((isFinite(joakoCap)?joakoCap:0)/joakoStart)-1)*100:0;
     jp.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)';
     jp.style.color=pnl>=0?'#4ade80':'#f87171';
+  }
+  
+  // 🐛 FIX 2026-08-03 (ARTURO): estado real de cuentas — nunca mostrar undefined/0 falso
+  if(data.accountStatus){
+    const st = data.accountStatus;
+    if(jc && st.JOAKO === 'error') jc.textContent = '⚠️ API';  
+    if(wc && st.WILD === 'error') wc.textContent = '⚠️ API';
   }
   
   // Update BTC
@@ -369,19 +376,25 @@ function renderFromLiveApi(data) {
   let jp=document.getElementById('joakoPnl');
   let wildStart = data.wildStartCapital || 55.72;
   let joakoStart = data.joakoStartCapital || 49.49;
-  if(wc) wc.textContent='$'+wildCapital.toFixed(2);
+  if(wc) wc.textContent='$'+(isFinite(wildCapital)?wildCapital.toFixed(2):'0.00');
   if(wp){
     let pnl=wildCapital-wildStart;
     let pct=((wildCapital/wildStart)-1)*100;
     wp.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)';
     wp.style.color=pnl>=0?'#4ade80':'#f87171';
   }
-  if(jc) jc.textContent='$'+joakoCapital.toFixed(2);
+  if(jc) jc.textContent='$'+(isFinite(joakoCapital)?joakoCapital.toFixed(2):'0.00');
   if(jp){
-    let pnl=joakoCapital-joakoStart;
-    let pct=((joakoCapital/joakoStart)-1)*100;
+    let pnl=(isFinite(joakoCapital)?joakoCapital:0)-joakoStart;
+    let pct=joakoStart>0?(((isFinite(joakoCapital)?joakoCapital:0)/joakoStart)-1)*100:0;
     jp.textContent='PNL: '+(pnl>=0?'+':'')+pnl.toFixed(2)+' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)';
     jp.style.color=pnl>=0?'#4ade80':'#f87171';
+  }
+  
+  // 🐛 FIX 2026-08-03 (ARTURO): estado real de cuentas (live API)
+  if(data.accountStatus){
+    if(jc && data.accountStatus.JOAKO === 'error') jc.textContent='⚠️ API';
+    if(wc && data.accountStatus.WILD === 'error') wc.textContent='⚠️ API';
   }
   
   // Update BTC
