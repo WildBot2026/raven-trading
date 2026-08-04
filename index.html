@@ -1075,7 +1075,8 @@ function renderMonitor() {
     return;
   }
   let html = '<table style="width:100%;border-collapse:collapse;font-size:13px">';
-  html += '<tr style="color:#64748b"><th style="text-align:left;padding:2px 4px">Moneda</th><th style="text-align:right;padding:2px 4px">Score</th><th style="text-align:right;padding:2px 4px">Vel</th><th style="text-align:right;padding:2px 4px">Precio</th><th style="text-align:right;padding:2px 4px">24h</th><th style="text-align:right;padding:2px 4px">Vol</th></tr>';
+  // 🐛 FIX 2026-08-03 (ARTURO): columna 24h → OB (velocidad de compra orderbook)
+  html += '<tr style="color:#64748b"><th style="text-align:left;padding:2px 4px">Moneda</th><th style="text-align:right;padding:2px 4px">Score</th><th style="text-align:right;padding:2px 4px">Vel</th><th style="text-align:right;padding:2px 4px">Precio</th><th style="text-align:right;padding:2px 4px" title="Velocidad de compra orderbook (bids/asks) — >1.5 compra masiva">OB</th><th style="text-align:right;padding:2px 4px">Vol</th></tr>';
   for (const c of sorted) {
     const chg = c.ch24 || 0;
     const cls = chg >= 0 ? 'g' : 'r';
@@ -1084,13 +1085,18 @@ function renderMonitor() {
     const sc = c.score || 0;
     const scColor = sc >= 80 ? '#4ade80' : sc >= 60 ? '#eab308' : sc >= 45 ? '#f97316' : '#64748b';
     const velStr = typeof c.vel === 'number' ? (c.vel > 0 ? '+' : '') + c.vel.toFixed(2) + '%' : '-';
+    // OB ratio: >1.5 compra masiva (verde), >1 presión compradora (amarillo), <1 vendedores (rojo)
+    const ob = c.ob != null ? c.ob : 0;
+    const obStr = c.ob != null ? ob.toFixed(2) + 'x' : '-';
+    const obColor = c.ob == null ? '#64748b' : ob >= 1.5 ? '#4ade80' : ob >= 1.0 ? '#eab308' : '#f87171';
+    const obTxt = c.ob == null ? '' : (ob >= 1.5 ? ' · 📈 COMPRA MASIVA' : ob >= 1.0 ? ' · comprando' : ' · vendiendo');
     var onclickAttr = "selectCoin('" + c.sym + "')";
     html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer" onclick="' + onclickAttr + '" title="Click para ver gráfica">';
     html += '<td style="padding:4px;font-weight:600">'+c.name+(portfolioCoins.has(c.sym)?' <span style="background:#4ade8033;color:#4ade80;font-size:10px;padding:1px 4px;border-radius:3px">●</span>':'')+'</td>';
     html += '<td style="padding:4px;text-align:right;color:'+scColor+';font-weight:600">'+sc+'</td>';
     html += '<td style="padding:4px;text-align:right;color:'+(parseFloat(c.vel||0) > 0 ? '#4ade80' : '#64748b')+'">'+velStr+'</td>';
     html += '<td style="padding:4px;text-align:right;color:#818cf8">$'+c.p.toFixed(dec)+'</td>';
-    html += '<td style="padding:4px;text-align:right" class="'+cls+'">'+(chg>=0?'+':'')+chg.toFixed(2)+'%</td>';
+    html += '<td style="padding:4px;text-align:right;color:'+obColor+';font-weight:600" title="'+obTxt+'">'+obStr+'</td>';
     html += '<td style="padding:4px;text-align:right;color:#64748b">'+volStr+'</td></tr>';
   }
   html += '</table>';
@@ -1117,6 +1123,24 @@ async function updateMonitor() {
         }
       }
     } catch(e) {}
+    // 🐛 FIX 2026-08-03 (ARTURO): VELOCIDAD DE COMPRA DEL ORDERBOOK en tiempo real.
+    // Igual que el bot: suma volumen de bids vs asks (API pública Bybit, gratis, sin IA).
+    // Muestra si hay presión compradora AHORA (ratio > 1 = compradores dominan).
+    const topN = monCoins.slice(0, 25);
+    await Promise.all(topN.map(async (c) => {
+      try {
+        const ob = await fetch('https://api.bybit.com/v5/market/orderbook?category=spot&symbol=' + c.sym + '&limit=50');
+        const oj = await ob.json();
+        if (oj.retCode === 0 && oj.result) {
+          let bv = 0, av = 0;
+          for (const b of (oj.result.b||[])) bv += parseFloat(b[0]) * parseFloat(b[1]);
+          for (const a of (oj.result.a||[])) av += parseFloat(a[0]) * parseFloat(a[1]);
+          c.ob = av > 0 ? bv / av : 0;
+        } else {
+          c.ob = null;
+        }
+      } catch(e) { c.ob = null; }
+    }));
   }
   renderMonitor();
 }
