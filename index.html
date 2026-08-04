@@ -896,7 +896,9 @@ async function boot(){
     let r = await fetch('/api/balances?_=' + Date.now());
     if(r.ok) {
       let d = await r.json();
-      if(d && d.wallets && d.wallets.length > 1) {
+      // 🐛 FIX 2026-08-03 (ARTURO): renderizar aunque JOAKO falle — antes exigía
+      // wallets.length > 1 y con JOAKO en error caía al data.json viejo (datos falsos)
+      if(d && d.wallets && d.wallets.length >= 1) {
         renderFromLiveApi(d);
         initEntryPrices();
         dataJsonLoaded = true;
@@ -910,7 +912,7 @@ async function boot(){
       let r = await fetch('data.json?_=' + Date.now());
       if(r.ok) {
         let d = await r.json();
-        if(d && d.wallets && d.wallets.length > 1) {
+        if(d && d.wallets && d.wallets.length >= 1) {
           renderFromData(d);
           initEntryPrices();
           dataJsonLoaded = true;
