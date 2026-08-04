@@ -1068,7 +1068,14 @@ function selectCoin(sym) { document.getElementById('sel0').value=sym; loadChart(
 function renderMonitor() {
   const body = document.getElementById('monBody');
   if (!body) return;
-  const sorted = [...monCoins].sort((a,b) => (b.score||0) - (a.score||0));
+  // 🐛 FIX 2026-08-03 (ARTURO): ordenar por ORDERBOOK (velocidad de compra) —
+  // los que traen más presión compradora arriba, los débiles abajo.
+  // Sin dato OB (-1) van al fondo. El score sigue visible como columna.
+  const sorted = [...monCoins].sort((a, b) => {
+    const obA = a.ob != null ? a.ob : -1;
+    const obB = b.ob != null ? b.ob : -1;
+    return obB - obA;
+  });
   document.getElementById('monCount').textContent = sorted.length + ' candidatos';
   if (sorted.length === 0) {
     body.innerHTML = '<div style="text-align:center;color:#64748b;padding:20px;font-size:14px">🦅 Escaneando mercado... esperando candidatos del bot</div>';
